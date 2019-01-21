@@ -1,18 +1,14 @@
 package com.kodilla.game;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.scene.*;
-import javafx.scene.paint.*;
 
 public class Main extends Application {
 
@@ -29,30 +25,31 @@ public class Main extends Application {
 
         ImageView imageView = new ImageView(imageback);
 
-        Button button1 = new Button();
-        button1.setText("Click me");
-        button1.setOnAction(e -> System.out.println("ROFL"));
-
-
-
-        Circle blueCircle = new Circle(821, 693, 10, Color.BLUE);
-        blueCircle.setStroke(Color.BLACK);
-
-        Player red = new Player(881,795, "Red");
-
-        Circle redCircle = new Circle(red.getPlayerPositionX(), red.getPlayerPositionY(), 10, Color.RED);
-        redCircle.setStroke(Color.BLACK);
-
-        red.movePlayer();
-
-        redCircle.setCenterX(red.getPlayerPositionX());
-        redCircle.setCenterY(red.getPlayerPositionY());
-
+        //-------------------------------------------------------------------------------------
         Group root = new Group();
+        GridPane grid = new GridPane();
+        grid.setGridLinesVisible(true);
+
+        ColumnConstraints col1 = new ColumnConstraints(130);
+        ColumnConstraints col2 = new ColumnConstraints(71);
+
+        RowConstraints row1 = new RowConstraints(104);
+        RowConstraints row2 = new RowConstraints(71);
+
+        grid.getColumnConstraints().addAll(col1, col2, col2, col2, col2, col2, col2, col2, col2, col2, col1);
+        grid.getRowConstraints().addAll(row1, row2, row2, row2, row2, row2, row2, row2, row2, row2, row1 );
+
+        GameControl gameControl = new GameControl();
+        gameControl.gameFlow();
+
+
+
+        //-------------------------------------------------------------------------------------
+
         root.getChildren().add(imageView);
-        root.getChildren().add(button1);
-        root.getChildren().add(redCircle);
-        root.getChildren().add(blueCircle);
+        root.getChildren().add(grid);
+        root.getChildren().add(gameControl.getRed().getPawn());
+        root.getChildren().add(gameControl.getBlue().getPawn());
 
         Scene scene = new Scene(root, 898, 847);
 

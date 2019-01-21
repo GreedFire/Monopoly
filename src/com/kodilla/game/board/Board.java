@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    public static Map<Integer, BoardField> fieldsArray = new HashMap<>();
-
+    private static HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
     static{
         fieldsArray.put(0, new BoardField("Nothing", 881, 795, 881, 825));
 
@@ -56,6 +55,11 @@ public class Board {
         fieldsArray.put(37, new BoardField("Card", 821,549,851,549, new CityCard("City Card", "field #37", 8, 2,350,35,175,500,1100,1300,1500,200)));
         fieldsArray.put(38, new BoardField("Nothing", 821,621,851,621));
         fieldsArray.put(39, new BoardField("Card", 821,693,851,693, new CityCard("City Card", "field #39", 8,2,400,50,200,600,1400,1700,2000,200)));
+    }
+
+    public static Map<Integer, BoardField> getBoard(){
+        Map<Integer, BoardField> copy = new HashMap<>(fieldsArray);
+        return copy;
     }
 
 }
