@@ -5,6 +5,7 @@ public class CityCard extends Card {
     private final int group;
     private final int neededCardsFromGroupToBuild;
 
+    private String cardColor;
     private final int fieldCost;
     private final int buildCost;
 
@@ -23,7 +24,7 @@ public class CityCard extends Card {
     private String belongsTo = "Nobody";
 
     public CityCard(String typeOfCard, String fieldName ,int group, int neededCardsFromGroupToBuild, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
-                    int threeBuildingsFee, int fourBuildingsFee, int fiveBuildingsFee, int buildCost) {
+                    int threeBuildingsFee, int fourBuildingsFee, int fiveBuildingsFee, int buildCost, String cardColor) {
         super(typeOfCard);
         this.fieldName = fieldName;
         this.group = group;
@@ -36,6 +37,7 @@ public class CityCard extends Card {
         this.fourBuildingsFee = fourBuildingsFee;
         this.fiveBuildingsFee = fiveBuildingsFee;
         this.buildCost = buildCost;
+        this.cardColor = cardColor;
     }
 
     public String getFieldName() {
@@ -72,5 +74,9 @@ public class CityCard extends Card {
 
     public int getFiveBuildingsFee() {
         return fiveBuildingsFee;
+    }
+
+    public String getCardColor() {
+        return cardColor;
     }
 }

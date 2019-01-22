@@ -1,8 +1,6 @@
 package com.kodilla.game;
 
 import com.kodilla.game.board.Board;
-import com.kodilla.game.board.BoardField;
-import com.kodilla.game.cards.CityCard;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,11 +8,15 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
-import java.util.HashMap;
-
 public class Main extends Application {
 
     private Image imageback = new Image("file:resources/board.png");
+    private Image dice1 = new Image("file:resources/dice1.png");
+    private Image dice2 = new Image("file:resources/dice2.png");
+    private Image dice3 = new Image("file:resources/dice3.png");
+    private Image dice4 = new Image("file:resources/dice4.png");
+    private Image dice5 = new Image("file:resources/dice5.png");
+    private Image dice6 = new Image("file:resources/dice6.png");
 
     public static void main(String[] args) {
 
@@ -25,39 +27,26 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        /*
+        * Popraw zeby board był raczej konstruktorem i w gamecontrol i gamecontrol wszystko wyswietlalo.
+        * Napisz guzik losujący kostke,
+        * Napisz wyswietlanie graczy i ich hajsu
+        * Napisz kolorowy trojkącik nad graczem wyswietlajacy kogo jest kolej
+        *
+         */
+
         ImageView imageView = new ImageView(imageback);
+        ImageView dice = new ImageView(dice1);
 
         //-------------------------------------------------------------------------------------
         Group root = new Group();
         GridPane grid = Board.getGrid();
         grid.setGridLinesVisible(true);
 
+        grid.add(dice, 9,9);
 
-/*
-      StackPane cardInfo = new StackPane();
-        Text fieldName = new Text();
-        Text fieldCost = new Text();
-        Text zeroBuildingsFee = new Text();
 
-        cardInfo.getChildren().addAll(new Rectangle(100,100, Color.BLUE), fieldName, fieldCost, zeroBuildingsFee);
-        grid.add(cardInfo,7,2);
-
-        rec1.setOnMouseEntered(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event) {
-                Card card = Board.getBoard().get(1).getCard();
-                CityCard cityCard = (CityCard) card;
-                fieldName.setText(cityCard.getFieldName());
-                fieldCost.setText(Integer.toString(cityCard.getFieldCost()));
-                zeroBuildingsFee.setText(Integer.toString(cityCard.getZeroBuildingsFee()));
-            }
-        });
-
-        */
-
-        HashMap<Integer, BoardField> map = new HashMap<>(Board.getBoard());
         Board.showFieldInfo();
-
 
         GameControl gameControl = new GameControl();
         gameControl.gameFlow();
