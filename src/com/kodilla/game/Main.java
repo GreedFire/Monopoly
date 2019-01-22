@@ -1,14 +1,16 @@
 package com.kodilla.game;
 
+import com.kodilla.game.board.Board;
+import com.kodilla.game.board.BoardField;
+import com.kodilla.game.cards.CityCard;
 import javafx.application.Application;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.scene.*;
+
+import java.util.HashMap;
 
 public class Main extends Application {
 
@@ -27,22 +29,38 @@ public class Main extends Application {
 
         //-------------------------------------------------------------------------------------
         Group root = new Group();
-        GridPane grid = new GridPane();
+        GridPane grid = Board.getGrid();
         grid.setGridLinesVisible(true);
 
-        ColumnConstraints col1 = new ColumnConstraints(130);
-        ColumnConstraints col2 = new ColumnConstraints(71);
 
-        RowConstraints row1 = new RowConstraints(104);
-        RowConstraints row2 = new RowConstraints(71);
+/*
+      StackPane cardInfo = new StackPane();
+        Text fieldName = new Text();
+        Text fieldCost = new Text();
+        Text zeroBuildingsFee = new Text();
 
-        grid.getColumnConstraints().addAll(col1, col2, col2, col2, col2, col2, col2, col2, col2, col2, col1);
-        grid.getRowConstraints().addAll(row1, row2, row2, row2, row2, row2, row2, row2, row2, row2, row1 );
+        cardInfo.getChildren().addAll(new Rectangle(100,100, Color.BLUE), fieldName, fieldCost, zeroBuildingsFee);
+        grid.add(cardInfo,7,2);
+
+        rec1.setOnMouseEntered(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                Card card = Board.getBoard().get(1).getCard();
+                CityCard cityCard = (CityCard) card;
+                fieldName.setText(cityCard.getFieldName());
+                fieldCost.setText(Integer.toString(cityCard.getFieldCost()));
+                zeroBuildingsFee.setText(Integer.toString(cityCard.getZeroBuildingsFee()));
+            }
+        });
+
+        */
+
+        HashMap<Integer, BoardField> map = new HashMap<>(Board.getBoard());
+        Board.showFieldInfo();
+
 
         GameControl gameControl = new GameControl();
         gameControl.gameFlow();
-
-
 
         //-------------------------------------------------------------------------------------
 

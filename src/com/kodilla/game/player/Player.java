@@ -1,4 +1,4 @@
-package com.kodilla.game.Player;
+package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
 import javafx.scene.paint.Color;

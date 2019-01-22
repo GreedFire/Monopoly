@@ -1,4 +1,4 @@
-package com.kodilla.game.Player;
+package com.kodilla.game.player;
 
 public class Human extends Player {
 

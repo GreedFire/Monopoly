@@ -1,6 +1,12 @@
 package com.kodilla.game.board;
 
 import com.kodilla.game.cards.Card;
+import com.kodilla.game.cards.CityCard;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class BoardField {
 
@@ -12,13 +18,17 @@ public class BoardField {
     private int bluePlayerStopX;
     private int bluePlayerStopY;
 
-    public BoardField(String typeOfField, int redPlayerStopX, int redPlayerStopY, int bluePlayerStopX, int bluePlayerStopY, Card card) {
+    private Rectangle rectangle;
+
+    public BoardField(String typeOfField, int redPlayerStopX, int redPlayerStopY, int bluePlayerStopX, int bluePlayerStopY, int recX, int recY, Card card) {
         this.typeOfField = typeOfField;
         this.redPlayerStopX = redPlayerStopX;
         this.redPlayerStopY = redPlayerStopY;
         this.bluePlayerStopX = bluePlayerStopX;
         this.bluePlayerStopY = bluePlayerStopY;
+        this.rectangle = new Rectangle(recX, recY, Color.TRANSPARENT);
         this.card = card;
+
     }
 
     public int getRedPlayerStopX() {
@@ -37,11 +47,24 @@ public class BoardField {
         return bluePlayerStopY;
     }
 
-    public BoardField(String typeOfField, int redPlayerStopX, int redPlayerStopY, int bluePlayerStopX, int bluePlayerStopY) {
+    public BoardField(String typeOfField, int redPlayerStopX, int redPlayerStopY, int bluePlayerStopX, int bluePlayerStopY, int recX, int recY) {
         this.typeOfField = typeOfField;
         this.redPlayerStopX = redPlayerStopX;
         this.redPlayerStopY = redPlayerStopY;
         this.bluePlayerStopX = bluePlayerStopX;
         this.bluePlayerStopY = bluePlayerStopY;
+        this.rectangle = new Rectangle(recX, recY, Color.TRANSPARENT);
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public String getTypeOfField() {
+        return typeOfField;
     }
 }

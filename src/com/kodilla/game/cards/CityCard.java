@@ -1,7 +1,6 @@
 package com.kodilla.game.cards;
 
 public class CityCard extends Card {
-
     private final String fieldName;
     private final int group;
     private final int neededCardsFromGroupToBuild;
@@ -39,5 +38,39 @@ public class CityCard extends Card {
         this.buildCost = buildCost;
     }
 
+    public String getFieldName() {
+        return fieldName;
+    }
 
+    public int getFieldCost() {
+        return fieldCost;
+    }
+
+    public int getBuildCost() {
+        return buildCost;
+    }
+
+    public int getZeroBuildingsFee() {
+        return zeroBuildingsFee;
+    }
+
+    public int getOneBuildingsFee() {
+        return oneBuildingsFee;
+    }
+
+    public int getTwoBuildingsFee() {
+        return twoBuildingsFee;
+    }
+
+    public int getThreeBuildingsFee() {
+        return threeBuildingsFee;
+    }
+
+    public int getFourBuildingsFee() {
+        return fourBuildingsFee;
+    }
+
+    public int getFiveBuildingsFee() {
+        return fiveBuildingsFee;
+    }
 }
