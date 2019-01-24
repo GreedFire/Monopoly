@@ -1,9 +1,12 @@
 package com.kodilla.game.board;
 
 import com.kodilla.game.cards.CityCard;
-import javafx.event.EventHandler;
+import com.kodilla.game.player.Player;
 import javafx.geometry.Pos;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -13,11 +16,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    private static HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
-    private static GridPane grid = new GridPane();
+    private HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
+    private GridPane grid = new GridPane();
+    private Button diceRollBtn = new Button("Roll");
+    private Button endTurnBtn = new Button("Turn end");
+
+    private Image dice1 = new Image("file:resources/dice1.png");
+    private Image dice2 = new Image("file:resources/dice2.png");
+    private Image dice3 = new Image("file:resources/dice3.png");
+    private Image dice4 = new Image("file:resources/dice4.png");
+    private Image dice5 = new Image("file:resources/dice5.png");
+    private Image dice6 = new Image("file:resources/dice6.png");
+
+    private ImageView firstDiceShow = new ImageView(dice1);
+    private ImageView secondDiceShow = new ImageView(dice2);
 
 
-    static{
+    public Board(){
         fieldsArray.put(0, new BoardField("Nothing", 881, 795, 881, 825, 128, 102));
 
         fieldsArray.put(1, new BoardField("Card", 755, 795, 755, 825, 72, 102, new CityCard("City Card", "field #1", 1, 2, 60,2, 10, 30, 90, 160, 250, 50, "gray")));
@@ -59,7 +74,7 @@ public class Board {
         fieldsArray.put(31, new BoardField("Card", 821,117,851,117,128,72, new CityCard("City Card", "field #31", 7,3,300,26,130,390,900,1100,1275,200, "green")));
         fieldsArray.put(32, new BoardField("Card", 821,189,851,189,128,72 , new CityCard("City Card", "field #32", 7, 3, 300,26,130,390,900,1100,1275,200, "green")));
         fieldsArray.put(33, new BoardField("Nothing", 821,261,851,261,128,72));
-        fieldsArray.put(34, new BoardField("Card", 821,333,851,333, 128,72,new CityCard("City Card", "field #34", 7,3,320,28,150,450,1000,1200,1400,200, "green" )));
+        fieldsArray.put(34, new BoardField("Card", 821,333,851,333, 128,72, new CityCard("City Card", "field #34", 7,3,320,28,150,450,1000,1200,1400,200, "green" )));
         fieldsArray.put(35, new BoardField("Nothing", 821,405,851,405,128,72));
         fieldsArray.put(36, new BoardField("Nothing", 821,477,851,477,128,72));
         fieldsArray.put(37, new BoardField("Card", 821,549,851,549, 128,72, new CityCard("City Card", "field #37", 8, 2,350,35,175,500,1100,1300,1500,200, "blue")));
@@ -114,10 +129,17 @@ public class Board {
         grid.add(fieldsArray.get(37).getRectangle(),10,7);
         grid.add(fieldsArray.get(38).getRectangle(),10,8);
         grid.add(fieldsArray.get(39).getRectangle(),10,9);
+
+
+
+        VBox diceLayout = new VBox();
+        diceLayout.getChildren().addAll(endTurnBtn ,diceRollBtn, firstDiceShow, secondDiceShow);
+        grid.add(diceLayout, 9,8);
     }
 
-    public static void showFieldInfo(){
+    public void showFieldInfo(){
 
+        // Creating nodes for positioning card layouts
         StackPane entireCardLayout = new StackPane();
         StackPane fieldColorAndInfoLayout = new StackPane();
         VBox infoInsideColor = new VBox();
@@ -125,6 +147,7 @@ public class Board {
         cardInfoLayout.setAlignment(Pos.CENTER);
         infoInsideColor.setAlignment(Pos.CENTER);
 
+        // Creating text variables
         Text fieldName = new Text();
         Text fieldCost = new Text();
         Text zeroBuildingsFee = new Text();
@@ -135,33 +158,38 @@ public class Board {
         Text fiveBuildingsFee = new Text();
         Text costOfBuilding = new Text();
 
+        // Creating card color figure
         Rectangle colorOfCard = new Rectangle(150,40, Color.PINK);
         colorOfCard.setArcHeight(30);
         colorOfCard.setArcWidth(30);
 
+        // Creating card figure
         Rectangle cardBody = new Rectangle(160,200, Color.WHITE);
         cardBody.setStroke(Color.BLACK);
         cardBody.setStrokeWidth(1.5);
         cardBody.setArcHeight(30);
         cardBody.setArcWidth(30);
 
+        // Positioning nodes
         entireCardLayout.getChildren().addAll(cardBody, cardInfoLayout);
         fieldColorAndInfoLayout.getChildren().addAll(colorOfCard, infoInsideColor);
         infoInsideColor.getChildren().addAll(fieldName, fieldCost);
         cardInfoLayout.getChildren().addAll(fieldColorAndInfoLayout, zeroBuildingsFee, oneBuildingFee, twoBuildingsFee, threeBuildingsFee, fourBuildingsFee, fiveBuildingsFee, costOfBuilding);
 
+        // Adding card layout to grid
         grid.add(entireCardLayout,7,2);
 
+        // Loop for access entire HashMap to get to hidden rectangles to show card info
+        // and get access to cards
         for(Map.Entry<Integer, BoardField> entry : fieldsArray.entrySet()) {
-            entry.getValue().getRectangle().setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
+            entry.getValue().getRectangle().setOnMouseEntered(e -> {
 
+                   // "Checking what type of card there is"
                     if(entry.getValue().getCard() instanceof CityCard){
                         CityCard tempCard = (CityCard) entry.getValue().getCard();
 
+                        // Picking color for card
                         String colorOfCardPicker = tempCard.getCardColor();
-
                         switch(colorOfCardPicker){
                             case "gray": colorOfCard.setFill(Color.GRAY); break;
                             case "teal": colorOfCard.setFill(Color.CYAN); break;
@@ -187,24 +215,58 @@ public class Board {
 
                     }
                     entireCardLayout.setVisible(true);
-                }
             });
 
-            entry.getValue().getRectangle().setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    entireCardLayout.setVisible(false);
-                }
-            });
+            // Hidding card info when exiting rectangle
+            entry.getValue().getRectangle().setOnMouseExited(e -> entireCardLayout.setVisible(false));
         }
     }
 
-    public static Map<Integer, BoardField> getBoard(){
-        Map<Integer, BoardField> copy = new HashMap<>(fieldsArray);
-        return copy;
+    public HashMap<Integer, BoardField> getFieldsArray() {
+        return fieldsArray;
     }
 
-    public static GridPane getGrid() {
+    public GridPane getGrid() {
         return grid;
+    }
+
+    public Button getDiceRollBtn() {
+        return diceRollBtn;
+    }
+
+    public Image getDice1() {
+        return dice1;
+    }
+
+    public Image getDice2() {
+        return dice2;
+    }
+
+    public Image getDice3() {
+        return dice3;
+    }
+
+    public Image getDice4() {
+        return dice4;
+    }
+
+    public Image getDice5() {
+        return dice5;
+    }
+
+    public Image getDice6() {
+        return dice6;
+    }
+
+    public ImageView getFirstDiceShow() {
+        return firstDiceShow;
+    }
+
+    public ImageView getSecondDiceShow() {
+        return secondDiceShow;
+    }
+
+    public Button getEndTurnBtn() {
+        return endTurnBtn;
     }
 }

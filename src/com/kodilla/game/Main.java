@@ -1,6 +1,5 @@
 package com.kodilla.game;
 
-import com.kodilla.game.board.Board;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,12 +10,7 @@ import javafx.scene.*;
 public class Main extends Application {
 
     private Image imageback = new Image("file:resources/board.png");
-    private Image dice1 = new Image("file:resources/dice1.png");
-    private Image dice2 = new Image("file:resources/dice2.png");
-    private Image dice3 = new Image("file:resources/dice3.png");
-    private Image dice4 = new Image("file:resources/dice4.png");
-    private Image dice5 = new Image("file:resources/dice5.png");
-    private Image dice6 = new Image("file:resources/dice6.png");
+
 
     public static void main(String[] args) {
 
@@ -28,27 +22,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        * Popraw zeby board był raczej konstruktorem i w gamecontrol i gamecontrol wszystko wyswietlalo.
-        * Napisz guzik losujący kostke,
-        * Napisz wyswietlanie graczy i ich hajsu
-        * Napisz kolorowy trojkącik nad graczem wyswietlajacy kogo jest kolej
+        *
+        * Napisz afterimage gracza
         *
          */
-
+        GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
-        ImageView dice = new ImageView(dice1);
+
 
         //-------------------------------------------------------------------------------------
         Group root = new Group();
-        GridPane grid = Board.getGrid();
+
+        GridPane grid = gameControl.getBoard().getGrid();
         grid.setGridLinesVisible(true);
 
-        grid.add(dice, 9,9);
+        gameControl.showInfo();
 
-
-        Board.showFieldInfo();
-
-        GameControl gameControl = new GameControl();
         gameControl.gameFlow();
 
         //-------------------------------------------------------------------------------------

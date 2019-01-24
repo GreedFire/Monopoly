@@ -12,7 +12,7 @@ public class Player {
     private String playerColor;
     private Circle pawn;
 
-    public Player(int playerPositionX, int playerPositionY, String playerColor) {
+    Player(int playerPositionX, int playerPositionY, String playerColor) {
         this.playerPositionX = playerPositionX;
         this.playerPositionY = playerPositionY;
         this.playerColor = playerColor;
@@ -25,16 +25,27 @@ public class Player {
             pawn.setFill(Color.BLUE);
     }
 
-    public void movePlayer(int diceRoll){
-        fieldPositionNumber = diceRoll;
+
+    public void movePlayer(int dicesRoll, Board board){
+
+        if(fieldPositionNumber < 40) {
+            fieldPositionNumber += dicesRoll;
+            if(fieldPositionNumber >= 40) {
+                cash += 400;
+                fieldPositionNumber -= 40;
+
+            }
+        }
+
         // Getting X and Y where player can stop his pawn from board
-        playerPositionX = Board.getBoard().get(fieldPositionNumber).getRedPlayerStopX();
-        playerPositionY = Board.getBoard().get(fieldPositionNumber).getRedPlayerStopY();
+        playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopX();
+        playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopY();
 
         // Moving pawn of player
         pawn.setCenterX(getPlayerPositionX());
         pawn.setCenterY(getPlayerPositionY());
     }
+
 
     private int getPlayerPositionX() {
         return playerPositionX;
@@ -46,5 +57,9 @@ public class Player {
 
     public Circle getPawn() {
         return pawn;
+    }
+
+    public int getCash() {
+        return cash;
     }
 }

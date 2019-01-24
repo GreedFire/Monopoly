@@ -3,68 +3,124 @@ package com.kodilla.game;
 import com.kodilla.game.player.AI;
 import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
-import com.kodilla.game.board.BoardField;
 import com.kodilla.game.player.Player;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
-public class GameControl {
+class GameControl {
 
-    private Map<Integer, BoardField> board = new HashMap<>(Board.getBoard());
+    private Board board = new Board();
     private Player redPlayer;
     private Player bluePlayer;
 
+    private int firstDiceResult;
+    private int secondDiceResult;
+
+    private Text playerRedLabel;
+    private Text playerBlueLabel;
+
+
+
     boolean gameEnd = false;
 
-    public GameControl(){
-       redPlayer = new Human(board.get(0).getRedPlayerStopX(), board.get(0).getRedPlayerStopY(), "red");
-       bluePlayer = new AI(board.get(0).getBluePlayerStopX(), board.get(0).getBluePlayerStopY(), "blue");
+    GameControl(){
+       redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
+        playerRedLabel = new Text("Red: " + redPlayer.getCash() + "$");
+       bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+       playerBlueLabel = new Text("Blue: " + bluePlayer.getCash() + "$");
     }
 
-    public void gameFlow(){
-
-        while(!gameEnd){
-
+    void gameFlow(){
             playersTurns();
+    }
 
-            gameEnd = true;
+    void showInfo(){
 
-        }
+        board.showFieldInfo();
+    }
+
+    public void showPlayersInfo(Player red, Player blue){
+
+        VBox playersInfoLayout = new VBox(playerRedLabel, playerBlueLabel);
+
+        board.getGrid().add(playersInfoLayout, 1,9);
     }
 
     private void playersTurns(){
 
-        boolean redPlayerTurn = false;
-        boolean bluePlayerTurn = false;
+        //RED TURN
+        board.getDiceRollBtn().setOnMouseClicked(e -> {
 
-        while(!redPlayerTurn){
-            redPlayer.movePlayer(diceRoll());
-            redPlayerTurn = true;
-        }
+            board.getDiceRollBtn().setVisible(false);
 
-        while(!bluePlayerTurn){
-            bluePlayer.movePlayer(diceRoll());
-            bluePlayerTurn = true;
-        }
+            useDice();
+            redPlayer.movePlayer(sumDicesRoll(), board);
+            playerRedLabel.setText("Red: " + redPlayer.getCash() + "$");
 
+            if(!board.getDiceRollBtn().isVisible())
+                board.getEndTurnBtn().setVisible(true);
+
+            showPlayersInfo(redPlayer, bluePlayer);
+
+        });
+
+        //BLUE TURN
+          board.getEndTurnBtn().setOnMouseClicked(e -> {
+
+              board.getEndTurnBtn().setVisible(false);
+              useDice();
+              bluePlayer.movePlayer(sumDicesRoll(), board);
+              playerBlueLabel.setText("Blue: " + bluePlayer.getCash() + "$");
+              board.getDiceRollBtn().setVisible(true);
+
+          });
     }
 
-    private int diceRoll(){
+    private void useDice(){
 
+                dicesRoll();
+
+                switch (firstDiceResult){
+                    case 1: board.getFirstDiceShow().setImage(board.getDice1()); break;
+                    case 2: board.getFirstDiceShow().setImage(board.getDice2()); break;
+                    case 3: board.getFirstDiceShow().setImage(board.getDice3()); break;
+                    case 4: board.getFirstDiceShow().setImage(board.getDice4()); break;
+                    case 5: board.getFirstDiceShow().setImage(board.getDice5()); break;
+                    case 6: board.getFirstDiceShow().setImage(board.getDice6()); break;
+                }
+
+                switch (secondDiceResult){
+                    case 1: board.getSecondDiceShow().setImage(board.getDice1()); break;
+                    case 2: board.getSecondDiceShow().setImage(board.getDice2()); break;
+                    case 3: board.getSecondDiceShow().setImage(board.getDice3()); break;
+                    case 4: board.getSecondDiceShow().setImage(board.getDice4()); break;
+                    case 5: board.getSecondDiceShow().setImage(board.getDice5()); break;
+                    case 6: board.getSecondDiceShow().setImage(board.getDice6()); break;
+                }
+    }
+
+    private void dicesRoll(){
         Random rand = new Random();
-        int dice1 = rand.nextInt(6)+1;
-        int dice2 = rand.nextInt(6)+1;
-
-        return dice1 + dice2;
+        firstDiceResult = rand.nextInt(6)+1;
+        secondDiceResult = rand.nextInt(6)+1;
     }
 
-    public Player getRed() {
+    private int sumDicesRoll(){
+        return firstDiceResult + secondDiceResult;
+    }
+
+
+    Player getRed() {
         return redPlayer;
     }
 
-    public Player getBlue() {
+    Player getBlue() {
         return bluePlayer;
+    }
+
+    Board getBoard() {
+        return board;
     }
 }
