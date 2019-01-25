@@ -22,14 +22,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        *
-        * Zrób tabelkę jak na kurniku
+        * ...
+        * Zrób tabelkę jak na kurniku 499 width 358 height
         * Napisz żeby wyswietlalo ruch gracza (napisy)
         *
         * Napisz miejsce kolorowego kwadracika posiadania karty
         *
         * Napisz resztę kart
         * Napisz kupowanie karty
+        *
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);

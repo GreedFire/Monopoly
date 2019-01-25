@@ -46,6 +46,32 @@ public class Board {
         preparePlayersLabels();
 
 
+        HBox tableMenuLayout = new HBox();
+        VBox tableAndMenu = new VBox();
+
+        Rectangle menuButton = new Rectangle(165,50, Color.YELLOW);
+        menuButton.setStroke(Color.BLACK);
+        Rectangle menuButton2 = new Rectangle(165,50, Color.YELLOW);
+        menuButton2.setStroke(Color.BLACK);
+        Rectangle menuButton3 = new Rectangle(165,50, Color.YELLOW);
+        menuButton3.setStroke(Color.BLACK);
+
+        Text firstOptionText = new Text("Process");
+        Text secondOptionText = new Text("Trade");
+        Text thirdOptionText = new Text("Other");
+
+        StackPane firstOptionLayout = new StackPane(menuButton, firstOptionText);
+        StackPane secondOptionLayout = new StackPane(menuButton2, secondOptionText);
+        StackPane thirdOptionLayout = new StackPane(menuButton3, thirdOptionText);
+
+        tableMenuLayout.getChildren().addAll(firstOptionLayout, secondOptionLayout, thirdOptionLayout);
+
+        Rectangle rectangleTable = new Rectangle(497, 304, Color.WHITE);
+        rectangleTable.setStroke(Color.BLACK);
+
+        tableAndMenu.getChildren().addAll(tableMenuLayout, rectangleTable);
+
+        grid.add(tableAndMenu,2,2,6,7);
 
     }
 
@@ -192,7 +218,7 @@ public class Board {
 
     private void preparePlayersLabels(){
         VBox playersInfoLayout = new VBox(playerRedLabel, playerBlueLabel);
-        getGrid().add(playersInfoLayout, 1,9);
+        grid.add(playersInfoLayout, 1,9);
     }
 
     private void prepareDiceAndDiceButtons(){
