@@ -23,12 +23,16 @@ public class Main extends Application {
 
         /*
         *
-        * Napisz afterimage gracza
+        * Zrób tabelkę jak na kurniku
+        * Napisz żeby wyswietlalo ruch gracza (napisy)
         *
-         */
+        * Napisz miejsce kolorowego kwadracika posiadania karty
+        *
+        * Napisz resztę kart
+        * Napisz kupowanie karty
+        */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
-
 
         //-------------------------------------------------------------------------------------
         Group root = new Group();
@@ -45,7 +49,10 @@ public class Main extends Application {
         root.getChildren().add(imageView);
         root.getChildren().add(grid);
         root.getChildren().add(gameControl.getRed().getPawn());
+        root.getChildren().add(gameControl.getRed().getPawnAfterImage());
         root.getChildren().add(gameControl.getBlue().getPawn());
+        root.getChildren().add(gameControl.getBlue().getPawnAfterImage());
+
 
         Scene scene = new Scene(root, 898, 847);
 

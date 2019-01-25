@@ -4,8 +4,8 @@ import com.kodilla.game.player.AI;
 import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.Random;
 
@@ -18,18 +18,14 @@ class GameControl {
     private int firstDiceResult;
     private int secondDiceResult;
 
-    private Text playerRedLabel;
-    private Text playerBlueLabel;
-
-
-
     boolean gameEnd = false;
 
     GameControl(){
        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
-        playerRedLabel = new Text("Red: " + redPlayer.getCash() + "$");
+        board.setPlayerRedLabel(redPlayer.getCash());
        bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
-       playerBlueLabel = new Text("Blue: " + bluePlayer.getCash() + "$");
+        board.setPlayerBlueLabel(bluePlayer.getCash());
+
     }
 
     void gameFlow(){
@@ -37,45 +33,47 @@ class GameControl {
     }
 
     void showInfo(){
-
         board.showFieldInfo();
-    }
-
-    public void showPlayersInfo(Player red, Player blue){
-
-        VBox playersInfoLayout = new VBox(playerRedLabel, playerBlueLabel);
-
-        board.getGrid().add(playersInfoLayout, 1,9);
     }
 
     private void playersTurns(){
 
-        //RED TURN
+        board.getEndTurnBtn().setVisible(false);
+
+        //==============================================================================
+        //RED TURN STARTS HERE:
+        //==============================================================================
         board.getDiceRollBtn().setOnMouseClicked(e -> {
 
+            redPlayer.getPawnAfterImage().setVisible(true);
+            bluePlayer.getPawnAfterImage().setVisible(false);
             board.getDiceRollBtn().setVisible(false);
 
             useDice();
             redPlayer.movePlayer(sumDicesRoll(), board);
-            playerRedLabel.setText("Red: " + redPlayer.getCash() + "$");
+            board.setPlayerRedLabel(redPlayer.getCash());
 
             if(!board.getDiceRollBtn().isVisible())
                 board.getEndTurnBtn().setVisible(true);
 
-            showPlayersInfo(redPlayer, bluePlayer);
-
         });
-
-        //BLUE TURN
+        //==============================================================================
+        //BLUE TURN STARTS HERE:
+        //==============================================================================
           board.getEndTurnBtn().setOnMouseClicked(e -> {
 
+              redPlayer.getPawnAfterImage().setVisible(false);
+              bluePlayer.getPawnAfterImage().setVisible(true);
               board.getEndTurnBtn().setVisible(false);
+
+
               useDice();
               bluePlayer.movePlayer(sumDicesRoll(), board);
-              playerBlueLabel.setText("Blue: " + bluePlayer.getCash() + "$");
+              board.setPlayerBlueLabel(bluePlayer.getCash());
               board.getDiceRollBtn().setVisible(true);
 
           });
+
     }
 
     private void useDice(){
