@@ -1,6 +1,7 @@
 package com.kodilla.game.board;
 
 import com.kodilla.game.cards.CityCard;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -8,8 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +35,22 @@ public class Board {
     private Text playerRedLabel = new Text("Red: 0$");
     private Text playerBlueLabel  = new Text("Blue: 0$");
 
+    private Text gameplayInfo1 = new Text("+***********************");
+    private Text gameplayInfo2 = new Text("+***********************");
+    private Text gameplayInfo3 = new Text("+***********************");
+    private Text gameplayInfo4 = new Text("+***********************");
+    private Text gameplayInfo5 = new Text("+***********************");
+    private Text gameplayInfo6 = new Text("+***********************");
+    private Text gameplayInfo7 = new Text("+***********************");
+    private Text gameplayInfo8 = new Text("+***********************");
+    private Text gameplayInfo9 = new Text("+***********************");
+    private Text gameplayInfo10 = new Text("+***********************");
+
+    private StackPane actionButtonLayout1;
+    private StackPane actionButtonLayout2;
+    private StackPane actionButtonLayout3;
+    private StackPane actionButtonLayout4;
+
 
     public Board(){
 
@@ -39,40 +58,181 @@ public class Board {
 
         prepareRowsAndColumnsOfGrid();
 
-        prepareGridForCardsInfoVisibility();
+        prepareGridForCardsInfoVisibility(); //ShowFieldInfo is for now in Main class
 
         prepareDiceAndDiceButtons();
 
         preparePlayersLabels();
 
+        prepareTableContent();
 
-        HBox tableMenuLayout = new HBox();
-        VBox tableAndMenu = new VBox();
+    }
 
-        Rectangle menuButton = new Rectangle(165,50, Color.YELLOW);
-        menuButton.setStroke(Color.BLACK);
-        Rectangle menuButton2 = new Rectangle(165,50, Color.YELLOW);
-        menuButton2.setStroke(Color.BLACK);
-        Rectangle menuButton3 = new Rectangle(165,50, Color.YELLOW);
-        menuButton3.setStroke(Color.BLACK);
+    private void prepareTableContent(){
+        //==============================================================================================================
+            // CREATING MENU BUTTONS + TABLE SHAPE:
+        //==============================================================================================================
+        // Creating buttons shape
+        Rectangle menuButton = new Rectangle(165,50, Color.WHEAT);
+            menuButton.setStroke(Color.BLACK);
+        Rectangle menuButton2 = new Rectangle(165,50, Color.WHITE);
+            menuButton2.setStroke(Color.BLACK);
+        Rectangle menuButton3 = new Rectangle(165,50, Color.WHITE);
+            menuButton3.setStroke(Color.BLACK);
 
+        // Creating buttons text
         Text firstOptionText = new Text("Process");
         Text secondOptionText = new Text("Trade");
-        Text thirdOptionText = new Text("Other");
+        Text thirdOptionText = new Text("Actions");
 
+        //// Creating table shape
+        Rectangle rectangleTable = new Rectangle(497, 304, Color.WHITE);
+            rectangleTable.setStroke(Color.BLACK);
+
+        // Putting buttons and texts as one object
         StackPane firstOptionLayout = new StackPane(menuButton, firstOptionText);
         StackPane secondOptionLayout = new StackPane(menuButton2, secondOptionText);
         StackPane thirdOptionLayout = new StackPane(menuButton3, thirdOptionText);
 
-        tableMenuLayout.getChildren().addAll(firstOptionLayout, secondOptionLayout, thirdOptionLayout);
+        // Setting ^StackPane "buttons" horizontally
+        HBox tableMenuLayout = new HBox(firstOptionLayout, secondOptionLayout, thirdOptionLayout);
+        //==============================================================================================================
+            // CREATING ACTION BUTTONS:
+        //==============================================================================================================
 
-        Rectangle rectangleTable = new Rectangle(497, 304, Color.WHITE);
-        rectangleTable.setStroke(Color.BLACK);
+        // Creating rectangles shapes
+        Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
+        actionButton1.setStroke(Color.BLACK);
+        Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
+        actionButton2.setStroke(Color.BLACK);
+        Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
+        actionButton3.setStroke(Color.BLACK);
+        Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
+        actionButton4.setStroke(Color.BLACK);
 
-        tableAndMenu.getChildren().addAll(tableMenuLayout, rectangleTable);
+        // Creating text for action buttons
+        Text actionText1 = new Text("give away on pledge");
+        Text actionText2 = new Text("purchase from pledge");
+        Text actionText3 = new Text("buy a building");
+        Text actionText4 = new Text("sell a building");
 
+        // Putting buttons and text as one object
+        actionButtonLayout1 = new StackPane(actionButton1, actionText1);
+        actionButtonLayout2 = new StackPane(actionButton2, actionText2);
+        actionButtonLayout3 = new StackPane(actionButton3, actionText3);
+        actionButtonLayout4 = new StackPane(actionButton4, actionText4);
+
+        // Setting size of that objects ^
+        actionButtonLayout1.setMaxSize(200,50);
+        actionButtonLayout2.setMaxSize(200,50);
+        actionButtonLayout3.setMaxSize(200,50);
+        actionButtonLayout4.setMaxSize(200,50);
+
+        // Trade buttons at work
+        actionButtonLayout1.setOnMouseEntered(e -> actionButton1.setFill(Color.YELLOW));
+            actionButtonLayout1.setOnMouseExited(e -> actionButton1.setFill(Color.WHITE));
+        actionButtonLayout2.setOnMouseEntered(e -> actionButton2.setFill(Color.YELLOW));
+            actionButtonLayout2.setOnMouseExited(e -> actionButton2.setFill(Color.WHITE));
+        actionButtonLayout3.setOnMouseEntered(e -> actionButton3.setFill(Color.YELLOW));
+            actionButtonLayout3.setOnMouseExited(e -> actionButton3.setFill(Color.WHITE));
+        actionButtonLayout4.setOnMouseEntered(e -> actionButton4.setFill(Color.YELLOW));
+            actionButtonLayout4.setOnMouseExited(e -> actionButton4.setFill(Color.WHITE));
+
+        //==============================================================================================================
+            // CREATING BOOKMARKS:
+        //==============================================================================================================
+        VBox processContentLayout = new VBox(gameplayInfo1, gameplayInfo2, gameplayInfo3, gameplayInfo4, gameplayInfo5, gameplayInfo6,
+                gameplayInfo7, gameplayInfo8, gameplayInfo9, gameplayInfo10 ); //PROCESS CONTENT
+        GridPane tradeContentLayout = new GridPane(); //TRADE CONTENT
+        VBox actionsContentLayout = new VBox(actionButtonLayout1, actionButtonLayout2, actionButtonLayout3, actionButtonLayout4); //ACTIONS CONTENT
+
+        // Changing margins of action buttons
+        actionsContentLayout.setMargin(actionButtonLayout1, new Insets(30,0,1,148));
+        actionsContentLayout.setMargin(actionButtonLayout2, new Insets(10,0,1,148));
+        actionsContentLayout.setMargin(actionButtonLayout3, new Insets(10,0,1,148));
+        actionsContentLayout.setMargin(actionButtonLayout4, new Insets(10,0,1,148));
+
+        // Putting content from bookmarks into one StackPane to set all content in the same place - just correct visibility
+        StackPane tableLayout = new StackPane(rectangleTable, processContentLayout, actionsContentLayout, tradeContentLayout);
+
+        // Modyfing appereance of text
+        StackPane.setMargin(processContentLayout, new Insets(1,1,1,10)); // left192
+        gameplayInfo1.setFont(new Font(20));
+        gameplayInfo2.setFont(new Font(20));
+        gameplayInfo3.setFont(new Font(20));
+        gameplayInfo4.setFont(new Font(20));
+        gameplayInfo5.setFont(new Font(20));
+        gameplayInfo6.setFont(new Font(20));
+        gameplayInfo7.setFont(new Font(20));
+        gameplayInfo8.setFont(new Font(20));
+        gameplayInfo9.setFont(new Font(20));
+        gameplayInfo10.setFont(new Font(20));
+        //==============================================================================================================
+        // // Menu buttons at work:
+        //==============================================================================================================
+        firstOptionLayout.setOnMouseClicked(e -> {
+            menuButton.setFill(Color.WHEAT);
+            menuButton2.setFill(Color.WHITE);
+            menuButton3.setFill(Color.WHITE);
+
+            actionsContentLayout.setVisible(false);
+            tradeContentLayout.setVisible(false);
+            processContentLayout.setVisible(true);
+        });
+
+        secondOptionLayout.setOnMouseClicked(e -> {
+            menuButton.setFill(Color.WHITE);
+            menuButton2.setFill(Color.WHEAT);
+            menuButton3.setFill(Color.WHITE);
+
+            processContentLayout.setVisible(false);
+            actionsContentLayout.setVisible(false);
+            tradeContentLayout.setVisible(true);
+        });
+
+        thirdOptionLayout.setOnMouseClicked(e -> {
+            menuButton.setFill(Color.WHITE);
+            menuButton2.setFill(Color.WHITE);
+            menuButton3.setFill(Color.WHEAT);
+
+            processContentLayout.setVisible(false);
+            tradeContentLayout.setVisible(false);
+            actionsContentLayout.setVisible(true);
+
+            actionButtonLayout1.setVisible(true);
+            actionButtonLayout2.setVisible(true);
+            actionButtonLayout3.setVisible(true);
+            actionButtonLayout4.setVisible(true);
+        });
+
+        // Setting visibility to false when starting game
+        actionButtonLayout1.setVisible(false);
+        actionButtonLayout2.setVisible(false);
+        actionButtonLayout3.setVisible(false);
+        actionButtonLayout4.setVisible(false);
+
+        // Table and menu buttons are independently added
+        VBox tableAndMenu = new VBox(tableMenuLayout, tableLayout);
+
+        // Adding entire table to grid to show on Board
         grid.add(tableAndMenu,2,2,6,7);
+    }
 
+    private void moveProcessTexts(){
+        gameplayInfo1.setText(gameplayInfo2.getText());
+        gameplayInfo2.setText(gameplayInfo3.getText());
+        gameplayInfo3.setText(gameplayInfo4.getText());
+        gameplayInfo4.setText(gameplayInfo5.getText());
+        gameplayInfo5.setText(gameplayInfo6.getText());
+        gameplayInfo6.setText(gameplayInfo7.getText());
+        gameplayInfo7.setText(gameplayInfo8.getText());
+        gameplayInfo8.setText(gameplayInfo9.getText());
+        gameplayInfo9.setText(gameplayInfo10.getText());
+    }
+
+    public void putInfoToProcess(String text){
+        moveProcessTexts();
+        gameplayInfo10.setText(text);
     }
 
     public void showFieldInfo(){
@@ -97,7 +257,7 @@ public class Board {
         Text costOfBuilding = new Text();
 
         // Creating card color figure
-        Rectangle colorOfCard = new Rectangle(150,40, Color.PINK);
+        Rectangle colorOfCard = new Rectangle(150,40, Color.WHITE);
         colorOfCard.setArcHeight(30);
         colorOfCard.setArcWidth(30);
 
@@ -113,6 +273,10 @@ public class Board {
         fieldColorAndInfoLayout.getChildren().addAll(colorOfCard, infoInsideColor);
         infoInsideColor.getChildren().addAll(fieldName, fieldCost);
         cardInfoLayout.getChildren().addAll(fieldColorAndInfoLayout, zeroBuildingsFee, oneBuildingFee, twoBuildingsFee, threeBuildingsFee, fourBuildingsFee, fiveBuildingsFee, costOfBuilding);
+
+        grid.setMargin(entireCardLayout, new Insets(1,1,1,40));
+        cardInfoLayout.setMargin(fieldColorAndInfoLayout, new Insets(1,1,10,1));
+
 
         // Adding card layout to grid
         grid.add(entireCardLayout,7,2);
@@ -155,70 +319,42 @@ public class Board {
                     entireCardLayout.setVisible(true);
             });
 
+            entireCardLayout.setVisible(false);
             // Hidding card info when exiting rectangle
             entry.getValue().getRectangle().setOnMouseExited(e -> entireCardLayout.setVisible(false));
         }
     }
 
-    public HashMap<Integer, BoardField> getFieldsArray() {
-        return fieldsArray;
-    }
-
-    public GridPane getGrid() {
-        return grid;
-    }
-
-    public Button getDiceRollBtn() {
-        return diceRollBtn;
-    }
-
-    public Image getDice1() {
-        return dice1;
-    }
-
-    public Image getDice2() {
-        return dice2;
-    }
-
-    public Image getDice3() {
-        return dice3;
-    }
-
-    public Image getDice4() {
-        return dice4;
-    }
-
-    public Image getDice5() {
-        return dice5;
-    }
-
-    public Image getDice6() {
-        return dice6;
-    }
-
-    public ImageView getFirstDiceShow() {
-        return firstDiceShow;
-    }
-
-    public ImageView getSecondDiceShow() {
-        return secondDiceShow;
-    }
-
-    public Button getEndTurnBtn() {
-        return endTurnBtn;
-    }
-
-    public void setPlayerRedLabel(int cash) {
-        playerRedLabel.setText("Red: " + cash + "$");
-    }
-
-    public void setPlayerBlueLabel(int cash) {
-        playerBlueLabel.setText("Blue: " + cash + "$");
-    }
-
     private void preparePlayersLabels(){
-        VBox playersInfoLayout = new VBox(playerRedLabel, playerBlueLabel);
-        grid.add(playersInfoLayout, 1,9);
+        Rectangle rec1 = new Rectangle(100,25, Color.WHITE);
+        Rectangle rec2 = new Rectangle(100,25, Color.WHITE);
+        rec1.setStroke(Color.BLACK);
+        rec2.setStroke(Color.BLACK);
+
+        Rectangle redPlayerColor = new Rectangle(10,10, Color.RED);
+        redPlayerColor.setStroke(Color.BLACK);
+        Rectangle bluePlayerColor = new Rectangle(10,10, Color.BLUE);
+        redPlayerColor.setStroke(Color.BLACK);
+
+        HBox hBox1 = new HBox(redPlayerColor, playerRedLabel);
+        HBox hBox2 = new HBox(bluePlayerColor, playerBlueLabel);
+
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
+
+        hBox1.setMargin(redPlayerColor, new Insets(1,5,1,1));
+        hBox2.setMargin(bluePlayerColor, new Insets(1,5,1,1));
+
+        StackPane Label1 = new StackPane(rec1, hBox1);
+        StackPane Label2 = new StackPane(rec2, hBox2);
+
+
+
+        VBox playersInfoLayout = new VBox(Label1, Label2);
+
+        playersInfoLayout.setMargin(Label1, new Insets(1,1,1,30));
+        playersInfoLayout.setMargin(Label2, new Insets(1,1,1,30));
+        grid.add(playersInfoLayout, 1,8);
     }
 
     private void prepareDiceAndDiceButtons(){
@@ -328,5 +464,61 @@ public class Board {
         fieldsArray.put(37, new BoardField("Card", 821,549,851,549, 128,72, new CityCard("City Card", "field #37", 8, 2,350,35,175,500,1100,1300,1500,200, "blue")));
         fieldsArray.put(38, new BoardField("Nothing", 821,621,851,621,128,72));
         fieldsArray.put(39, new BoardField("Card", 821,693,851,693, 128,72, new CityCard("City Card", "field #39", 8,2,400,50,200,600,1400,1700,2000,200, "blue")));
+    }
+
+    public HashMap<Integer, BoardField> getFieldsArray() {
+        return fieldsArray;
+    }
+
+    public GridPane getGrid() {
+        return grid;
+    }
+
+    public Button getDiceRollBtn() {
+        return diceRollBtn;
+    }
+
+    public Image getDice1() {
+        return dice1;
+    }
+
+    public Image getDice2() {
+        return dice2;
+    }
+
+    public Image getDice3() {
+        return dice3;
+    }
+
+    public Image getDice4() {
+        return dice4;
+    }
+
+    public Image getDice5() {
+        return dice5;
+    }
+
+    public Image getDice6() {
+        return dice6;
+    }
+
+    public ImageView getFirstDiceShow() {
+        return firstDiceShow;
+    }
+
+    public ImageView getSecondDiceShow() {
+        return secondDiceShow;
+    }
+
+    public Button getEndTurnBtn() {
+        return endTurnBtn;
+    }
+
+    public void setPlayerRedLabel(int cash) {
+        playerRedLabel.setText("Red: " + cash + "$");
+    }
+
+    public void setPlayerBlueLabel(int cash) {
+        playerBlueLabel.setText("Blue: " + cash + "$");
     }
 }

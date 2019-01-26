@@ -93,4 +93,7 @@ public class Player {
         return pawnAfterImage;
     }
 
+    public int getFieldPositionNumber() {
+        return fieldPositionNumber;
+    }
 }

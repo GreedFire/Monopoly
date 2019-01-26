@@ -22,14 +22,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        * ...
-        * Zrób tabelkę jak na kurniku 499 width 358 height
-        * Napisz żeby wyswietlalo ruch gracza (napisy)
+        * Napisz żeby wyswietlalo ruch gracza w tabelce(napisy) (może uzyj tablicy i pętli)
         *
         * Napisz miejsce kolorowego kwadracika posiadania karty
         *
         * Napisz resztę kart
         * Napisz kupowanie karty
+        * (chyba wystarczy podawać grid index i nie trzeba robić rectanglów)
         *
         */
         GameControl gameControl = new GameControl();

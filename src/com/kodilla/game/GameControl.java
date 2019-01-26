@@ -51,6 +51,7 @@ class GameControl {
 
             useDice();
             redPlayer.movePlayer(sumDicesRoll(), board);
+                board.putInfoToProcess("+ #red moved to field #" + redPlayer.getFieldPositionNumber());
             board.setPlayerRedLabel(redPlayer.getCash());
 
             if(!board.getDiceRollBtn().isVisible())
@@ -69,6 +70,7 @@ class GameControl {
 
               useDice();
               bluePlayer.movePlayer(sumDicesRoll(), board);
+                board.putInfoToProcess("+ #blue moved to field #" + bluePlayer.getFieldPositionNumber());
               board.setPlayerBlueLabel(bluePlayer.getCash());
               board.getDiceRollBtn().setVisible(true);
 
