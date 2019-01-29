@@ -1,12 +1,13 @@
-package com.kodilla.game.cards;
+package com.kodilla.game.cards.buyableCards;
 
-public class CityCard extends Card {
-    private final String fieldName;
+import com.kodilla.game.cards.BuyableCard;
+
+public class CityCard extends BuyableCard {
     private final int group;
     private final int neededCardsFromGroupToBuild;
 
     private String cardColor;
-    private final int fieldCost;
+
     private final int buildCost;
 
     private final int zeroBuildingsFee;
@@ -16,20 +17,13 @@ public class CityCard extends Card {
     private final int fourBuildingsFee;
     private final int fiveBuildingsFee;
 
-    //Zastaw
-    //belongsindicator X + Y
-    //building X + Y
-
     private int numberOfBuildings = 0;
-    private String belongsTo = "Nobody";
 
     public CityCard(String typeOfCard, String fieldName ,int group, int neededCardsFromGroupToBuild, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
                     int threeBuildingsFee, int fourBuildingsFee, int fiveBuildingsFee, int buildCost, String cardColor) {
-        super(typeOfCard);
-        this.fieldName = fieldName;
+        super(typeOfCard, fieldName, fieldCost);
         this.group = group;
         this.neededCardsFromGroupToBuild = neededCardsFromGroupToBuild;
-        this.fieldCost = fieldCost;
         this.zeroBuildingsFee = zeroBuildingsFee;
         this.oneBuildingsFee = oneBuildingsFee;
         this.twoBuildingsFee = twoBuildingsFee;
@@ -40,12 +34,8 @@ public class CityCard extends Card {
         this.cardColor = cardColor;
     }
 
-    public String getFieldName() {
-        return fieldName;
-    }
-
     public int getFieldCost() {
-        return fieldCost;
+        return super.getFieldCost();
     }
 
     public int getBuildCost() {
@@ -78,5 +68,9 @@ public class CityCard extends Card {
 
     public String getCardColor() {
         return cardColor;
+    }
+
+    public String getFieldName(){
+        return super.getFieldName();
     }
 }

@@ -1,6 +1,10 @@
 package com.kodilla.game.board;
 
-import com.kodilla.game.cards.CityCard;
+import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.buyableCards.CircleCard;
+import com.kodilla.game.cards.buyableCards.CityCard;
+import com.kodilla.game.cards.buyableCards.TriangleCard;
+import com.kodilla.game.cards.unBuyableCards.TaxCard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,11 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,22 +39,16 @@ public class Board {
     private Text playerRedLabel = new Text("Red: 0$");
     private Text playerBlueLabel  = new Text("Blue: 0$");
 
-    private Text gameplayInfo1 = new Text("+***********************");
-    private Text gameplayInfo2 = new Text("+***********************");
-    private Text gameplayInfo3 = new Text("+***********************");
-    private Text gameplayInfo4 = new Text("+***********************");
-    private Text gameplayInfo5 = new Text("+***********************");
-    private Text gameplayInfo6 = new Text("+***********************");
-    private Text gameplayInfo7 = new Text("+***********************");
-    private Text gameplayInfo8 = new Text("+***********************");
-    private Text gameplayInfo9 = new Text("+***********************");
-    private Text gameplayInfo10 = new Text("+***********************");
+    private Text[] gameplayInfo = new Text[10];
 
     private StackPane actionButtonLayout1;
     private StackPane actionButtonLayout2;
     private StackPane actionButtonLayout3;
     private StackPane actionButtonLayout4;
 
+    private StackPane buyCardContentLayout;
+    private Button buyCardYesButton = new Button("yes");
+    private Button buyCardNoButton = new Button("no");
 
     public Board(){
 
@@ -64,8 +62,34 @@ public class Board {
 
         preparePlayersLabels();
 
+        prepareProcessText();
+
         prepareTableContent();
 
+        prepareBuyCardLayout();
+
+        prepareBelongsToIndicators();
+
+    }
+
+    private void prepareBuyCardLayout(){
+
+
+        Rectangle buyCardRectangle = new Rectangle(200,80, Color.WHITE);
+        buyCardRectangle.setStroke(Color.BLACK);
+
+        Text buyCardFieldName = new Text("Do you want to buy? ");
+
+        HBox buyCardOptionsLayout = new HBox(buyCardYesButton, buyCardNoButton);
+        VBox buyCardLayout = new VBox(buyCardFieldName, buyCardOptionsLayout);
+        buyCardContentLayout = new StackPane(buyCardRectangle, buyCardLayout);
+
+        StackPane.setMargin(buyCardLayout, new Insets(20,1,1,25));
+        HBox.setMargin(buyCardYesButton, new Insets(1,1,1,30));
+        HBox.setMargin(buyCardNoButton, new Insets(1,1,1,10));
+        grid.add(buyCardContentLayout, 4,8);
+
+        buyCardContentLayout.setVisible(false);
     }
 
     private void prepareTableContent(){
@@ -99,7 +123,6 @@ public class Board {
         //==============================================================================================================
             // CREATING ACTION BUTTONS:
         //==============================================================================================================
-
         // Creating rectangles shapes
         Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
         actionButton1.setStroke(Color.BLACK);
@@ -141,32 +164,24 @@ public class Board {
         //==============================================================================================================
             // CREATING BOOKMARKS:
         //==============================================================================================================
-        VBox processContentLayout = new VBox(gameplayInfo1, gameplayInfo2, gameplayInfo3, gameplayInfo4, gameplayInfo5, gameplayInfo6,
-                gameplayInfo7, gameplayInfo8, gameplayInfo9, gameplayInfo10 ); //PROCESS CONTENT
+
+        VBox processContentLayout = new VBox(gameplayInfo[0],gameplayInfo[1], gameplayInfo[2], gameplayInfo[3], gameplayInfo[4], gameplayInfo[5], gameplayInfo[6],
+                gameplayInfo[7], gameplayInfo[8], gameplayInfo[9]); //PROCESS CONTENT
         GridPane tradeContentLayout = new GridPane(); //TRADE CONTENT
         VBox actionsContentLayout = new VBox(actionButtonLayout1, actionButtonLayout2, actionButtonLayout3, actionButtonLayout4); //ACTIONS CONTENT
 
         // Changing margins of action buttons
-        actionsContentLayout.setMargin(actionButtonLayout1, new Insets(30,0,1,148));
-        actionsContentLayout.setMargin(actionButtonLayout2, new Insets(10,0,1,148));
-        actionsContentLayout.setMargin(actionButtonLayout3, new Insets(10,0,1,148));
-        actionsContentLayout.setMargin(actionButtonLayout4, new Insets(10,0,1,148));
+        VBox.setMargin(actionButtonLayout1, new Insets(30,0,1,148));
+        VBox.setMargin(actionButtonLayout2, new Insets(10,0,1,148));
+        VBox.setMargin(actionButtonLayout3, new Insets(10,0,1,148));
+        VBox.setMargin(actionButtonLayout4, new Insets(10,0,1,148));
 
         // Putting content from bookmarks into one StackPane to set all content in the same place - just correct visibility
         StackPane tableLayout = new StackPane(rectangleTable, processContentLayout, actionsContentLayout, tradeContentLayout);
 
         // Modyfing appereance of text
         StackPane.setMargin(processContentLayout, new Insets(1,1,1,10)); // left192
-        gameplayInfo1.setFont(new Font(20));
-        gameplayInfo2.setFont(new Font(20));
-        gameplayInfo3.setFont(new Font(20));
-        gameplayInfo4.setFont(new Font(20));
-        gameplayInfo5.setFont(new Font(20));
-        gameplayInfo6.setFont(new Font(20));
-        gameplayInfo7.setFont(new Font(20));
-        gameplayInfo8.setFont(new Font(20));
-        gameplayInfo9.setFont(new Font(20));
-        gameplayInfo10.setFont(new Font(20));
+
         //==============================================================================================================
         // // Menu buttons at work:
         //==============================================================================================================
@@ -218,21 +233,23 @@ public class Board {
         grid.add(tableAndMenu,2,2,6,7);
     }
 
-    private void moveProcessTexts(){
-        gameplayInfo1.setText(gameplayInfo2.getText());
-        gameplayInfo2.setText(gameplayInfo3.getText());
-        gameplayInfo3.setText(gameplayInfo4.getText());
-        gameplayInfo4.setText(gameplayInfo5.getText());
-        gameplayInfo5.setText(gameplayInfo6.getText());
-        gameplayInfo6.setText(gameplayInfo7.getText());
-        gameplayInfo7.setText(gameplayInfo8.getText());
-        gameplayInfo8.setText(gameplayInfo9.getText());
-        gameplayInfo9.setText(gameplayInfo10.getText());
+    private void moveProcessTexts() {
+
+        for (int i = 0, j = 1; i < 10 && j < 10; i++, j++) {
+            gameplayInfo[i].setText(gameplayInfo[j].getText());
+        }
     }
 
     public void putInfoToProcess(String text){
         moveProcessTexts();
-        gameplayInfo10.setText(text);
+        gameplayInfo[9].setText(text);
+    }
+
+    private void prepareProcessText(){
+        for(int i = 0; i<10; i++){
+            gameplayInfo[i] = new Text("+***********************");
+            gameplayInfo[i].setFont(new Font(20));
+        }
     }
 
     public void showFieldInfo(){
@@ -268,15 +285,21 @@ public class Board {
         cardBody.setArcHeight(30);
         cardBody.setArcWidth(30);
 
+        //Creating triangle and circle for other cards
+        Circle circle = new Circle(100, Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        Polygon triangle = new Polygon(15.0, 0.0,0.0, 30.0,30.0, 30.0);
+        triangle.setFill(Color.WHITE);
+        triangle.setStroke(Color.BLACK);
+
         // Positioning nodes
         entireCardLayout.getChildren().addAll(cardBody, cardInfoLayout);
         fieldColorAndInfoLayout.getChildren().addAll(colorOfCard, infoInsideColor);
         infoInsideColor.getChildren().addAll(fieldName, fieldCost);
-        cardInfoLayout.getChildren().addAll(fieldColorAndInfoLayout, zeroBuildingsFee, oneBuildingFee, twoBuildingsFee, threeBuildingsFee, fourBuildingsFee, fiveBuildingsFee, costOfBuilding);
+        cardInfoLayout.getChildren().addAll(triangle, circle, fieldColorAndInfoLayout, zeroBuildingsFee, oneBuildingFee, twoBuildingsFee, threeBuildingsFee, fourBuildingsFee, fiveBuildingsFee, costOfBuilding);
 
-        grid.setMargin(entireCardLayout, new Insets(1,1,1,40));
-        cardInfoLayout.setMargin(fieldColorAndInfoLayout, new Insets(1,1,10,1));
-
+        GridPane.setMargin(entireCardLayout, new Insets(1,1,1,40));
+        VBox.setMargin(fieldColorAndInfoLayout, new Insets(1,1,10,1));
 
         // Adding card layout to grid
         grid.add(entireCardLayout,7,2);
@@ -289,6 +312,18 @@ public class Board {
                    // "Checking what type of card there is"
                     if(entry.getValue().getCard() instanceof CityCard){
                         CityCard tempCard = (CityCard) entry.getValue().getCard();
+
+                        triangle.setVisible(false);
+                        triangle.getPoints().setAll(0.0,0.0,0.0,0.0,0.0,0.0);
+
+                        circle.setVisible(false);
+                        circle.setRadius(0);
+                        fourBuildingsFee.setVisible(true);
+                        fiveBuildingsFee.setVisible(true);
+                        costOfBuilding.setVisible(true);
+                        colorOfCard.setVisible(true);
+                        twoBuildingsFee.setVisible(true);
+                        threeBuildingsFee.setVisible(true);
 
                         // Picking color for card
                         String colorOfCardPicker = tempCard.getCardColor();
@@ -311,16 +346,58 @@ public class Board {
                         fourBuildingsFee.setText("4 buildings: " + tempCard.getFourBuildingsFee() + "$");
                         fiveBuildingsFee.setText("5 buildings: " + tempCard.getFiveBuildingsFee() + "$");
                         costOfBuilding.setText("Build price: " + tempCard.getBuildCost() + "$");
+
+                        entireCardLayout.setVisible(true);
                     }
-                    else
-                    {
+                   else if(entry.getValue().getCard() instanceof CircleCard){
+                        CircleCard tempCard = (CircleCard) entry.getValue().getCard();
+
+                        triangle.setVisible(false);
+                        triangle.getPoints().setAll(15.0, 0.0,0.0, 30.0,30.0, 30.0);
+                        circle.setVisible(true);
+                        circle.setRadius(15);
+                        twoBuildingsFee.setVisible(true);
+                        threeBuildingsFee.setVisible(true);
+                        fourBuildingsFee.setVisible(false);
+                        fiveBuildingsFee.setVisible(false);
+                        costOfBuilding.setVisible(false);
+                        colorOfCard.setVisible(false);
+
+                        fieldName.setText(tempCard.getFieldName());
+                        fieldCost.setText(tempCard.getFieldCost() + "$");
+                        zeroBuildingsFee.setText("1x O: " + tempCard.getOneCircleFee() + "$");
+                        oneBuildingFee.setText("2x O: " + tempCard.getTwoCirclesFee() + "$");
+                        twoBuildingsFee.setText("3x O: " + tempCard.getThreeCirclesFee() + "$");
+                        threeBuildingsFee.setText("4x O: " + tempCard.getFourCirclesFee() + "$");
+
+                        entireCardLayout.setVisible(true);
+                   }
+                    else if(entry.getValue().getCard() instanceof TriangleCard){
+                        TriangleCard tempCard = (TriangleCard) entry.getValue().getCard();
+
+                        triangle.setVisible(true);
+                        triangle.getPoints().setAll(15.0, 0.0,0.0, 30.0,30.0, 30.0);
+                        circle.setVisible(false);
+                        circle.setRadius(0);
+                        twoBuildingsFee.setVisible(false);
+                        threeBuildingsFee.setVisible(false);
+                        fourBuildingsFee.setVisible(false);
+                        fiveBuildingsFee.setVisible(false);
+                        costOfBuilding.setVisible(false);
+                        colorOfCard.setVisible(false);
+
+                        fieldName.setText(tempCard.getFieldName());
+                        fieldCost.setText(tempCard.getFieldCost() + "$");
+                        zeroBuildingsFee.setText("1x △: " + tempCard.getOneTriangleFee() + "*dice $");
+                        oneBuildingFee.setText("2x △: " + tempCard.getTwoTrianglesFee() + "*dice $");
+
+                        entireCardLayout.setVisible(true);
 
                     }
-                    entireCardLayout.setVisible(true);
+
             });
 
             entireCardLayout.setVisible(false);
-            // Hidding card info when exiting rectangle
             entry.getValue().getRectangle().setOnMouseExited(e -> entireCardLayout.setVisible(false));
         }
     }
@@ -342,24 +419,23 @@ public class Board {
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
 
-        hBox1.setMargin(redPlayerColor, new Insets(1,5,1,1));
-        hBox2.setMargin(bluePlayerColor, new Insets(1,5,1,1));
+        HBox.setMargin(redPlayerColor, new Insets(1,5,1,1));
+        HBox.setMargin(bluePlayerColor, new Insets(1,5,1,1));
 
         StackPane Label1 = new StackPane(rec1, hBox1);
         StackPane Label2 = new StackPane(rec2, hBox2);
 
-
-
         VBox playersInfoLayout = new VBox(Label1, Label2);
 
-        playersInfoLayout.setMargin(Label1, new Insets(1,1,1,30));
-        playersInfoLayout.setMargin(Label2, new Insets(1,1,1,30));
+        VBox.setMargin(Label1, new Insets(1,1,1,30));
+        VBox.setMargin(Label2, new Insets(1,1,1,30));
         grid.add(playersInfoLayout, 1,8);
     }
 
     private void prepareDiceAndDiceButtons(){
+        StackPane turnsButtonsLayout = new StackPane(endTurnBtn, diceRollBtn);
         VBox diceLayout = new VBox();
-        diceLayout.getChildren().addAll(endTurnBtn ,diceRollBtn, firstDiceShow, secondDiceShow);
+        diceLayout.getChildren().addAll(turnsButtonsLayout, firstDiceShow, secondDiceShow);
         grid.add(diceLayout, 9,8);
     }
 
@@ -416,14 +492,157 @@ public class Board {
         grid.add(fieldsArray.get(39).getRectangle(),10,9);
     }
 
+    private void prepareBelongsToIndicators(){
+
+        BuyableCard temporaryBuyableCard = (BuyableCard) fieldsArray.get(1).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 9,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(3).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 7,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(5).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 5,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(6).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 4,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(8).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 2,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(9).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 1,10);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(11).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,9);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(12).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,8);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(13).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,7);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(14).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,6);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(15).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,5);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(16).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,4);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(18).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,2);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(19).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,1);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(21).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 1,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(23).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 3,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(24).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 4,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(25).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 5,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(26).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 6,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(27).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 7,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(28).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 8,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(29).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 9,0);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(31).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,1);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(32).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,2);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(34).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,4);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(35).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,5);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(37).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,7);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(39).getCard();
+        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,9);
+        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+    }
+
     private void prepareFieldsOnBoard(){
         fieldsArray.put(0, new BoardField("Nothing", 881, 795, 881, 825, 128, 102));
 
         fieldsArray.put(1, new BoardField("Card", 755, 795, 755, 825, 72, 102, new CityCard("City Card", "field #1", 1, 2, 60,2, 10, 30, 90, 160, 250, 50, "gray")));
         fieldsArray.put(2, new BoardField("Nothing", 683, 795, 683 ,825, 72, 102));
         fieldsArray.put(3, new BoardField("Card", 612, 795, 612, 825,72, 102, new CityCard("City Card", "field #3", 1, 2, 60, 4, 20, 60, 180, 320, 450, 50, "gray")));
-        fieldsArray.put(4, new BoardField("Nothing", 541,795,541,825,72,102));
-        fieldsArray.put(5, new BoardField("Nothing", 469, 795, 469, 825,72,102));
+        fieldsArray.put(4, new BoardField("Tax Card", 541,795,541,825,72,102, new TaxCard("Tax Card")));
+        fieldsArray.put(5, new BoardField("Circle Card", 469, 795, 469, 825,72,102, new CircleCard("Circle Card", "field #5", 200)));
         fieldsArray.put(6, new BoardField("Card", 398, 795, 398,825,72,102 ,new CityCard("City Card", "field #6", 2, 3, 100,6,30,90,270,400,550,50, "teal")));
         fieldsArray.put(7, new BoardField("Nothing", 327,795,327,825,72, 102));
         fieldsArray.put(8, new BoardField("Card", 255,795,255,825,72,102 ,new CityCard("City Card", "field #8", 2, 3, 100, 6,30, 90, 270, 400, 550, 50, "teal")));
@@ -432,10 +651,10 @@ public class Board {
         fieldsArray.put(10, new BoardField("Nothing", 113,795,113,825,128,102));
 
         fieldsArray.put(11, new BoardField("Card", 77,729,47,729, 128,72 ,new CityCard("City Card", "field 11", 3, 3,140,10,50,150,450,625,750,100, "purple")));
-        fieldsArray.put(12, new BoardField("Nothing", 77,657,47,657,128,72));
+        fieldsArray.put(12, new BoardField("Triangle Card", 77,657,47,657,128,72,new TriangleCard("Triangle Card", "field #12", 150)));
         fieldsArray.put(13, new BoardField("Card", 77,585,47,585,128,72, new CityCard("City Card", "field #13", 3, 3, 140, 10,50,150,450,625,750,100, "purple")));
         fieldsArray.put(14, new BoardField("Card",77,513,47,813,128,72 ,new CityCard("City Card", "field #14", 3,3,160,12,60,180,500,700,900,100, "purple")));
-        fieldsArray.put(15, new BoardField("Nothing",77,441,47,441,128,72));
+        fieldsArray.put(15, new BoardField("Circle Card",77,441,47,441,128,72, new CircleCard("Circle Card", "field #15", 200)));
         fieldsArray.put(16, new BoardField("Card", 77,369,47,369,128,72 ,new CityCard("City Card", "field #16", 4, 3, 180,14,70,200,550,750,950,100, "orange")));
         fieldsArray.put(17, new BoardField("Nothing", 77,297,47,297,128,72));
         fieldsArray.put(18, new BoardField("Card", 77,225,47,225,128,72 ,new CityCard("City Card", "field #18", 4, 3, 180,14,70,200,550,750,950,100, "orange")));
@@ -447,11 +666,11 @@ public class Board {
         fieldsArray.put(22, new BoardField("Nothing", 215,51,215,21,72,102));
         fieldsArray.put(23, new BoardField("Card", 287,51,287,21,72,102 ,new CityCard("City Card", "field #23", 5, 3, 220,18,90,250,700,875,1050,150, "red")));
         fieldsArray.put(24, new BoardField("Card", 359,51,359,21, 72,102,new CityCard("City Card", "field #24", 5, 3,240,20,100,300,750,925,1100,150, "red")));
-        fieldsArray.put(25, new BoardField("Nothing", 431,51,431,21,72,102));
+        fieldsArray.put(25, new BoardField("Circle Card", 431,51,431,21,72,102, new CircleCard("Circle Card", "field #25", 200)));
         fieldsArray.put(26, new BoardField("Card", 503,51,503,21, 72,102,new CityCard("City Card", "field #26", 6, 3,260,22,110,330,800,975,1150,150, "yellow")));
         fieldsArray.put(27, new BoardField("Card", 575,51,575,21,72,102, new CityCard("City Card", "field #27", 6,3,260,22,110,330,800,975,1150, 150, "yellow")));
-        fieldsArray.put(28, new BoardField("Nothing", 647,51,647,21,72,102));
-        fieldsArray.put(29, new BoardField("Card", 719,51,719,21, 72,102,new CityCard("City Card", "field #28", 6,3,280,24,120,360,850,1025,1200,150, "yellow")));
+        fieldsArray.put(28, new BoardField("Triangle Card", 647,51,647,21,72,102, new TriangleCard("Triangle Card", "field #28", 150)));
+        fieldsArray.put(29, new BoardField("Card", 719,51,719,21, 72,102,new CityCard("City Card", "field #29", 6,3,280,24,120,360,850,1025,1200,150, "yellow")));
 
         fieldsArray.put(30, new BoardField("Nothing", 791,51,791,21,128,102));
 
@@ -459,10 +678,10 @@ public class Board {
         fieldsArray.put(32, new BoardField("Card", 821,189,851,189,128,72 , new CityCard("City Card", "field #32", 7, 3, 300,26,130,390,900,1100,1275,200, "green")));
         fieldsArray.put(33, new BoardField("Nothing", 821,261,851,261,128,72));
         fieldsArray.put(34, new BoardField("Card", 821,333,851,333, 128,72, new CityCard("City Card", "field #34", 7,3,320,28,150,450,1000,1200,1400,200, "green" )));
-        fieldsArray.put(35, new BoardField("Nothing", 821,405,851,405,128,72));
+        fieldsArray.put(35, new BoardField("Circle Card", 821,405,851,405,128,72, new CircleCard("Circle Card", "field #35", 200)));
         fieldsArray.put(36, new BoardField("Nothing", 821,477,851,477,128,72));
         fieldsArray.put(37, new BoardField("Card", 821,549,851,549, 128,72, new CityCard("City Card", "field #37", 8, 2,350,35,175,500,1100,1300,1500,200, "blue")));
-        fieldsArray.put(38, new BoardField("Nothing", 821,621,851,621,128,72));
+        fieldsArray.put(38, new BoardField("Tax Card", 821,621,851,621,128,72, new TaxCard("Tax Card")));
         fieldsArray.put(39, new BoardField("Card", 821,693,851,693, 128,72, new CityCard("City Card", "field #39", 8,2,400,50,200,600,1400,1700,2000,200, "blue")));
     }
 
@@ -520,5 +739,17 @@ public class Board {
 
     public void setPlayerBlueLabel(int cash) {
         playerBlueLabel.setText("Blue: " + cash + "$");
+    }
+
+    public StackPane getBuyCardContentLayout() {
+        return buyCardContentLayout;
+    }
+
+    public Button getBuyCardYesButton() {
+        return buyCardYesButton;
+    }
+
+    public Button getBuyCardNoButton() {
+        return buyCardNoButton;
     }
 }

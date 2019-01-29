@@ -8,7 +8,7 @@ public class Player {
     private int fieldPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 1000;
+    private int cash = 1500;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
@@ -25,17 +25,16 @@ public class Player {
         pawnAfterImage.setStroke(Color.BLACK);
         pawnAfterImage.setOpacity(0.35);
 
-        if(playerColor.equals("red")) {
+        if("red".equals(playerColor)) {
             pawn.setFill(Color.RED);
             pawnAfterImage.setFill(Color.RED);
         }
 
-        else if(playerColor.equals("blue")) {
+        else if("blue".equals(playerColor)) {
             pawn.setFill(Color.BLUE);
             pawnAfterImage.setFill(Color.BLUE);
         }
     }
-
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board
@@ -48,7 +47,7 @@ public class Player {
         if(fieldPositionNumber < 40) {
             fieldPositionNumber += dicesRoll;
             if(fieldPositionNumber >= 40) {
-                cash += 400;
+                addCash(200);
                 fieldPositionNumber -= 40;
             }
         }
@@ -60,14 +59,16 @@ public class Player {
         pawn.setCenterX(getPlayerPositionX());
         pawn.setCenterY(getPlayerPositionY());
 
+        board.putInfoToProcess("+ #red moved to field #" + getFieldPositionNumber());
+
     }
 
     private void setPlayersPositions(int fieldPositionNumber, Board board){
-        if(playerColor.equals("red")) {
+        if("red".equals(playerColor)) {
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopY();
         }
-        else if(playerColor.equals("blue")){
+        else if("blue".equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopY();
         }
@@ -95,5 +96,17 @@ public class Player {
 
     public int getFieldPositionNumber() {
         return fieldPositionNumber;
+    }
+
+    public String getPlayerColor() {
+        return playerColor;
+    }
+
+    public void substractCash(int number){
+        cash -= number;
+    }
+
+    public void addCash(int number){
+        cash += number;
     }
 }

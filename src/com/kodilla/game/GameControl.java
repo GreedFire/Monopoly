@@ -1,11 +1,12 @@
 package com.kodilla.game;
 
+import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.Card;
+import com.kodilla.game.cards.unBuyableCards.TaxCard;
 import com.kodilla.game.player.AI;
 import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.util.Random;
 
@@ -14,9 +15,6 @@ class GameControl {
     private Board board = new Board();
     private Player redPlayer;
     private Player bluePlayer;
-
-    private int firstDiceResult;
-    private int secondDiceResult;
 
     boolean gameEnd = false;
 
@@ -49,9 +47,11 @@ class GameControl {
             bluePlayer.getPawnAfterImage().setVisible(false);
             board.getDiceRollBtn().setVisible(false);
 
-            useDice();
-            redPlayer.movePlayer(sumDicesRoll(), board);
-                board.putInfoToProcess("+ #red moved to field #" + redPlayer.getFieldPositionNumber());
+            redPlayer.movePlayer(useDice(), board);
+            purchaseCard(redPlayer);
+
+            checkTax(redPlayer);
+
             board.setPlayerRedLabel(redPlayer.getCash());
 
             if(!board.getDiceRollBtn().isVisible())
@@ -67,48 +67,88 @@ class GameControl {
               bluePlayer.getPawnAfterImage().setVisible(true);
               board.getEndTurnBtn().setVisible(false);
 
-
-              useDice();
-              bluePlayer.movePlayer(sumDicesRoll(), board);
+              bluePlayer.movePlayer(useDice(), board);
                 board.putInfoToProcess("+ #blue moved to field #" + bluePlayer.getFieldPositionNumber());
+
               board.setPlayerBlueLabel(bluePlayer.getCash());
+
+
               board.getDiceRollBtn().setVisible(true);
 
           });
 
     }
 
-    private void useDice(){
+    private void checkTax(Player player){
 
-                dicesRoll();
+        if(player.getFieldPositionNumber() == 4 || player.getFieldPositionNumber() == 38) {
+            TaxCard tempCard = (TaxCard) board.getFieldsArray().get(redPlayer.getFieldPositionNumber()).getCard();
+            int cashToPay = tempCard.pickAndPayTax();
+            player.substractCash(cashToPay);
+            board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
+        }
 
-                switch (firstDiceResult){
-                    case 1: board.getFirstDiceShow().setImage(board.getDice1()); break;
-                    case 2: board.getFirstDiceShow().setImage(board.getDice2()); break;
-                    case 3: board.getFirstDiceShow().setImage(board.getDice3()); break;
-                    case 4: board.getFirstDiceShow().setImage(board.getDice4()); break;
-                    case 5: board.getFirstDiceShow().setImage(board.getDice5()); break;
-                    case 6: board.getFirstDiceShow().setImage(board.getDice6()); break;
-                }
-
-                switch (secondDiceResult){
-                    case 1: board.getSecondDiceShow().setImage(board.getDice1()); break;
-                    case 2: board.getSecondDiceShow().setImage(board.getDice2()); break;
-                    case 3: board.getSecondDiceShow().setImage(board.getDice3()); break;
-                    case 4: board.getSecondDiceShow().setImage(board.getDice4()); break;
-                    case 5: board.getSecondDiceShow().setImage(board.getDice5()); break;
-                    case 6: board.getSecondDiceShow().setImage(board.getDice6()); break;
-                }
     }
 
-    private void dicesRoll(){
-        Random rand = new Random();
-        firstDiceResult = rand.nextInt(6)+1;
-        secondDiceResult = rand.nextInt(6)+1;
+    private void purchaseCard(Player player){
+            if(board.getFieldsArray().get(player.getFieldPositionNumber()).getCard() instanceof BuyableCard){
+            Card givenCard = board.getFieldsArray().get(player.getFieldPositionNumber()).getCard();
+            BuyableCard temporaryCityCard = null;
+            if (givenCard instanceof BuyableCard)
+                temporaryCityCard = (BuyableCard) givenCard;
+            BuyableCard purchasableCard = temporaryCityCard;
+
+
+            if (purchasableCard.getBelongsTo().equals("nobody"))
+                board.getBuyCardContentLayout().setVisible(true);
+
+            board.getBuyCardYesButton().setOnMouseClicked(e -> {
+                purchasableCard.setBelongsTo(player.getPlayerColor());
+                board.putInfoToProcess("+ #" + player.getPlayerColor() + " bought the " + purchasableCard.getFieldName());
+                player.substractCash(purchasableCard.getFieldCost());
+                board.getBuyCardContentLayout().setVisible(false);
+                purchasableCard.getBelongsIndicator().setVisible(true);
+                purchasableCard.setBelongsIndicatorColor();
+                board.setPlayerRedLabel(redPlayer.getCash());
+
+            });
+            board.getBuyCardNoButton().setOnMouseClicked(e -> {
+                board.getBuyCardContentLayout().setVisible(false);
+                board.putInfoToProcess("+ #" + player.getPlayerColor() + " din't buy the field");
+            });
+
+        }
     }
 
-    private int sumDicesRoll(){
+    private int useDice(){
+
+        int firstDiceResult = diceRoll();
+        int secondDiceResult = diceRoll();
+
+        switch (firstDiceResult){
+            case 1: board.getFirstDiceShow().setImage(board.getDice1()); break;
+            case 2: board.getFirstDiceShow().setImage(board.getDice2()); break;
+            case 3: board.getFirstDiceShow().setImage(board.getDice3()); break;
+            case 4: board.getFirstDiceShow().setImage(board.getDice4()); break;
+            case 5: board.getFirstDiceShow().setImage(board.getDice5()); break;
+            case 6: board.getFirstDiceShow().setImage(board.getDice6()); break;
+        }
+
+        switch (secondDiceResult){
+            case 1: board.getSecondDiceShow().setImage(board.getDice1()); break;
+            case 2: board.getSecondDiceShow().setImage(board.getDice2()); break;
+            case 3: board.getSecondDiceShow().setImage(board.getDice3()); break;
+            case 4: board.getSecondDiceShow().setImage(board.getDice4()); break;
+            case 5: board.getSecondDiceShow().setImage(board.getDice5()); break;
+            case 6: board.getSecondDiceShow().setImage(board.getDice6()); break;
+        }
+
         return firstDiceResult + secondDiceResult;
+    }
+
+    private int diceRoll(){
+        Random rand = new Random();
+        return rand.nextInt(6)+1;
     }
 
 

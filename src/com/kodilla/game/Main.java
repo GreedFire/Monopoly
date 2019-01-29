@@ -22,14 +22,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        * Napisz żeby wyswietlalo ruch gracza w tabelce(napisy) (może uzyj tablicy i pętli)
+        * Napisz kupowanie karty - dokończ
+        *  Napisz karty eventów, pole wiezienia
+        *  POPRAW TURY GRACZY I WYDZIEL NA AI I KOMPA
+        *  not buyable cards? event cards?
         *
-        * Napisz miejsce kolorowego kwadracika posiadania karty
-        *
-        * Napisz resztę kart
-        * Napisz kupowanie karty
-        * (chyba wystarczy podawać grid index i nie trzeba robić rectanglów)
-        *
+        * stałe-red,blue?, mniej ogolnych zmiennch
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
@@ -38,7 +36,7 @@ public class Main extends Application {
         Group root = new Group();
 
         GridPane grid = gameControl.getBoard().getGrid();
-        grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(false);
 
         gameControl.showInfo();
 
