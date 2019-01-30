@@ -40,7 +40,6 @@ public class BuyableCard extends Card {
         return fieldCost;
     }
 
-
     public void setBelongsIndicatorColor(){
         if("red".equals(belongsTo))
             belongsIndicator.setFill(Color.RED);

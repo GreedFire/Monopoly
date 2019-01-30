@@ -4,7 +4,7 @@ import com.kodilla.game.cards.BuyableCard;
 
 public class TriangleCard extends BuyableCard {
 
-    private int oneTriangleFee = 4;
+    private int oneTriangleFee = 5;
     private int twoTrianglesFee = 10;
 
     public TriangleCard(String typeOfCard, String fieldName, int fieldCost) {
@@ -17,5 +17,9 @@ public class TriangleCard extends BuyableCard {
 
     public int getTwoTrianglesFee() {
         return twoTrianglesFee;
+    }
+
+    public String getBelongsTo() {
+        return super.getBelongsTo();
     }
 }

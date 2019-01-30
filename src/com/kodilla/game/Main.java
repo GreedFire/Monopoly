@@ -22,10 +22,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        * Napisz kupowanie karty - dokończ
-        *  Napisz karty eventów, pole wiezienia
+        *  pole wiezienia
+        *
         *  POPRAW TURY GRACZY I WYDZIEL NA AI I KOMPA
-        *  not buyable cards? event cards?
+        *  - zmienna boolean isYourTurn if true -> do
+        *  - if Player instanceof human -> buttons else if AI -> random
+        *  - być może graczy w jeden klawisz i sprawdzanie kogo kolej booleanem wyzej, ale co dalej z AI?
+        *
         *
         * stałe-red,blue?, mniej ogolnych zmiennch
         */

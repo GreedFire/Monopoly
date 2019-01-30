@@ -73,4 +73,12 @@ public class CityCard extends BuyableCard {
     public String getFieldName(){
         return super.getFieldName();
     }
+
+    public String getBelongsTo() {
+        return super.getBelongsTo();
+    }
+
+    public int getNumberOfBuildings() {
+        return numberOfBuildings;
+    }
 }

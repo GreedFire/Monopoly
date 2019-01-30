@@ -28,4 +28,8 @@ public class CircleCard extends BuyableCard {
     public int getFourCirclesFee() {
         return fourCirclesFee;
     }
+
+    public String getBelongsTo() {
+        return super.getBelongsTo();
+    }
 }

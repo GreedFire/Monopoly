@@ -1,14 +1,19 @@
 package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
+import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.Card;
+import com.kodilla.game.cards.buyableCards.CircleCard;
+import com.kodilla.game.cards.buyableCards.CityCard;
+import com.kodilla.game.cards.buyableCards.TriangleCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Player {
-    private int fieldPositionNumber = 0;
+public abstract class Player {
+    private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 1500;
+    private int cash = 5000;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
@@ -38,28 +43,28 @@ public class Player {
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board
-        setPlayersPositions(fieldPositionNumber, board);
+        setPlayersPositions(playerPositionNumber, board);
 
         // Moving pawn afterimage
         pawnAfterImage.setCenterX(playerPositionX);
         pawnAfterImage.setCenterY(playerPositionY);
 
-        if(fieldPositionNumber < 40) {
-            fieldPositionNumber += dicesRoll;
-            if(fieldPositionNumber >= 40) {
+        if(playerPositionNumber < 40) {
+            playerPositionNumber += dicesRoll;
+            if(playerPositionNumber >= 40) {
                 addCash(200);
-                fieldPositionNumber -= 40;
+                playerPositionNumber -= 40;
             }
         }
 
         // Getting X and Y where player can stop his pawn afterimage from board
-        setPlayersPositions(fieldPositionNumber, board);
+        setPlayersPositions(playerPositionNumber, board);
 
         // Moving pawn of player
         pawn.setCenterX(getPlayerPositionX());
         pawn.setCenterY(getPlayerPositionY());
 
-        board.putInfoToProcess("+ #red moved to field #" + getFieldPositionNumber());
+        board.putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
 
     }
 
@@ -73,6 +78,8 @@ public class Player {
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopY();
         }
     }
+
+    public abstract void purchaseCard(Board board);
 
     private int getPlayerPositionX() {
         return playerPositionX;
@@ -94,8 +101,8 @@ public class Player {
         return pawnAfterImage;
     }
 
-    public int getFieldPositionNumber() {
-        return fieldPositionNumber;
+    public int getPlayerPositionNumber() {
+        return playerPositionNumber;
     }
 
     public String getPlayerColor() {
@@ -108,5 +115,9 @@ public class Player {
 
     public void addCash(int number){
         cash += number;
+    }
+
+    public void setPlayerPositionNumber(int fieldPositionNumber) {
+        this.playerPositionNumber = fieldPositionNumber;
     }
 }
