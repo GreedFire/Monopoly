@@ -35,7 +35,7 @@ class GameControl {
     }
 
     void gameFlow(){
-        board.getEndTurnBtn().setVisible(false);
+
             playersTurns(redPlayer);
     }
 

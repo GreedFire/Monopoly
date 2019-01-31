@@ -22,16 +22,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        *  pole wiezienia
-        *
-        *  POPRAW TURY GRACZY I WYDZIEL NA AI I KOMPA
-        *  - zmienna boolean isYourTurn if true -> do
-        *  - if Player instanceof human -> buttons else if AI -> random
-        *  - być może graczy w jeden klawisz i sprawdzanie kogo kolej booleanem wyzej, ale co dalej z AI?
+        *  pole wiezienia - Player boolean inPrison -> true -> to wielki if zapobiegający turze
+        *  maybe make Player turns bigger change with collections
         *
         * ZASTAW
-        *
-        * stałe-red,blue?, mniej ogolnych zmiennch
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);

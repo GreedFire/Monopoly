@@ -449,6 +449,7 @@ public class Board {
     }
 
     private void prepareDiceAndDiceButtons(){
+        endTurnBtn.setVisible(false);
         StackPane turnsButtonsLayout = new StackPane(endTurnBtn, diceRollBtn);
         VBox diceLayout = new VBox();
         diceLayout.getChildren().addAll(turnsButtonsLayout, firstDiceShow, secondDiceShow);
