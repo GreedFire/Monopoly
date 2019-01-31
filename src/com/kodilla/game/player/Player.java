@@ -17,6 +17,7 @@ public abstract class Player {
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
+    private boolean isPlayerTurn = false;
 
     Player(int playerPositionX, int playerPositionY, String playerColor) {
         this.playerPositionX = playerPositionX;
@@ -40,6 +41,8 @@ public abstract class Player {
             pawnAfterImage.setFill(Color.BLUE);
         }
     }
+
+    public abstract void giveAwayOnPledge(Board board);
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board
@@ -119,5 +122,13 @@ public abstract class Player {
 
     public void setPlayerPositionNumber(int fieldPositionNumber) {
         this.playerPositionNumber = fieldPositionNumber;
+    }
+
+    public boolean isPlayerTurn() {
+        return isPlayerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn) {
+        isPlayerTurn = playerTurn;
     }
 }

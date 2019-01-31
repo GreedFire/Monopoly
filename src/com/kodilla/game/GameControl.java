@@ -35,63 +35,71 @@ class GameControl {
     }
 
     void gameFlow(){
-            playersTurns();
+        board.getEndTurnBtn().setVisible(false);
+            playersTurns(redPlayer);
     }
 
     void showInfo(){
         board.showFieldInfo();
     }
 
-    private void playersTurns(){
-        board.getEndTurnBtn().setVisible(false);
+    private void playersTurns(Player player){
+        board.getDiceRollBtn().setVisible(true);
+        player.setPlayerTurn(true);
+            if(player instanceof Human) {
+                board.getDiceRollBtn().setOnMouseClicked(e -> {
 
-        //==============================================================================
-        //RED TURN STARTS HERE:
-        //==============================================================================
-        board.getDiceRollBtn().setOnMouseClicked(e -> {
+                    board.getDiceRollBtn().setVisible(false);
+                    player.getPawnAfterImage().setVisible(true);
+                    bluePlayer.getPawnAfterImage().setVisible(false);
 
-            redPlayer.getPawnAfterImage().setVisible(true);
-            bluePlayer.getPawnAfterImage().setVisible(false);
-            board.getDiceRollBtn().setVisible(false);
+                    playerActions(player);
 
-            useDice();
-            redPlayer.movePlayer(sumDicesResult(), board);
-            redPlayer.purchaseCard(board);
-            payFee(redPlayer);
+                    if (!board.getDiceRollBtn().isVisible())
+                        board.getEndTurnBtn().setVisible(true);
 
+                });
 
-            checkTaxCard(redPlayer);
-            checkEventCard(redPlayer);
+                board.getEndTurnBtn().setOnMouseClicked(x -> {
+                    board.getEndTurnBtn().setVisible(false);
+                    playersTurns(choosePlayerDependingOnTurn());
+                });
+            }
+            else if(player instanceof AI){
+                player.getPawnAfterImage().setVisible(true);
 
-            updatePlayerCashInLabels();
+                playerActions(player);
 
-            if(!board.getDiceRollBtn().isVisible())
-                board.getEndTurnBtn().setVisible(true);
+                playersTurns(choosePlayerDependingOnTurn());
+            }
+    }
 
-        });
-        //==============================================================================
-        //BLUE TURN STARTS HERE:
-        //==============================================================================
-          board.getEndTurnBtn().setOnMouseClicked(e -> {
+    private void playerActions(Player player){
+        useDice();
+        player.movePlayer(sumDicesResult(), board);
+        player.purchaseCard(board);
+        payFee(player);
+        player.giveAwayOnPledge(board);
 
-              redPlayer.getPawnAfterImage().setVisible(false);
-              bluePlayer.getPawnAfterImage().setVisible(true);
-              board.getEndTurnBtn().setVisible(false);
+        checkIfPlayerIsOnTaxCard(player);
+        checkEventCard(player);
 
-              useDice();
-              bluePlayer.movePlayer(sumDicesResult(), board);
-              bluePlayer.purchaseCard(board);
-              payFee(bluePlayer);
+        updatePlayerCashInLabels();
+    }
 
-              checkTaxCard(bluePlayer);
-              checkEventCard(bluePlayer);
-
-              updatePlayerCashInLabels();
-
-              board.getDiceRollBtn().setVisible(true);
-
-          });
-
+    private Player choosePlayerDependingOnTurn(){
+        Player result = null;
+        if(redPlayer.isPlayerTurn()) {
+            redPlayer.setPlayerTurn(false);
+            bluePlayer.setPlayerTurn(true);
+            result = bluePlayer;
+        }
+        else if(bluePlayer.isPlayerTurn()) {
+            redPlayer.setPlayerTurn(true);
+            bluePlayer.setPlayerTurn(false);
+            result = redPlayer;
+        }
+        return result;
     }
 
     private void updatePlayerCashInLabels(){
@@ -99,7 +107,7 @@ class GameControl {
         board.setPlayerBlueLabel(bluePlayer.getCash());
     }
 
-    private void checkTaxCard(Player player){
+    private void checkIfPlayerIsOnTaxCard(Player player){
 
         if(player.getPlayerPositionNumber() == 4 || player.getPlayerPositionNumber() == 38) {
             TaxCard tempCard = (TaxCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();

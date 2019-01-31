@@ -9,8 +9,7 @@ public class BuyableCard extends Card {
     private final int fieldCost;
     private String belongsTo = "nobody";
     private Rectangle belongsIndicator;
-
-    //Zastaw
+    private boolean onPledge = false;
 
     public BuyableCard(String typeOfCard, String fieldName, int fieldCost) {
         super(typeOfCard);
@@ -45,5 +44,13 @@ public class BuyableCard extends Card {
             belongsIndicator.setFill(Color.RED);
         else if("blue".equals(belongsTo))
             belongsIndicator.setFill(Color.BLUE);
+    }
+
+    public boolean isOnPledge() {
+        return onPledge;
+    }
+
+    public void setOnPledge(boolean onPledge) {
+        this.onPledge = onPledge;
     }
 }

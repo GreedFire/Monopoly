@@ -42,10 +42,10 @@ public class Board {
 
     private Text[] gameplayInfo = new Text[10];
 
-    private StackPane actionButtonLayout1;
-    private StackPane actionButtonLayout2;
-    private StackPane actionButtonLayout3;
-    private StackPane actionButtonLayout4;
+    private Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
+    private Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
+    private Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
+    private Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
 
     private StackPane buyCardContentLayout;
     private Button buyCardYesButton = new Button("yes");
@@ -125,13 +125,9 @@ public class Board {
             // CREATING ACTION BUTTONS:
         //==============================================================================================================
         // Creating rectangles shapes
-        Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
         actionButton1.setStroke(Color.BLACK);
-        Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
         actionButton2.setStroke(Color.BLACK);
-        Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
         actionButton3.setStroke(Color.BLACK);
-        Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
         actionButton4.setStroke(Color.BLACK);
 
         // Creating text for action buttons
@@ -141,10 +137,10 @@ public class Board {
         Text actionText4 = new Text("sell a building");
 
         // Putting buttons and text as one object
-        actionButtonLayout1 = new StackPane(actionButton1, actionText1);
-        actionButtonLayout2 = new StackPane(actionButton2, actionText2);
-        actionButtonLayout3 = new StackPane(actionButton3, actionText3);
-        actionButtonLayout4 = new StackPane(actionButton4, actionText4);
+        StackPane actionButtonLayout1 = new StackPane(actionButton1, actionText1);
+        StackPane actionButtonLayout2 = new StackPane(actionButton2, actionText2);
+        StackPane actionButtonLayout3 = new StackPane(actionButton3, actionText3);
+        StackPane actionButtonLayout4 = new StackPane(actionButton4, actionText4);
 
         // Setting size of that objects ^
         actionButtonLayout1.setMaxSize(200,50);
@@ -153,14 +149,33 @@ public class Board {
         actionButtonLayout4.setMaxSize(200,50);
 
         // Trade buttons at work
-        actionButtonLayout1.setOnMouseEntered(e -> actionButton1.setFill(Color.YELLOW));
-            actionButtonLayout1.setOnMouseExited(e -> actionButton1.setFill(Color.WHITE));
-        actionButtonLayout2.setOnMouseEntered(e -> actionButton2.setFill(Color.YELLOW));
-            actionButtonLayout2.setOnMouseExited(e -> actionButton2.setFill(Color.WHITE));
-        actionButtonLayout3.setOnMouseEntered(e -> actionButton3.setFill(Color.YELLOW));
-            actionButtonLayout3.setOnMouseExited(e -> actionButton3.setFill(Color.WHITE));
-        actionButtonLayout4.setOnMouseEntered(e -> actionButton4.setFill(Color.YELLOW));
-            actionButtonLayout4.setOnMouseExited(e -> actionButton4.setFill(Color.WHITE));
+        actionButton1.setOnMouseClicked(e -> {
+            actionButton1.setFill(Color.YELLOW);
+            actionButton2.setFill(Color.WHITE);
+            actionButton3.setFill(Color.WHITE);
+            actionButton4.setFill(Color.WHITE);
+        });
+
+        actionButton2.setOnMouseClicked(e -> {
+            actionButton1.setFill(Color.WHITE);
+            actionButton2.setFill(Color.YELLOW);
+            actionButton3.setFill(Color.WHITE);
+            actionButton4.setFill(Color.WHITE);
+        });
+
+        actionButton3.setOnMouseClicked(e -> {
+            actionButton1.setFill(Color.WHITE);
+            actionButton2.setFill(Color.WHITE);
+            actionButton3.setFill(Color.YELLOW);
+            actionButton4.setFill(Color.WHITE);
+        });
+
+        actionButton4.setOnMouseClicked(e -> {
+            actionButton1.setFill(Color.WHITE);
+            actionButton2.setFill(Color.WHITE);
+            actionButton3.setFill(Color.WHITE);
+            actionButton4.setFill(Color.YELLOW);
+        });
 
         //==============================================================================================================
             // CREATING BOOKMARKS:
@@ -752,5 +767,21 @@ public class Board {
 
     public Button getBuyCardNoButton() {
         return buyCardNoButton;
+    }
+
+    public Rectangle getActionButton1() {
+        return actionButton1;
+    }
+
+    public Rectangle getActionButton2() {
+        return actionButton2;
+    }
+
+    public Rectangle getActionButton3() {
+        return actionButton3;
+    }
+
+    public Rectangle getActionButton4() {
+        return actionButton4;
     }
 }

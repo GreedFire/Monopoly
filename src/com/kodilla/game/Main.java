@@ -29,6 +29,7 @@ public class Main extends Application {
         *  - if Player instanceof human -> buttons else if AI -> random
         *  - być może graczy w jeden klawisz i sprawdzanie kogo kolej booleanem wyzej, ale co dalej z AI?
         *
+        * ZASTAW
         *
         * stałe-red,blue?, mniej ogolnych zmiennch
         */
