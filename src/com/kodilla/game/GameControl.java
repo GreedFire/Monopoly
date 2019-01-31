@@ -1,8 +1,6 @@
 package com.kodilla.game;
 
-import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
-import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CircleCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import com.kodilla.game.cards.buyableCards.TriangleCard;
@@ -24,12 +22,10 @@ class GameControl {
     private int firstDiceResult;
     private int secondDiceResult;
 
-    boolean gameEnd = false;
-
     GameControl(){
        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.setPlayerRedLabel(redPlayer.getCash());
-       bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+       bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
         board.setPlayerBlueLabel(bluePlayer.getCash());
 
     }
@@ -131,7 +127,7 @@ class GameControl {
         }
     }
 
-    public void payFee(Player player){
+    private void payFee(Player player){
 
         if(board.getFieldsArray().get(player.getPlayerPositionNumber()).getTypeOfField().equals("Card")) {
 
@@ -141,7 +137,8 @@ class GameControl {
 
             if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CityCard) {
                 CityCard cityCard = (CityCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!cityCard.getBelongsTo().equals(player.getPlayerColor())) {
+                if (!cityCard.getBelongsTo().equals(player.getPlayerColor())
+                && !cityCard.getBelongsTo().equals("nobody")) {
                     switch (cityCard.getNumberOfBuildings()) {
                         case 0:
                             sumOfFee = cityCard.getZeroBuildingsFee();
@@ -165,7 +162,8 @@ class GameControl {
                 }
             } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof TriangleCard) {
                 TriangleCard triangleCard = (TriangleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!triangleCard.getBelongsTo().equals(player.getPlayerColor())) {
+                if (!triangleCard.getBelongsTo().equals(player.getPlayerColor())
+                        && !triangleCard.getBelongsTo().equals("nobody")) {
                     int sumOfTriangleCards = 0;
                     for(int i = 12; i<=26; i+=16){
                         TriangleCard checkedTriangleCard = (TriangleCard) board.getFieldsArray().get(i).getCard();
@@ -182,7 +180,8 @@ class GameControl {
 
             } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CircleCard) {
                 CircleCard circleCard = (CircleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!circleCard.getBelongsTo().equals(player.getPlayerColor())) {
+                if (!circleCard.getBelongsTo().equals(player.getPlayerColor())
+                        && !circleCard.getBelongsTo().equals("nobody")) {
                     int sumOfCircleCards = 0;
                     for(int i = 5; i<=35; i+=10) {
                         CircleCard checkedCircleCard = (CircleCard) board.getFieldsArray().get(i).getCard();
@@ -211,7 +210,7 @@ class GameControl {
                     board.setPlayerRedLabel(bluePlayer.getCash());
                     break;
             }
-            if(!temporaryCard.getBelongsTo().equals("nobody") && sumOfFee != 0)
+            if(sumOfFee != 0)
             board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
 
             switch (player.getPlayerColor()) {

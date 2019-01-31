@@ -1,5 +1,7 @@
 package com.kodilla.game.cards;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -9,6 +11,9 @@ public class BuyableCard extends Card {
     private final int fieldCost;
     private String belongsTo = "nobody";
     private Rectangle belongsIndicator;
+    private Image pledge = new Image("file:resources/pledge.png");
+    private ImageView pledgeAndBuildingsIndicator = new ImageView(pledge);
+
     private boolean onPledge = false;
 
     public BuyableCard(String typeOfCard, String fieldName, int fieldCost) {
@@ -52,5 +57,13 @@ public class BuyableCard extends Card {
 
     public void setOnPledge(boolean onPledge) {
         this.onPledge = onPledge;
+    }
+
+    public ImageView getPledgeAndBuildingsIndicator() {
+        return pledgeAndBuildingsIndicator;
+    }
+
+    public void setPledgeAndBuildingsIndicator(ImageView pledgeAndBuildingsIndicator) {
+        this.pledgeAndBuildingsIndicator = pledgeAndBuildingsIndicator;
     }
 }

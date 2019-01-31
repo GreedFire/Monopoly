@@ -25,7 +25,9 @@ public class Main extends Application {
         *  pole wiezienia - Player boolean inPrison -> true -> to wielki if zapobiegający turze
         *  maybe make Player turns bigger change with collections
         *
-        * ZASTAW
+        *   ZASTAW NIE DZIALA
+        *
+        *
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);

@@ -1,11 +1,6 @@
 package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
-import com.kodilla.game.cards.BuyableCard;
-import com.kodilla.game.cards.Card;
-import com.kodilla.game.cards.buyableCards.CircleCard;
-import com.kodilla.game.cards.buyableCards.CityCard;
-import com.kodilla.game.cards.buyableCards.TriangleCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 

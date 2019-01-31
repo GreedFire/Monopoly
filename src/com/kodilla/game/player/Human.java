@@ -5,6 +5,7 @@ import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CityCard;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public class Human extends Player {
     public void purchaseCard(Board board) {
         if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyableCard) {
             Card givenCard = board.getFieldsArray().get(getPlayerPositionNumber()).getCard();
-            BuyableCard temporaryCityCard = null;
+            BuyableCard temporaryCityCard;
             if (givenCard instanceof BuyableCard) {
                 temporaryCityCard = (BuyableCard) givenCard;
                 BuyableCard purchasableCard = temporaryCityCard;
@@ -59,8 +60,9 @@ public class Human extends Player {
         }
     }
 
+    //POPRAW
     public void giveAwayOnPledge(Board board) {
-        if (board.getActionButton1().getFill().equals(Color.YELLOW)) {
+        if (board.getActionButton1().getFill().equals(Color.YELLOW) && isPlayerTurn()) {
             for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
                 if (entry.getValue().getCard() instanceof BuyableCard)
                     entry.getValue().getRectangle().setOnMouseClicked(x -> {
@@ -68,13 +70,18 @@ public class Human extends Player {
                         BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
                         CityCard citycard = (CityCard) buyableCard;
 
-                        //sprawdz czy zero domkow
+                        System.out.println("xxx");
 
-                        if( !buyableCard.isOnPledge() ){
+                        if( !buyableCard.isOnPledge()
+                                && citycard.getNumberOfBuildings() == 0
+                                && buyableCard.getBelongsTo().equals(getPlayerColor())
+                                 ){
+
                             addCash(buyableCard.getFieldCost());
-                            //set something visible
+                            buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
+                            buyableCard.setPledgeAndBuildingsIndicator(new ImageView(board.getPledgeImage()));
                             buyableCard.setOnPledge(true);
-                            System.out.println("xxx");
+                            board.putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
                         }
 
 

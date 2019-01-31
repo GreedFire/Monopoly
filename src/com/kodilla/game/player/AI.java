@@ -17,7 +17,7 @@ public class AI extends Player {
     public void purchaseCard(Board board) {
         if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyableCard) {
             Card givenCard = board.getFieldsArray().get(getPlayerPositionNumber()).getCard();
-            BuyableCard temporaryCityCard = null;
+            BuyableCard temporaryCityCard;
             if (givenCard instanceof BuyableCard) {
                 temporaryCityCard = (BuyableCard) givenCard;
                 BuyableCard purchasableCard = temporaryCityCard;

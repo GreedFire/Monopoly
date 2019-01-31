@@ -34,6 +34,14 @@ public class Board {
     private Image dice5 = new Image("file:resources/dice5.png");
     private Image dice6 = new Image("file:resources/dice6.png");
 
+    private Image pledgeImage = new Image("file:resources/pledge.png");
+    private Image zeroBuildingsImage = new Image("file:resources/0buildings.png");
+    private Image oneBuildingImage = new Image("file:resources/1buildings.png");
+    private Image twoBuildingsImage = new Image("file:resources/2buildings.png");
+    private Image threeBuildingsImage = new Image("file:resources/3buildings.png");
+    private Image fourBuildingsImage = new Image("file:resources/4buildings.png");
+    private Image fiveBuildingsImage = new Image("file:resources/5buildings.png");
+
     private ImageView firstDiceShow = new ImageView(dice1);
     private ImageView secondDiceShow = new ImageView(dice2);
 
@@ -512,144 +520,228 @@ public class Board {
     private void prepareBelongsToIndicators(){
 
         BuyableCard temporaryBuyableCard = (BuyableCard) fieldsArray.get(1).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 9,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        HBox hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 9,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(3).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 7,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 7,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(5).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 5,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 5,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(6).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 4,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 4,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(8).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 2,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 2,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(9).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 1,10);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(1,1,70,7));
+        hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(hbox, 1,10);
+        GridPane.setMargin(hbox, new Insets(10,1,70,7));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(11).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,9);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        VBox vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,9);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(12).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,8);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,8);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(13).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,7);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,7);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(14).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,6);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,6);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(15).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,5);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,5);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(16).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,4);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,4);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(18).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,2);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,2);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(19).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 0,1);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(0,0,45,107));
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,1);
+        GridPane.setMargin(vbox, new Insets(10,0,0,106));
+        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(21).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 1,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 1,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(23).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 3,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 3,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(24).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 4,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 4,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(25).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 5,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 5,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(26).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 6,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 6,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(27).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 7,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 7,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(28).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 8,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 8,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(29).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 9,0);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(70,0,0,50));
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 9,0);
+        GridPane.setMargin(hbox, new Insets(80,0,0,5));
+        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(31).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,1);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,1);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(32).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,2);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,2);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(34).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,4);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,4);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(35).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,5);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,5);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(37).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,7);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,7);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(39).getCard();
-        grid.add(temporaryBuyableCard.getBelongsIndicator(), 10,9);
-        GridPane.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(40,0,0,10));
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,9);
+        GridPane.setMargin(vbox, new Insets(5,0,0,10));
+        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
+        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
     }
 
     private void prepareFieldsOnBoard(){
@@ -784,5 +876,33 @@ public class Board {
 
     public Rectangle getActionButton4() {
         return actionButton4;
+    }
+
+    public Image getPledgeImage() {
+        return pledgeImage;
+    }
+
+    public Image getZeroBuildingsImage() {
+        return zeroBuildingsImage;
+    }
+
+    public Image getOneBuildingImage() {
+        return oneBuildingImage;
+    }
+
+    public Image getTwoBuildingsImage() {
+        return twoBuildingsImage;
+    }
+
+    public Image getThreeBuildingsImage() {
+        return threeBuildingsImage;
+    }
+
+    public Image getFourBuildingsImage() {
+        return fourBuildingsImage;
+    }
+
+    public Image getFiveBuildingsImage() {
+        return fiveBuildingsImage;
     }
 }
