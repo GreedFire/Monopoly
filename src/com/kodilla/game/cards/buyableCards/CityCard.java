@@ -3,26 +3,22 @@ package com.kodilla.game.cards.buyableCards;
 import com.kodilla.game.cards.BuyableCard;
 
 public class CityCard extends BuyableCard {
-    private final int group;
+    private final int numberOfCountry;
     private final int neededCardsFromGroupToBuild;
-
     private String cardColor;
-
     private final int buildCost;
-
     private final int zeroBuildingsFee;
     private final int oneBuildingsFee;
     private final int twoBuildingsFee;
     private final int threeBuildingsFee;
     private final int fourBuildingsFee;
     private final int fiveBuildingsFee;
-
     private int numberOfBuildings = 0;
 
-    public CityCard(String typeOfCard, String fieldName ,int group, int neededCardsFromGroupToBuild, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
+    public CityCard(String typeOfCard, String fieldName ,int numberOfCountry, int neededCardsFromGroupToBuild, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
                     int threeBuildingsFee, int fourBuildingsFee, int fiveBuildingsFee, int buildCost, String cardColor) {
         super(typeOfCard, fieldName, fieldCost);
-        this.group = group;
+        this.numberOfCountry = numberOfCountry;
         this.neededCardsFromGroupToBuild = neededCardsFromGroupToBuild;
         this.zeroBuildingsFee = zeroBuildingsFee;
         this.oneBuildingsFee = oneBuildingsFee;
@@ -80,5 +76,17 @@ public class CityCard extends BuyableCard {
 
     public int getNumberOfBuildings() {
         return numberOfBuildings;
+    }
+
+    public int getNumberOfCountry() {
+        return numberOfCountry;
+    }
+
+    public void setbuildingsPlusOne() {
+        this.numberOfBuildings += 1;
+    }
+
+    public void setbuildingsMinusOne() {
+        this.numberOfBuildings -= 1;
     }
 }

@@ -29,6 +29,10 @@ public class Main extends Application {
         * prison - Player boolean inPrison -> true -> to wielki if zapobiegający turze
         *   lose conditions, main menu, adding players, trade, animations and sounds, which turn indicator(triangle)
         *
+        *  Bugs:
+        *  sometimes player cant pay fee and probably pays when on pledge
+        *  can buy #10 field
+        *
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);

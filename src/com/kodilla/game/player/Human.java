@@ -7,6 +7,7 @@ import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Human extends Player {
@@ -66,7 +67,7 @@ public class Human extends Player {
                 entry.getValue().getRectangle().setOnMouseClicked(x -> {
 
                     BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
-                    CityCard cityCard;
+                    CityCard cityCard = null;
 
                     // GIVE AWAY TO PLEDGE
                     if (board.getActionButton1().getFill().equals(Color.YELLOW)) {
@@ -86,6 +87,33 @@ public class Human extends Player {
                     // BUY A BUILDING
                     else if(board.getActionButton3().getFill().equals(Color.YELLOW)){
                         if(buyableCard instanceof CityCard){
+                            cityCard = (CityCard) buyableCard;
+                            boolean canBuild = checkIfPlayerCanBuildOnField(board, cityCard);
+                            if(canBuild && cityCard.getNumberOfBuildings() <= 5 && getCash() >= cityCard.getBuildCost() && !cityCard.isOnPledge()){
+                                    substractCash(cityCard.getBuildCost());
+                                    cityCard.setbuildingsPlusOne();
+                                    setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
+                                    cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
+                                    board.putInfoToProcess("+ #" + getPlayerColor() + " bought a building on " + buyableCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+                                    updateCashLabels(board);
+
+                            }
+
+
+                        }
+                    }
+                    else if(board.getActionButton4().getFill().equals(Color.YELLOW)){
+                        if(buyableCard instanceof CityCard){
+                            cityCard = (CityCard) buyableCard;
+
+                            if(cityCard.getNumberOfBuildings() > 0 && cityCard.getBelongsTo().equals(getPlayerColor())){
+                                addCash(cityCard.getBuildCost());
+                                cityCard.setbuildingsMinusOne();
+                                setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
+                                cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
+                                board.putInfoToProcess("+ #" + getPlayerColor() + " sold a building on " + buyableCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+                                updateCashLabels(board);
+                            }
 
                         }
                     }
@@ -96,8 +124,52 @@ public class Human extends Player {
         }
     }
 
-    private void checkIfPlayerCanBuildOnField(){
+    private void setImageOfBuildings(Board board, CityCard givenCard, int numberOfBuildings){
+        switch(numberOfBuildings){
+            case 0: givenCard.setPledgeAndBuildingsIndicator(board.getZeroBuildingsImage()); break;
+            case 1: givenCard.setPledgeAndBuildingsIndicator(board.getOneBuildingImage()); break;
+            case 2: givenCard.setPledgeAndBuildingsIndicator(board.getTwoBuildingsImage()); break;
+            case 3: givenCard.setPledgeAndBuildingsIndicator(board.getThreeBuildingsImage()); break;
+            case 4: givenCard.setPledgeAndBuildingsIndicator(board.getFourBuildingsImage()); break;
+            case 5: givenCard.setPledgeAndBuildingsIndicator(board.getFiveBuildingsImage()); break;
+        }
+    }
 
+    private boolean checkIfPlayerCanBuildOnField(Board board, CityCard givenCard){
+
+        boolean result = false;
+        ArrayList<CityCard> listOfCityCards = new ArrayList<>();
+        CityCard cityCard;
+
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()){
+            if(entry.getValue().getCard() instanceof CityCard) {
+                cityCard = (CityCard) entry.getValue().getCard();
+                if(cityCard.getNumberOfCountry() == givenCard.getNumberOfCountry() && cityCard.getBelongsTo().equals(getPlayerColor()))
+                    listOfCityCards.add(cityCard);
+            }
+
+        }
+
+        int numberOfSameCards = listOfCityCards.size();
+
+        if(givenCard.getNumberOfCountry() == 1 && numberOfSameCards == 2)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 2 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 3 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 4 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 5 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 6 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 7 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 8 && numberOfSameCards == 2)
+            result = true;
+
+        return result;
     }
 
 
@@ -112,7 +184,7 @@ public class Human extends Player {
     }
 
     private void purchaseFromPledge(Board board, BuyableCard buyableCard) {
-        if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor())) {
+        if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && (getCash() >= buyableCard.getFieldCost()) ) {
             buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
             substractCash(buyableCard.getFieldCost());
             board.putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");

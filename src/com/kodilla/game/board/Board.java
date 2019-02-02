@@ -219,6 +219,10 @@ public class Board {
             menuButton.setFill(Color.WHEAT);
             menuButton2.setFill(Color.WHITE);
             menuButton3.setFill(Color.WHITE);
+            actionButton1.setFill(Color.WHITE);
+            actionButton2.setFill(Color.WHITE);
+            actionButton3.setFill(Color.WHITE);
+            actionButton4.setFill(Color.WHITE);
 
             actionsContentLayout.setVisible(false);
             tradeContentLayout.setVisible(false);
@@ -229,6 +233,10 @@ public class Board {
             menuButton.setFill(Color.WHITE);
             menuButton2.setFill(Color.WHEAT);
             menuButton3.setFill(Color.WHITE);
+            actionButton1.setFill(Color.WHITE);
+            actionButton2.setFill(Color.WHITE);
+            actionButton3.setFill(Color.WHITE);
+            actionButton4.setFill(Color.WHITE);
 
             processContentLayout.setVisible(false);
             actionsContentLayout.setVisible(false);
