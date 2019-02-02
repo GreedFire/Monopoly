@@ -72,13 +72,11 @@ class GameControl {
     }
 
     private void playerActions(Player player){
-        player.giveAwayOnPledge(board);
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
         payFee(player);
-        player.giveAwayOnPledge(board);
-        player.purchaseFromPledge(board);
+        player.checkAndDoActions(board);
 
         checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);
@@ -138,91 +136,105 @@ class GameControl {
             String enemyPlayerColor = temporaryCard.getBelongsTo();
             int sumOfFee = 0;
 
-            if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CityCard) {
-                CityCard cityCard = (CityCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!cityCard.getBelongsTo().equals(player.getPlayerColor())
-                && !cityCard.getBelongsTo().equals("nobody")) {
-                    switch (cityCard.getNumberOfBuildings()) {
-                        case 0:
-                            sumOfFee = cityCard.getZeroBuildingsFee();
-                            break;
-                        case 1:
-                            sumOfFee = cityCard.getOneBuildingsFee();
-                            break;
-                        case 2:
-                            sumOfFee = cityCard.getTwoBuildingsFee();
-                            break;
-                        case 3:
-                            sumOfFee = cityCard.getThreeBuildingsFee();
-                            break;
-                        case 4:
-                            sumOfFee = cityCard.getFourBuildingsFee();
-                            break;
-                        case 5:
-                            sumOfFee = cityCard.getFiveBuildingsFee();
-                            break;
+            if (!temporaryCard.isOnPledge()) {
+                if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CityCard) {
+                    CityCard cityCard = (CityCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
+                    if (!cityCard.getBelongsTo().equals(player.getPlayerColor())
+                            && !cityCard.getBelongsTo().equals("nobody")) {
+                        switch (cityCard.getNumberOfBuildings()) {
+                            case 0:
+                                sumOfFee = cityCard.getZeroBuildingsFee();
+                                break;
+                            case 1:
+                                sumOfFee = cityCard.getOneBuildingsFee();
+                                break;
+                            case 2:
+                                sumOfFee = cityCard.getTwoBuildingsFee();
+                                break;
+                            case 3:
+                                sumOfFee = cityCard.getThreeBuildingsFee();
+                                break;
+                            case 4:
+                                sumOfFee = cityCard.getFourBuildingsFee();
+                                break;
+                            case 5:
+                                sumOfFee = cityCard.getFiveBuildingsFee();
+                                break;
+                        }
+                    }
+                } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof TriangleCard) {
+                    TriangleCard triangleCard = (TriangleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
+                    if (!triangleCard.getBelongsTo().equals(player.getPlayerColor())
+                            && !triangleCard.getBelongsTo().equals("nobody")) {
+                        int sumOfTriangleCards = 0;
+                        for (int i = 12; i <= 26; i += 16) {
+                            TriangleCard checkedTriangleCard = (TriangleCard) board.getFieldsArray().get(i).getCard();
+                            if (checkedTriangleCard.getBelongsTo().equals(enemyPlayerColor))
+                                sumOfTriangleCards++;
+                        }
+
+                        switch (sumOfTriangleCards) {
+                            case 1:
+                                sumOfFee = (firstDiceResult + secondDiceResult) * 5;
+                                break;
+                            case 2:
+                                sumOfFee = (firstDiceResult + secondDiceResult) * 10;
+                                break;
+                        }
+
+                    }
+
+                } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CircleCard) {
+                    CircleCard circleCard = (CircleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
+                    if (!circleCard.getBelongsTo().equals(player.getPlayerColor())
+                            && !circleCard.getBelongsTo().equals("nobody")) {
+                        int sumOfCircleCards = 0;
+                        for (int i = 5; i <= 35; i += 10) {
+                            CircleCard checkedCircleCard = (CircleCard) board.getFieldsArray().get(i).getCard();
+                            if (checkedCircleCard.getBelongsTo().equals(enemyPlayerColor))
+                                sumOfCircleCards++;
+                        }
+
+                        switch (sumOfCircleCards) {
+                            case 1:
+                                sumOfFee = 25;
+                                break;
+                            case 2:
+                                sumOfFee = 50;
+                                break;
+                            case 3:
+                                sumOfFee = 100;
+                                break;
+                            case 4:
+                                sumOfFee = 200;
+                                break;
+                        }
+
                     }
                 }
-            } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof TriangleCard) {
-                TriangleCard triangleCard = (TriangleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!triangleCard.getBelongsTo().equals(player.getPlayerColor())
-                        && !triangleCard.getBelongsTo().equals("nobody")) {
-                    int sumOfTriangleCards = 0;
-                    for(int i = 12; i<=26; i+=16){
-                        TriangleCard checkedTriangleCard = (TriangleCard) board.getFieldsArray().get(i).getCard();
-                        if(checkedTriangleCard.getBelongsTo().equals(enemyPlayerColor))
-                            sumOfTriangleCards++;
-                    }
 
-                    switch (sumOfTriangleCards){
-                        case 1: sumOfFee = (firstDiceResult + secondDiceResult) * 5; break;
-                        case 2: sumOfFee = (firstDiceResult + secondDiceResult) * 10; break;
-                    }
-
+                player.substractCash(sumOfFee);
+                switch (enemyPlayerColor) {
+                    case "red":
+                        redPlayer.addCash(sumOfFee);
+                        board.setPlayerRedLabel(redPlayer.getCash());
+                        break;
+                    case "blue":
+                        bluePlayer.addCash(sumOfFee);
+                        board.setPlayerRedLabel(bluePlayer.getCash());
+                        break;
                 }
+                if (sumOfFee != 0)
+                    board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
 
-            } else if (board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard() instanceof CircleCard) {
-                CircleCard circleCard = (CircleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-                if (!circleCard.getBelongsTo().equals(player.getPlayerColor())
-                        && !circleCard.getBelongsTo().equals("nobody")) {
-                    int sumOfCircleCards = 0;
-                    for(int i = 5; i<=35; i+=10) {
-                        CircleCard checkedCircleCard = (CircleCard) board.getFieldsArray().get(i).getCard();
-                        if (checkedCircleCard.getBelongsTo().equals(enemyPlayerColor))
-                            sumOfCircleCards++;
-                    }
-
-                    switch(sumOfCircleCards){
-                        case 1: sumOfFee = 25; break;
-                        case 2: sumOfFee = 50; break;
-                        case 3: sumOfFee = 100; break;
-                        case 4: sumOfFee = 200; break;
-                    }
-
+                switch (player.getPlayerColor()) {
+                    case "red":
+                        board.setPlayerRedLabel(player.getCash());
+                        break;
+                    case "blue":
+                        board.setPlayerBlueLabel(player.getCash());
+                        break;
                 }
-            }
-
-            player.substractCash(sumOfFee);
-            switch (enemyPlayerColor) {
-                case "red":
-                    redPlayer.addCash(sumOfFee);
-                    board.setPlayerRedLabel(redPlayer.getCash());
-                    break;
-                case "blue":
-                    bluePlayer.addCash(sumOfFee);
-                    board.setPlayerRedLabel(bluePlayer.getCash());
-                    break;
-            }
-            if(sumOfFee != 0)
-            board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
-
-            switch (player.getPlayerColor()) {
-                case "red":
-                    board.setPlayerRedLabel(player.getCash());
-                    break;
-                case "blue":
-                    board.setPlayerBlueLabel(player.getCash());
-                    break;
             }
         }
     }

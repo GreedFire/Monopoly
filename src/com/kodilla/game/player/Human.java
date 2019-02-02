@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Human extends Player {
 
-    public Human(int playerPositionX, int playerPositionY, String playerColor){
+    public Human(int playerPositionX, int playerPositionY, String playerColor) {
         super(playerPositionX, playerPositionY, playerColor);
     }
 
@@ -31,7 +31,7 @@ public class Human extends Player {
 
                 if (getCash() < purchasableCard.getFieldCost())
                     board.getBuyCardYesButton().setDisable(true);
-                else{
+                else {
                     board.getBuyCardYesButton().setDisable(false);
                 }
 
@@ -59,72 +59,79 @@ public class Human extends Player {
         }
     }
 
-    public void giveAwayOnPledge(Board board) {
+    public void checkAndDoActions(Board board) {
 
-            for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-                if (entry.getValue().getCard() instanceof BuyableCard){
-                    entry.getValue().getRectangle().setOnMouseClicked(x -> {
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (entry.getValue().getCard() instanceof BuyableCard) {
+                entry.getValue().getRectangle().setOnMouseClicked(x -> {
 
-                        BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
-                        CityCard cityCard;
+                    BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+                    CityCard cityCard;
 
-                        if(buyableCard instanceof CityCard) {
+                    // GIVE AWAY TO PLEDGE
+                    if (board.getActionButton1().getFill().equals(Color.YELLOW)) {
+                        if (buyableCard instanceof CityCard) {
                             cityCard = (CityCard) buyableCard;
 
-                            if (!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && board.getActionButton1().getFill().equals(Color.YELLOW) && cityCard.getNumberOfBuildings() == 0)
+                            if (!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && cityCard.getNumberOfBuildings() == 0)
                                 doPledge(board, buyableCard);
 
-                        }
-                        else if(!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && board.getActionButton1().getFill().equals(Color.YELLOW))
+                        } else if (!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()))
                             doPledge(board, buyableCard);
-
-
-
-                    });
+                    // PURCHASE FROM PLEDGE
                     }
-                }
-            }
-
-
-            private void doPledge(Board board, BuyableCard buyableCard){
-                buyableCard.setPledgeAndBuildingsIndicator(board.getPledgeImage());
-                buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
-                addCash(buyableCard.getFieldCost());
-                board.putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
-                buyableCard.setOnPledge(true);
-
-                updateCashLabels(board);
-            }
-
-            public void purchaseFromPledge(Board board){
-                for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-                    if (entry.getValue().getCard() instanceof BuyableCard){
-                        entry.getValue().getRectangle().setOnMouseClicked(x -> {
-
-                            BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
-
-                            if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && board.getActionButton2().getFill().equals(Color.YELLOW)){
-                                buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-                                substractCash(buyableCard.getFieldCost());
-                                board.putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
-                                buyableCard.setOnPledge(false);
-
-                                updateCashLabels(board);
-                            }
-                        });
+                    else if (board.getActionButton2().getFill().equals(Color.YELLOW)) {
+                        purchaseFromPledge(board, buyableCard);
                     }
-                }
-            }
+                    // BUY A BUILDING
+                    else if(board.getActionButton3().getFill().equals(Color.YELLOW)){
+                        if(buyableCard instanceof CityCard){
 
-            private void updateCashLabels(Board board){
-                switch (getPlayerColor()) {
-                    case "red":
-                        board.setPlayerRedLabel(getCash());
-                        break;
-                    case "blue":
-                        board.setPlayerBlueLabel(getCash());
-                        break;
-                }
+                        }
+                    }
+
+
+                });
             }
+        }
+    }
+
+    private void checkIfPlayerCanBuildOnField(){
+
+    }
+
+
+    private void doPledge(Board board, BuyableCard buyableCard) {
+        buyableCard.setPledgeAndBuildingsIndicator(board.getPledgeImage());
+        buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
+        addCash(buyableCard.getFieldCost());
+        board.putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+        buyableCard.setOnPledge(true);
+
+        updateCashLabels(board);
+    }
+
+    private void purchaseFromPledge(Board board, BuyableCard buyableCard) {
+        if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor())) {
+            buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+            substractCash(buyableCard.getFieldCost());
+            board.putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+            buyableCard.setOnPledge(false);
+
+            updateCashLabels(board);
+        }
+
+    }
+
+    private void updateCashLabels(Board board) {
+        switch (getPlayerColor()) {
+            case "red":
+                board.setPlayerRedLabel(getCash());
+                break;
+            case "blue":
+                board.setPlayerBlueLabel(getCash());
+                break;
+        }
+    }
 
 }

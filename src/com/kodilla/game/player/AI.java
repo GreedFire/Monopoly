@@ -10,11 +10,7 @@ public class AI extends Player {
         super(playerPositionX, playerPositionY, playerColor);
     }
 
-    public void giveAwayOnPledge(Board board){
-
-    }
-
-    public void purchaseFromPledge(Board board){
+    public void checkAndDoActions(Board board){
 
     }
 

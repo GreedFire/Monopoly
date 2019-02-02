@@ -39,8 +39,7 @@ public abstract class Player {
         }
     }
 
-    public abstract void giveAwayOnPledge(Board board);
-    public abstract void purchaseFromPledge(Board board);
+    public abstract void checkAndDoActions(Board board);
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board
