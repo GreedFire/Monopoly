@@ -21,10 +21,12 @@ public abstract class Player {
 
         pawn = new Circle(getPlayerPositionX(), getPlayerPositionY(), 10);
         pawn.setStroke(Color.BLACK);
+        pawn.setDisable(true);
 
         pawnAfterImage = new Circle(getPlayerPositionX(), getPlayerPositionY(), 10);
         pawnAfterImage.setStroke(Color.BLACK);
         pawnAfterImage.setOpacity(0.35);
+        pawnAfterImage.setDisable(true);
 
         if("red".equals(playerColor)) {
             pawn.setFill(Color.RED);
@@ -38,6 +40,7 @@ public abstract class Player {
     }
 
     public abstract void giveAwayOnPledge(Board board);
+    public abstract void purchaseFromPledge(Board board);
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board

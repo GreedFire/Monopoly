@@ -25,7 +25,7 @@ class GameControl {
     GameControl(){
        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.setPlayerRedLabel(redPlayer.getCash());
-       bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+       bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
         board.setPlayerBlueLabel(bluePlayer.getCash());
 
     }
@@ -40,8 +40,9 @@ class GameControl {
     }
 
     private void playersTurns(Player player){
-        board.getDiceRollBtn().setVisible(true);
         player.setPlayerTurn(true);
+        board.getDiceRollBtn().setVisible(true);
+
             if(player instanceof Human) {
                 board.getDiceRollBtn().setOnMouseClicked(e -> {
 
@@ -71,11 +72,13 @@ class GameControl {
     }
 
     private void playerActions(Player player){
+        player.giveAwayOnPledge(board);
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
         payFee(player);
         player.giveAwayOnPledge(board);
+        player.purchaseFromPledge(board);
 
         checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);

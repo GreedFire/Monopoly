@@ -11,8 +11,7 @@ public class BuyableCard extends Card {
     private final int fieldCost;
     private String belongsTo = "nobody";
     private Rectangle belongsIndicator;
-    private Image pledge = new Image("file:resources/pledge.png");
-    private ImageView pledgeAndBuildingsIndicator = new ImageView(pledge);
+    private ImageView pledgeAndBuildingsIndicator = new ImageView(new Image("file:resources/pledge.png"));
 
     private boolean onPledge = false;
 
@@ -63,7 +62,7 @@ public class BuyableCard extends Card {
         return pledgeAndBuildingsIndicator;
     }
 
-    public void setPledgeAndBuildingsIndicator(ImageView pledgeAndBuildingsIndicator) {
-        this.pledgeAndBuildingsIndicator = pledgeAndBuildingsIndicator;
+    public void setPledgeAndBuildingsIndicator(Image image) {
+        this.pledgeAndBuildingsIndicator.setImage(image);
     }
 }

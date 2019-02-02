@@ -79,6 +79,8 @@ public class Board {
 
         prepareBelongsToIndicators();
 
+
+
     }
 
     private void prepareBuyCardLayout(){
@@ -140,9 +142,13 @@ public class Board {
 
         // Creating text for action buttons
         Text actionText1 = new Text("give away on pledge");
+            actionText1.setDisable(true);
         Text actionText2 = new Text("purchase from pledge");
+            actionText2.setDisable(true);
         Text actionText3 = new Text("buy a building");
+            actionText3.setDisable(true);
         Text actionText4 = new Text("sell a building");
+            actionText4.setDisable(true);
 
         // Putting buttons and text as one object
         StackPane actionButtonLayout1 = new StackPane(actionButton1, actionText1);
@@ -524,6 +530,7 @@ public class Board {
         grid.add(hbox, 9,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -532,6 +539,7 @@ public class Board {
         grid.add(hbox, 7,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -540,6 +548,7 @@ public class Board {
         grid.add(hbox, 5,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -548,6 +557,7 @@ public class Board {
         grid.add(hbox, 4,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -556,6 +566,7 @@ public class Board {
         grid.add(hbox, 2,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -564,6 +575,7 @@ public class Board {
         grid.add(hbox, 1,10);
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -572,6 +584,7 @@ public class Board {
         grid.add(vbox, 0,9);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -580,6 +593,7 @@ public class Board {
         grid.add(vbox, 0,8);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -588,6 +602,7 @@ public class Board {
         grid.add(vbox, 0,7);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -596,6 +611,7 @@ public class Board {
         grid.add(vbox, 0,6);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -604,6 +620,7 @@ public class Board {
         grid.add(vbox, 0,5);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -612,6 +629,7 @@ public class Board {
         grid.add(vbox, 0,4);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -620,6 +638,7 @@ public class Board {
         grid.add(vbox, 0,2);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -628,6 +647,7 @@ public class Board {
         grid.add(vbox, 0,1);
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -636,6 +656,7 @@ public class Board {
         grid.add(hbox, 1,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -644,6 +665,7 @@ public class Board {
         grid.add(hbox, 3,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -652,6 +674,7 @@ public class Board {
         grid.add(hbox, 4,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -660,6 +683,7 @@ public class Board {
         grid.add(hbox, 5,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -668,6 +692,7 @@ public class Board {
         grid.add(hbox, 6,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -676,6 +701,7 @@ public class Board {
         grid.add(hbox, 7,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -684,6 +710,7 @@ public class Board {
         grid.add(hbox, 8,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -692,14 +719,18 @@ public class Board {
         grid.add(hbox, 9,0);
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
+        hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+
+
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(31).getCard();
         vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
         grid.add(vbox, 10,1);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -708,6 +739,7 @@ public class Board {
         grid.add(vbox, 10,2);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -716,6 +748,7 @@ public class Board {
         grid.add(vbox, 10,4);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -724,6 +757,7 @@ public class Board {
         grid.add(vbox, 10,5);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -732,6 +766,7 @@ public class Board {
         grid.add(vbox, 10,7);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
 
@@ -740,8 +775,10 @@ public class Board {
         grid.add(vbox, 10,9);
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
+        vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+
     }
 
     private void prepareFieldsOnBoard(){
@@ -759,7 +796,7 @@ public class Board {
 
         fieldsArray.put(10, new BoardField("Nothing", 113,795,113,825,128,102));
 
-        fieldsArray.put(11, new BoardField("Card", 77,729,47,729, 128,72 ,new CityCard("City Card", "field 11", 3, 3,140,10,50,150,450,625,750,100, "purple")));
+        fieldsArray.put(11, new BoardField("Card", 77,729,47,729, 128,72 ,new CityCard("City Card", "field #11", 3, 3,140,10,50,150,450,625,750,100, "purple")));
         fieldsArray.put(12, new BoardField("Card", 77,657,47,657,128,72,new TriangleCard("Triangle Card", "field #12", 150)));
         fieldsArray.put(13, new BoardField("Card", 77,585,47,585,128,72, new CityCard("City Card", "field #13", 3, 3, 140, 10,50,150,450,625,750,100, "purple")));
         fieldsArray.put(14, new BoardField("Card",77,513,47,813,128,72 ,new CityCard("City Card", "field #14", 3,3,160,12,60,180,500,700,900,100, "purple")));

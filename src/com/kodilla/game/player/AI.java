@@ -14,6 +14,10 @@ public class AI extends Player {
 
     }
 
+    public void purchaseFromPledge(Board board){
+
+    }
+
     public void purchaseCard(Board board) {
         if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyableCard) {
             Card givenCard = board.getFieldsArray().get(getPlayerPositionNumber()).getCard();

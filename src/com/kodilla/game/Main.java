@@ -22,11 +22,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        *  pole wiezienia - Player boolean inPrison -> true -> to wielki if zapobiegający turze
-        *  maybe make Player turns bigger change with collections
+        * To fix:
+        * maybe make Player turns bigger change with collections
         *
-        *   ZASTAW NIE DZIALA
-        *
+        * To do:
+        * prison - Player boolean inPrison -> true -> to wielki if zapobiegający turze
+        *   lose conditions, main menu, adding players, trade, animations and sounds, which turn indicator(triangle)
         *
         */
         GameControl gameControl = new GameControl();
