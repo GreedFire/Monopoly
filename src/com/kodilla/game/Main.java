@@ -30,8 +30,10 @@ public class Main extends Application {
         *   lose conditions, main menu, adding players, trade, animations and sounds, which turn indicator(triangle)
         *
         *  Bugs:
-        *  sometimes player cant pay fee and probably pays when on pledge
-        *  can buy #10 field
+        *  //ToDo: hujhgu
+        *  sometimes player cant pay fee and probably pays when on pledge - czasami dwa razy trzeba sprzedac piątke wiec pewnie liczba przekracza 5 budynkow i dlatego nie pobiera oplaty
+        *
+        *
         *
         */
         GameControl gameControl = new GameControl();

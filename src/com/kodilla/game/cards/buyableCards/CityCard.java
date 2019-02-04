@@ -4,7 +4,6 @@ import com.kodilla.game.cards.BuyableCard;
 
 public class CityCard extends BuyableCard {
     private final int numberOfCountry;
-    private final int neededCardsFromGroupToBuild;
     private String cardColor;
     private final int buildCost;
     private final int zeroBuildingsFee;
@@ -15,11 +14,10 @@ public class CityCard extends BuyableCard {
     private final int fiveBuildingsFee;
     private int numberOfBuildings = 0;
 
-    public CityCard(String typeOfCard, String fieldName ,int numberOfCountry, int neededCardsFromGroupToBuild, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
+    public CityCard(String typeOfCard, String fieldName ,int numberOfCountry, int fieldCost, int zeroBuildingsFee, int oneBuildingsFee, int twoBuildingsFee,
                     int threeBuildingsFee, int fourBuildingsFee, int fiveBuildingsFee, int buildCost, String cardColor) {
         super(typeOfCard, fieldName, fieldCost);
         this.numberOfCountry = numberOfCountry;
-        this.neededCardsFromGroupToBuild = neededCardsFromGroupToBuild;
         this.zeroBuildingsFee = zeroBuildingsFee;
         this.oneBuildingsFee = oneBuildingsFee;
         this.twoBuildingsFee = twoBuildingsFee;

@@ -43,12 +43,16 @@ class GameControl {
         player.setPlayerTurn(true);
         board.getDiceRollBtn().setVisible(true);
 
+        redPlayer.getPawnAfterImage().setVisible(false);
+        bluePlayer.getPawnAfterImage().setVisible(false);
+
+
             if(player instanceof Human) {
                 board.getDiceRollBtn().setOnMouseClicked(e -> {
 
                     board.getDiceRollBtn().setVisible(false);
                     player.getPawnAfterImage().setVisible(true);
-                    bluePlayer.getPawnAfterImage().setVisible(false);
+
 
                     playerActions(player);
 
@@ -77,6 +81,7 @@ class GameControl {
         player.purchaseCard(board);
         payFee(player);
         player.checkAndDoActions(board);
+        //player.giveMeAllFields(board, redPlayer);
 
         checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);

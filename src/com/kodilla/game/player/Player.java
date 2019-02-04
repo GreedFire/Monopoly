@@ -1,14 +1,18 @@
 package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
+import com.kodilla.game.board.BoardField;
+import com.kodilla.game.cards.BuyableCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import java.util.Map;
 
 public abstract class Player {
     private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 5000;
+    private int cash = 100000;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
@@ -76,6 +80,19 @@ public abstract class Player {
         else if("blue".equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopY();
+        }
+    }
+
+    public void giveMeAllFields(Board board, Player player) {
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (board.getFieldsArray().get(entry.getKey()).getCard() instanceof BuyableCard) {
+                BuyableCard givenCard = (BuyableCard) board.getFieldsArray().get(entry.getKey()).getCard();
+
+                givenCard.setBelongsTo(player.playerColor);
+                givenCard.getBelongsIndicator().setVisible(true);
+                givenCard.setBelongsIndicatorColor();
+
+            }
         }
     }
 

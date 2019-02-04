@@ -89,7 +89,7 @@ public class Human extends Player {
                         if(buyableCard instanceof CityCard){
                             cityCard = (CityCard) buyableCard;
                             boolean canBuild = checkIfPlayerCanBuildOnField(board, cityCard);
-                            if(canBuild && cityCard.getNumberOfBuildings() <= 5 && getCash() >= cityCard.getBuildCost() && !cityCard.isOnPledge()){
+                            if(canBuild && cityCard.getNumberOfBuildings() < 5 && getCash() >= cityCard.getBuildCost() && !cityCard.isOnPledge()){
                                     substractCash(cityCard.getBuildCost());
                                     cityCard.setbuildingsPlusOne();
                                     setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
