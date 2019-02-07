@@ -12,11 +12,14 @@ public abstract class Player {
     private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 100000;
+    private int cash = 20;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
     private boolean isPlayerTurn = false;
+    private boolean inPrison = false;
+    private int inPrisonTurnCounter = 3;
+    private boolean defeated = false;
 
     Player(int playerPositionX, int playerPositionY, String playerColor) {
         this.playerPositionX = playerPositionX;
@@ -42,6 +45,39 @@ public abstract class Player {
             pawnAfterImage.setFill(Color.BLUE);
         }
     }
+
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
+
+    public boolean isDefeated() {
+        return defeated;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+    public void checkAndSetPrison(){
+        inPrisonTurnCounter--;
+        if(inPrisonTurnCounter == 0){
+            inPrison = false;
+            inPrisonTurnCounter = 3;
+        }
+    }
+
+    public boolean isInPrison() {
+        return inPrison;
+    }
+
+    public void setInPrison(boolean inPrison) {
+        this.inPrison = inPrison;
+    }
+
+    public int getInPrisonTurnCounter() {
+        return inPrisonTurnCounter;
+    }
+
 
     public abstract void checkAndDoActions(Board board);
 
@@ -72,7 +108,25 @@ public abstract class Player {
 
     }
 
-    private void setPlayersPositions(int fieldPositionNumber, Board board){
+    public void movePlayer(Board board){
+        // Getting X and Y where player can stop his pawn afterimage from board
+        setPlayersPositions(playerPositionNumber, board);
+
+        // Moving pawn afterimage
+        pawnAfterImage.setCenterX(playerPositionX);
+        pawnAfterImage.setCenterY(playerPositionY);
+
+        // Getting X and Y where player can stop his pawn afterimage from board
+        setPlayersPositions(playerPositionNumber, board);
+
+        // Moving pawn of player
+        pawn.setCenterX(getPlayerPositionX());
+        pawn.setCenterY(getPlayerPositionY());
+
+        board.putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
+    }
+
+    public void setPlayersPositions(int fieldPositionNumber, Board board){
         if("red".equals(playerColor)) {
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopY();

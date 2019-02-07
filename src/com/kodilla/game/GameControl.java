@@ -1,5 +1,6 @@
 package com.kodilla.game;
 
+import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.buyableCards.CircleCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
@@ -11,6 +12,7 @@ import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
 
+import java.util.Map;
 import java.util.Random;
 
 class GameControl {
@@ -22,71 +24,126 @@ class GameControl {
     private int firstDiceResult;
     private int secondDiceResult;
 
-    GameControl(){
-       redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
+    GameControl() {
+        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.setPlayerRedLabel(redPlayer.getCash());
-       bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+        bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
         board.setPlayerBlueLabel(bluePlayer.getCash());
-
     }
 
-    void gameFlow(){
-
-            playersTurns(redPlayer);
+    void gameFlow() {
+        playersTurns(redPlayer);
     }
 
-    void showInfo(){
+    void showInfo() {
         board.showFieldInfo();
     }
 
-    private void playersTurns(Player player){
-        player.setPlayerTurn(true);
-        board.getDiceRollBtn().setVisible(true);
+    private void playersTurns(Player player) {
 
-        redPlayer.getPawnAfterImage().setVisible(false);
-        bluePlayer.getPawnAfterImage().setVisible(false);
+        if(player.isDefeated()){
+            playersTurns(choosePlayerDependingOnTurn());
+        }else {
 
 
-            if(player instanceof Human) {
-                board.getDiceRollBtn().setOnMouseClicked(e -> {
+            if (!player.isInPrison()) {
+                player.setPlayerTurn(true);
+                board.getDiceRollBtn().setVisible(true);
 
-                    board.getDiceRollBtn().setVisible(false);
+                redPlayer.getPawnAfterImage().setVisible(false);
+                bluePlayer.getPawnAfterImage().setVisible(false);
+
+
+                if (player instanceof Human) {
+                    board.getDiceRollBtn().setOnMouseClicked(e -> {
+
+                        board.getDiceRollBtn().setVisible(false);
+                        player.getPawnAfterImage().setVisible(true);
+
+
+                        playerActions(player);
+
+
+                        if (!board.getDiceRollBtn().isVisible())
+                            board.getEndTurnBtn().setVisible(true);
+
+                    });
+
+                    board.getEndTurnBtn().setOnMouseClicked(x -> {
+                        board.getEndTurnBtn().setVisible(false);
+                        playersTurns(choosePlayerDependingOnTurn());
+                    });
+                } else if (player instanceof AI) {
                     player.getPawnAfterImage().setVisible(true);
-
 
                     playerActions(player);
 
-                    if (!board.getDiceRollBtn().isVisible())
-                        board.getEndTurnBtn().setVisible(true);
-
-                });
-
-                board.getEndTurnBtn().setOnMouseClicked(x -> {
-                    board.getEndTurnBtn().setVisible(false);
                     playersTurns(choosePlayerDependingOnTurn());
-                });
-            }
-            else if(player instanceof AI){
-                player.getPawnAfterImage().setVisible(true);
-
-                playerActions(player);
-
+                }
+            } else {
+                board.putInfoToProcess("+ " + player.getPlayerColor() + " is in prison for " + player.getInPrisonTurnCounter() + " turns");
+                player.checkAndSetPrison();
                 playersTurns(choosePlayerDependingOnTurn());
             }
+        }
     }
 
-    private void playerActions(Player player){
+    private void playerActions(Player player) {
+        checkAndSetPlayerTurnIndicator(player);
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
         payFee(player);
         player.checkAndDoActions(board);
-        //player.giveMeAllFields(board, redPlayer);
+        player.giveMeAllFields(board, bluePlayer);
+        checkIfPlayerIsInGoesToPrisonPosition(player);
 
         checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);
 
         updatePlayerCashInLabels();
+    }
+
+    private int sumPlayerProperty(Player player) {
+
+        int sumPlayerCash = player.getCash();
+
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (entry.getValue().getCard() instanceof BuyableCard) {
+                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+
+                if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.isOnPledge()) {
+                    sumPlayerCash += buyableCard.getFieldCost();
+
+                    if (buyableCard instanceof CityCard) {
+                        CityCard cityCard = (CityCard) buyableCard;
+                        sumPlayerCash += cityCard.getNumberOfBuildings() * cityCard.getBuildCost();
+                    }
+                }
+            }
+        }
+        return sumPlayerCash;
+    }
+
+
+
+    private void checkAndSetPlayerTurnIndicator(Player player){
+        board.setPlayerRedCashRectangleStrokeColorBLACK();
+        board.setPlayerBlueCashRectangleStrokeColorBLACK();
+
+        if(player.getPlayerColor().equals("red"))
+            board.setPlayerRedCashRectangleStrokeColorRED();
+        else if(player.getPlayerColor().equals("blue"))
+            board.setPlayerBlueCashRectangleStrokeColorRED();
+    }
+
+    private void checkIfPlayerIsInGoesToPrisonPosition(Player player){
+        if(player.getPlayerPositionNumber() == 30 && !player.isInPrison()){
+            player.setPlayerPositionNumber(10);
+            player.movePlayer(board);
+            board.putInfoToProcess("+ " + player.getPlayerColor() + " goes to prison for  " + player.getInPrisonTurnCounter() + " turns");
+            player.setInPrison(true);
+        }
     }
 
     private Player choosePlayerDependingOnTurn(){
@@ -218,30 +275,46 @@ class GameControl {
                     }
                 }
 
-                player.substractCash(sumOfFee);
-                switch (enemyPlayerColor) {
-                    case "red":
-                        redPlayer.addCash(sumOfFee);
-                        board.setPlayerRedLabel(redPlayer.getCash());
-                        break;
-                    case "blue":
-                        bluePlayer.addCash(sumOfFee);
-                        board.setPlayerRedLabel(bluePlayer.getCash());
-                        break;
+                if(sumOfFee <= sumPlayerProperty(player)) {
+                    player.substractCash(sumOfFee);
                 }
+                else {
+                    sumOfFee = player.getCash();
+                    deleteDefeatedPlayer(player);
+
+                }
+
+
+                    switch (enemyPlayerColor) {
+                        case "red":
+                            redPlayer.addCash(sumOfFee);
+                            board.setPlayerRedLabel(redPlayer.getCash());
+                            break;
+                        case "blue":
+                            bluePlayer.addCash(sumOfFee);
+                            board.setPlayerRedLabel(bluePlayer.getCash());
+                            break;
+                    }
+
+
+
                 if (sumOfFee != 0)
                     board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
 
-                switch (player.getPlayerColor()) {
-                    case "red":
-                        board.setPlayerRedLabel(player.getCash());
-                        break;
-                    case "blue":
-                        board.setPlayerBlueLabel(player.getCash());
-                        break;
-                }
+                updatePlayerCashInLabels();
             }
         }
+    }
+
+    private void deleteDefeatedPlayer(Player player){
+        player.setDefeated(true);
+        player.setCash(0);
+        player.getPawn().setVisible(false);
+        player.getPawnAfterImage().setVisible(false);
+
+        board.putInfoToProcess("+ #" + player.getPlayerColor() + " has been defeated");
+
+        updatePlayerCashInLabels();
     }
 
     private void useDice(){

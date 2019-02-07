@@ -22,19 +22,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        * To fix:
-        * maybe make Player turns bigger change with collections
+        *  Todo: lose conditions - check for more players and add winner text
+        *  Todo: trade
+        *  Todo: main menu
+        *  Todo: adding players
+        *  Todo: animations and sounds
         *
-        * To do:
-        * prison - Player boolean inPrison -> true -> to wielki if zapobiegający turze
-        *   lose conditions, main menu, adding players, trade, animations and sounds, which turn indicator(triangle)
-        *
-        *  Bugs:
-        *  //ToDo: hujhgu
-        *  sometimes player cant pay fee and probably pays when on pledge - czasami dwa razy trzeba sprzedac piątke wiec pewnie liczba przekracza 5 budynkow i dlatego nie pobiera oplaty
-        *
-        *
-        *
+        *  Todo: FIXES:
+        *  Todo: maybe make Player turns bigger change with collections
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);

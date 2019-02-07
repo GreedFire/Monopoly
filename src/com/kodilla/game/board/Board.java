@@ -47,6 +47,8 @@ public class Board {
 
     private Text playerRedLabel = new Text("Red: 0$");
     private Text playerBlueLabel  = new Text("Blue: 0$");
+    private Rectangle playerRedCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private Rectangle playerBlueCashRectangle = new Rectangle(100,25, Color.WHITE);
 
     private Text[] gameplayInfo = new Text[10];
 
@@ -82,6 +84,23 @@ public class Board {
 
 
     }
+
+    public void setPlayerRedCashRectangleStrokeColorRED() {
+        this.playerRedCashRectangle.setStroke(Color.RED);
+    }
+
+    public void setPlayerBlueCashRectangleStrokeColorRED() {
+        this.playerBlueCashRectangle.setStroke(Color.RED);
+    }
+
+    public void setPlayerRedCashRectangleStrokeColorBLACK() {
+        this.playerRedCashRectangle.setStroke(Color.BLACK);
+    }
+
+    public void setPlayerBlueCashRectangleStrokeColorBLACK() {
+        this.playerBlueCashRectangle.setStroke(Color.BLACK);
+    }
+
 
     private void prepareBuyCardLayout(){
 
@@ -441,10 +460,9 @@ public class Board {
     }
 
     private void preparePlayersLabels(){
-        Rectangle rec1 = new Rectangle(100,25, Color.WHITE);
-        Rectangle rec2 = new Rectangle(100,25, Color.WHITE);
-        rec1.setStroke(Color.BLACK);
-        rec2.setStroke(Color.BLACK);
+
+        playerRedCashRectangle.setStroke(Color.BLACK);
+        playerBlueCashRectangle.setStroke(Color.BLACK);
 
         Rectangle redPlayerColor = new Rectangle(10,10, Color.RED);
         redPlayerColor.setStroke(Color.BLACK);
@@ -460,8 +478,8 @@ public class Board {
         HBox.setMargin(redPlayerColor, new Insets(1,5,1,1));
         HBox.setMargin(bluePlayerColor, new Insets(1,5,1,1));
 
-        StackPane Label1 = new StackPane(rec1, hBox1);
-        StackPane Label2 = new StackPane(rec2, hBox2);
+        StackPane Label1 = new StackPane(playerRedCashRectangle, hBox1);
+        StackPane Label2 = new StackPane(playerBlueCashRectangle, hBox2);
 
         VBox playersInfoLayout = new VBox(Label1, Label2);
 
@@ -826,7 +844,7 @@ public class Board {
         fieldsArray.put(28, new BoardField("Card", 647,51,647,21,72,102, new TriangleCard("Triangle Card", "field #28", 150)));
         fieldsArray.put(29, new BoardField("Card", 719,51,719,21, 72,102,new CityCard("City Card", "field #29", 6,280,24,120,360,850,1025,1200,150, "yellow")));
 
-        fieldsArray.put(30, new BoardField("Nothing", 791,51,791,21,128,102));
+        fieldsArray.put(30, new BoardField("Prison", 791,51,791,21,128,102));
 
         fieldsArray.put(31, new BoardField("Card", 821,117,851,117,128,72, new CityCard("City Card", "field #31", 7,300,26,130,390,900,1100,1275,200, "green")));
         fieldsArray.put(32, new BoardField("Card", 821,189,851,189,128,72 , new CityCard("City Card", "field #32", 7, 300,26,130,390,900,1100,1275,200, "green")));
