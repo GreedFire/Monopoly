@@ -48,6 +48,11 @@ public class Human extends Player {
                         board.setPlayerRedLabel(getCash());
                     else if (getPlayerColor().equals("blue"))
                         board.setPlayerBlueLabel(getCash());
+                    else if (getPlayerColor().equals("green"))
+                        board.setPlayerGreenLabel(getCash());
+                    else if (getPlayerColor().equals("yellow"))
+                        board.setPlayerYellowLabel(getCash());
+
 
                 });
                 board.getBuyCardNoButton().setOnMouseClicked(e -> {
@@ -67,7 +72,7 @@ public class Human extends Player {
                 entry.getValue().getRectangle().setOnMouseClicked(x -> {
 
                     BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
-                    CityCard cityCard = null;
+                    CityCard cityCard;
 
                     // GIVE AWAY TO PLEDGE
                     if (board.getActionButton1().getFill().equals(Color.YELLOW)) {
@@ -202,6 +207,12 @@ public class Human extends Player {
                 break;
             case "blue":
                 board.setPlayerBlueLabel(getCash());
+                break;
+            case "green":
+                board.setPlayerGreenLabel(getCash());
+                break;
+            case "yellow":
+                board.setPlayerYellowLabel(getCash());
                 break;
         }
     }

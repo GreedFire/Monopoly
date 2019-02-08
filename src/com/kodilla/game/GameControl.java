@@ -12,6 +12,7 @@ import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,19 +21,66 @@ class GameControl {
     private Board board = new Board();
     private Player redPlayer;
     private Player bluePlayer;
+    private Player greenPlayer;
+    private Player yellowPlayer;
 
     private int firstDiceResult;
     private int secondDiceResult;
+    private ArrayList<Player> playersList = new ArrayList<>();
+    private int numberOfPlayers;
+    private int playerPicker = 0;
 
     GameControl() {
+
+    }
+
+    void createPlayers(){
+
         redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.setPlayerRedLabel(redPlayer.getCash());
-        bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+        playersList.add(redPlayer);
+
+        if(!board.getBluePlayerButton().getText().equals("AI"))
+            bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+        else
+            bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
         board.setPlayerBlueLabel(bluePlayer.getCash());
+        playersList.add(bluePlayer);
+
+         if(!board.getGreenPlayerButton().getText().equals("AI"))
+             greenPlayer = new Human(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
+         else if(!board.getGreenPlayerButton().getText().equals("Human"))
+             greenPlayer = new AI(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
+         if(!board.getGreenPlayerButton().getText().equals("noone")) {
+             board.setPlayerGreenLabel(greenPlayer.getCash());
+             playersList.add(greenPlayer);
+         }
+         else {
+            greenPlayer.getPawn().setVisible(false);
+            greenPlayer.setCash(0);
+         }
+
+
+         if(!board.getYellowPlayerButton().getText().equals("AI"))
+             yellowPlayer = new Human(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
+         else if(!board.getYellowPlayerButton().getText().equals("Human"))
+             yellowPlayer = new AI(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
+         if(!board.getYellowPlayerButton().getText().equals("noone")) {
+             board.setPlayerYellowLabel(yellowPlayer.getCash());
+             playersList.add(yellowPlayer);
+         }
+         else {
+             yellowPlayer.getPawn().setVisible(false);
+             yellowPlayer.setCash(0);
+         }
+
+
+        numberOfPlayers = playersList.size();
+
     }
 
     void gameFlow() {
-        playersTurns(redPlayer);
+        playersTurns(playersList.get(playerPicker));
     }
 
     void showInfo() {
@@ -40,6 +88,8 @@ class GameControl {
     }
 
     private void playersTurns(Player player) {
+
+        checkWinner();
 
         if(player.isDefeated()){
             playersTurns(choosePlayerDependingOnTurn());
@@ -52,6 +102,8 @@ class GameControl {
 
                 redPlayer.getPawnAfterImage().setVisible(false);
                 bluePlayer.getPawnAfterImage().setVisible(false);
+                greenPlayer.getPawnAfterImage().setVisible(false);
+                yellowPlayer.getPawnAfterImage().setVisible(false);
 
 
                 if (player instanceof Human) {
@@ -95,7 +147,9 @@ class GameControl {
         player.purchaseCard(board);
         payFee(player);
         player.checkAndDoActions(board);
-        player.giveMeAllFields(board, bluePlayer);
+        //CHEAT >>>>
+        player.giveMeAllFields(board, redPlayer);
+        // CHEAT ^^^^
         checkIfPlayerIsInGoesToPrisonPosition(player);
 
         checkIfPlayerIsOnTaxCard(player);
@@ -130,11 +184,17 @@ class GameControl {
     private void checkAndSetPlayerTurnIndicator(Player player){
         board.setPlayerRedCashRectangleStrokeColorBLACK();
         board.setPlayerBlueCashRectangleStrokeColorBLACK();
+        board.setPlayerGreenCashRectangleStrokeColorBLACK();
+        board.setPlayerYellowCashRectangleStrokeColorBLACK();
 
         if(player.getPlayerColor().equals("red"))
             board.setPlayerRedCashRectangleStrokeColorRED();
         else if(player.getPlayerColor().equals("blue"))
             board.setPlayerBlueCashRectangleStrokeColorRED();
+        else if(player.getPlayerColor().equals("green"))
+            board.setPlayerGreenCashRectangleStrokeColorRED();
+        else if(player.getPlayerColor().equals("yellow"))
+            board.setPlayerYellowCashRectangleStrokeColorRED();
     }
 
     private void checkIfPlayerIsInGoesToPrisonPosition(Player player){
@@ -147,23 +207,28 @@ class GameControl {
     }
 
     private Player choosePlayerDependingOnTurn(){
-        Player result = null;
-        if(redPlayer.isPlayerTurn()) {
-            redPlayer.setPlayerTurn(false);
-            bluePlayer.setPlayerTurn(true);
-            result = bluePlayer;
-        }
-        else if(bluePlayer.isPlayerTurn()) {
-            redPlayer.setPlayerTurn(true);
-            bluePlayer.setPlayerTurn(false);
-            result = redPlayer;
-        }
-        return result;
+        playersList.get(0).setPlayerTurn(false);
+        playersList.get(1).setPlayerTurn(false);
+        if(playersList.size() > 2)
+        playersList.get(2).setPlayerTurn(false);
+        if(playersList.size() > 3)
+        playersList.get(3).setPlayerTurn(false);
+
+        playerPicker++;
+        if(playerPicker == numberOfPlayers)
+            playerPicker = 0;
+
+        playersList.get(playerPicker).setPlayerTurn(true);
+
+        return playersList.get(playerPicker);
+
     }
 
     private void updatePlayerCashInLabels(){
         board.setPlayerRedLabel(redPlayer.getCash());
         board.setPlayerBlueLabel(bluePlayer.getCash());
+        board.setPlayerGreenLabel(greenPlayer.getCash());
+        board.setPlayerYellowLabel(yellowPlayer.getCash());
     }
 
     private void checkIfPlayerIsOnTaxCard(Player player){
@@ -294,6 +359,14 @@ class GameControl {
                             bluePlayer.addCash(sumOfFee);
                             board.setPlayerRedLabel(bluePlayer.getCash());
                             break;
+                        case "green":
+                            greenPlayer.addCash(sumOfFee);
+                            board.setPlayerRedLabel(greenPlayer.getCash());
+                            break;
+                        case "yellow":
+                            greenPlayer.addCash(sumOfFee);
+                            board.setPlayerRedLabel(greenPlayer.getCash());
+                            break;
                     }
 
 
@@ -315,6 +388,24 @@ class GameControl {
         board.putInfoToProcess("+ #" + player.getPlayerColor() + " has been defeated");
 
         updatePlayerCashInLabels();
+    }
+
+    private void checkWinner(){
+        int countDefeatedPlayers = 0;
+        Player winner = null;
+        for(Player x : playersList){
+            if(x.isDefeated())
+                countDefeatedPlayers++;
+            else
+                winner = x;
+        }
+
+        if(countDefeatedPlayers == playersList.size()-1) {
+            board.getDiceRollBtn().setDisable(true);
+            board.getEndTurnBtn().setDisable(true);
+            for(int i = 0; i<10; i++)
+                board.putInfoToProcess("+ #" + winner.getPlayerColor() + " IS A WINNER!!!");
+        }
     }
 
     private void useDice(){
@@ -360,6 +451,14 @@ class GameControl {
 
     Player getBlue() {
         return bluePlayer;
+    }
+
+    Player getGreen() {
+        return greenPlayer;
+    }
+
+    Player getYellow() {
+        return yellowPlayer;
     }
 
     Board getBoard() {

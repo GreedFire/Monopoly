@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
@@ -22,14 +24,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        *  Todo: lose conditions - check for more players and add winner text
+        *  Todo: lose conditions - when on Tax or Event Card
         *  Todo: trade
-        *  Todo: main menu
-        *  Todo: adding players
         *  Todo: animations and sounds
-        *
-        *  Todo: FIXES:
-        *  Todo: maybe make Player turns bigger change with collections
+        *  Todo: AI actions
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
@@ -38,21 +36,39 @@ public class Main extends Application {
         Group root = new Group();
 
         GridPane grid = gameControl.getBoard().getGrid();
+        GridPane menu = gameControl.getBoard().getMenuGrid();
         grid.setGridLinesVisible(false);
 
         gameControl.showInfo();
 
-        gameControl.gameFlow();
+        gameControl.getBoard().getStartButton().setOnMouseClicked(e -> {
+
+            gameControl.getBoard().setThingsOnStartButtonClicked();
+            gameControl.createPlayers();
+            gameControl.gameFlow();
+
+            root.getChildren().add(gameControl.getRed().getPawn());
+            root.getChildren().add(gameControl.getRed().getPawnAfterImage());
+            root.getChildren().add(gameControl.getBlue().getPawn());
+            root.getChildren().add(gameControl.getBlue().getPawnAfterImage());
+            root.getChildren().add(gameControl.getGreen().getPawn());
+            root.getChildren().add(gameControl.getGreen().getPawnAfterImage());
+            root.getChildren().add(gameControl.getYellow().getPawn());
+            root.getChildren().add(gameControl.getYellow().getPawnAfterImage());
+        });
+
+
+
+
+
+
 
         //-------------------------------------------------------------------------------------
 
         root.getChildren().add(imageView);
         root.getChildren().add(grid);
-        root.getChildren().add(gameControl.getRed().getPawn());
-        root.getChildren().add(gameControl.getRed().getPawnAfterImage());
-        root.getChildren().add(gameControl.getBlue().getPawn());
-        root.getChildren().add(gameControl.getBlue().getPawnAfterImage());
 
+        root.getChildren().add(menu);
 
         Scene scene = new Scene(root, 898, 847);
 

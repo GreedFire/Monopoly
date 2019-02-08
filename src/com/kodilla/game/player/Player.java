@@ -12,7 +12,7 @@ public abstract class Player {
     private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 20;
+    private int cash = 15000;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
@@ -43,6 +43,14 @@ public abstract class Player {
         else if("blue".equals(playerColor)) {
             pawn.setFill(Color.BLUE);
             pawnAfterImage.setFill(Color.BLUE);
+        }
+        else if("green".equals(playerColor)) {
+            pawn.setFill(Color.GREEN);
+            pawnAfterImage.setFill(Color.GREEN);
+        }
+        else if("yellow".equals(playerColor)) {
+            pawn.setFill(Color.YELLOW);
+            pawnAfterImage.setFill(Color.YELLOW);
         }
     }
 
@@ -134,6 +142,14 @@ public abstract class Player {
         else if("blue".equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopY();
+        }
+        else if("green".equals(playerColor)){
+            playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getGreenPlayerStopX();
+            playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getGreenPlayerStopY();
+        }
+        else if("yellow".equals(playerColor)){
+            playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getYellowPlayerStopX();
+            playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getYellowPlayerStopY();
         }
     }
 

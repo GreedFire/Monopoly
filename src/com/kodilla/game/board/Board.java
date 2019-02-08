@@ -18,12 +18,15 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
     private HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
     private GridPane grid = new GridPane();
+    private GridPane menuGrid = new GridPane();
     private Button diceRollBtn = new Button("Roll");
     private Button endTurnBtn = new Button("Turn end");
 
@@ -47,8 +50,12 @@ public class Board {
 
     private Text playerRedLabel = new Text("Red: 0$");
     private Text playerBlueLabel  = new Text("Blue: 0$");
+    private Text playerGreenLabel  = new Text("Green: 0$");
+    private Text playerYellowLabel  = new Text("Yellow: 0$");
     private Rectangle playerRedCashRectangle = new Rectangle(100,25, Color.WHITE);
     private Rectangle playerBlueCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private Rectangle playerGreenCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private Rectangle playerYellowCashRectangle = new Rectangle(100,25, Color.WHITE);
 
     private Text[] gameplayInfo = new Text[10];
 
@@ -61,7 +68,53 @@ public class Board {
     private Button buyCardYesButton = new Button("yes");
     private Button buyCardNoButton = new Button("no");
 
+    private int playerPickerTextOne = 0;
+    private int playerPickerTextTwo = 0;
+    private Button redPlayerButton = new Button("Human");
+    private Button bluePlayerButton = new Button("AI");
+    private Button greenPlayerButton = new Button("noone");
+    private Button yellowPlayerButton = new Button("noone");
+    private Button startButton = new Button("START");
+
+    public Button getRedPlayerButton() {
+        return redPlayerButton;
+    }
+
+    public Button getBluePlayerButton() {
+        return bluePlayerButton;
+    }
+
+    public Button getGreenPlayerButton() {
+        return greenPlayerButton;
+    }
+
+    public Button getYellowPlayerButton() {
+        return yellowPlayerButton;
+    }
+
+    public Button getStartButton() {
+        return startButton;
+    }
+
+    public GridPane getMenuGrid() {
+        return menuGrid;
+    }
+
+    private void setPlayerPickerTextOne() {
+        playerPickerTextOne++;
+        if(playerPickerTextOne == 2)
+            playerPickerTextOne = 0;
+    }
+
+    private void setPlayerPickerTextTwo() {
+        playerPickerTextTwo++;
+        if(playerPickerTextTwo == 3)
+            playerPickerTextTwo = 0;
+    }
+
     public Board(){
+
+        prepareMainMenu();
 
         prepareFieldsOnBoard();
 
@@ -81,8 +134,88 @@ public class Board {
 
         prepareBelongsToIndicators();
 
+    }
+    private void prepareMainMenu(){
+        // Making background
+        Rectangle menuBackground = new Rectangle(0,0,893,842);
+        menuBackground.setFill(Color.WHITE);
+        menuBackground.setStroke(Color.BLACK);
+        menuBackground.setStrokeWidth(5);
+
+        // Making PLAY button
+        Rectangle playButton = new Rectangle(50,25, Color.WHITE);
+        playButton.setStroke(Color.BLACK);
+        Text playButtonText = new Text("PLAY");
+        playButtonText.setDisable(true);
+        StackPane playButtonLayout = new StackPane(playButton, playButtonText);
+
+        // Vertical list of buttons
+        VBox menuLayout = new VBox(playButtonLayout);
 
 
+
+        //--------------------------------------------------------------------------------
+
+        ArrayList<String> secondPlayerButtonStringList = new ArrayList<>();
+        secondPlayerButtonStringList.add("Human");
+        secondPlayerButtonStringList.add("AI");
+
+        ArrayList<String> otherPlayersButtonStringList = new ArrayList<>();
+        otherPlayersButtonStringList.add("Human");
+        otherPlayersButtonStringList.add("AI");
+        otherPlayersButtonStringList.add("noone");
+
+        redPlayerButton.setTextFill(Color.RED);
+        redPlayerButton.setDisable(true);
+
+        bluePlayerButton.setTextFill(Color.BLUE);
+        bluePlayerButton.setOnMouseClicked(e -> {
+            bluePlayerButton.setText(secondPlayerButtonStringList.get(playerPickerTextOne));
+            setPlayerPickerTextOne();
+        });
+
+
+        greenPlayerButton.setTextFill(Color.GREEN);
+        greenPlayerButton.setOnMouseClicked(e -> {
+            greenPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
+            setPlayerPickerTextTwo();
+        });
+
+
+        yellowPlayerButton.setTextFill(Color.YELLOW);
+        yellowPlayerButton.setOnMouseClicked(e -> {
+            yellowPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
+            setPlayerPickerTextTwo();
+        });
+
+
+
+        HBox playersPickerLayout = new HBox(redPlayerButton, bluePlayerButton, greenPlayerButton, yellowPlayerButton);
+        HBox.setMargin(redPlayerButton, new Insets(0,10,0,0));
+        HBox.setMargin(bluePlayerButton, new Insets(0,10,0,0));
+        HBox.setMargin(greenPlayerButton, new Insets(0,10,0,0));
+        HBox.setMargin(yellowPlayerButton, new Insets(0,0,0,0));
+
+        VBox vbox = new VBox(playersPickerLayout, startButton);
+        vbox.setVisible(false);
+        VBox.setMargin(startButton, new Insets(10,0,0,70));
+
+
+        menuGrid.getChildren().addAll(menuBackground, menuLayout, vbox);
+
+        GridPane.setMargin(menuLayout, new Insets(300,0,0,0));
+        GridPane.setMargin(vbox, new Insets(300,0,0,350));
+
+        playButtonLayout.setOnMouseClicked(e -> {
+            playButtonLayout.setVisible(false);
+            vbox.setVisible(true);
+        });
+
+    }
+
+    public void setThingsOnStartButtonClicked(){
+        menuGrid.setVisible(false);
+        menuGrid.setDisable(true);
     }
 
     public void setPlayerRedCashRectangleStrokeColorRED() {
@@ -93,12 +226,28 @@ public class Board {
         this.playerBlueCashRectangle.setStroke(Color.RED);
     }
 
+    public void setPlayerGreenCashRectangleStrokeColorRED() {
+        this.playerGreenCashRectangle.setStroke(Color.RED);
+    }
+
+    public void setPlayerYellowCashRectangleStrokeColorRED() {
+        this.playerYellowCashRectangle.setStroke(Color.RED);
+    }
+
     public void setPlayerRedCashRectangleStrokeColorBLACK() {
         this.playerRedCashRectangle.setStroke(Color.BLACK);
     }
 
     public void setPlayerBlueCashRectangleStrokeColorBLACK() {
         this.playerBlueCashRectangle.setStroke(Color.BLACK);
+    }
+
+    public void setPlayerGreenCashRectangleStrokeColorBLACK() {
+        this.playerGreenCashRectangle.setStroke(Color.BLACK);
+    }
+
+    public void setPlayerYellowCashRectangleStrokeColorBLACK() {
+        this.playerYellowCashRectangle.setStroke(Color.BLACK);
     }
 
 
@@ -463,28 +612,44 @@ public class Board {
 
         playerRedCashRectangle.setStroke(Color.BLACK);
         playerBlueCashRectangle.setStroke(Color.BLACK);
+        playerGreenCashRectangle.setStroke(Color.BLACK);
+        playerYellowCashRectangle.setStroke(Color.BLACK);
 
         Rectangle redPlayerColor = new Rectangle(10,10, Color.RED);
         redPlayerColor.setStroke(Color.BLACK);
         Rectangle bluePlayerColor = new Rectangle(10,10, Color.BLUE);
-        redPlayerColor.setStroke(Color.BLACK);
+        bluePlayerColor.setStroke(Color.BLACK);
+        Rectangle greenPlayerColor = new Rectangle(10,10, Color.GREEN);
+        greenPlayerColor.setStroke(Color.BLACK);
+        Rectangle yellowPlayerColor = new Rectangle(10,10, Color.YELLOW);
+        yellowPlayerColor.setStroke(Color.BLACK);
 
         HBox hBox1 = new HBox(redPlayerColor, playerRedLabel);
         HBox hBox2 = new HBox(bluePlayerColor, playerBlueLabel);
+        HBox hBox3 = new HBox(greenPlayerColor, playerGreenLabel);
+        HBox hBox4 = new HBox(yellowPlayerColor, playerYellowLabel);
 
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
+        hBox3.setAlignment(Pos.CENTER);
+        hBox4.setAlignment(Pos.CENTER);
 
         HBox.setMargin(redPlayerColor, new Insets(1,5,1,1));
         HBox.setMargin(bluePlayerColor, new Insets(1,5,1,1));
+        HBox.setMargin(greenPlayerColor, new Insets(1,5,1,1));
+        HBox.setMargin(yellowPlayerColor, new Insets(1,5,1,1));
 
         StackPane Label1 = new StackPane(playerRedCashRectangle, hBox1);
         StackPane Label2 = new StackPane(playerBlueCashRectangle, hBox2);
+        StackPane Label3 = new StackPane(playerGreenCashRectangle, hBox3);
+        StackPane Label4 = new StackPane(playerYellowCashRectangle, hBox4);
 
-        VBox playersInfoLayout = new VBox(Label1, Label2);
+        VBox playersInfoLayout = new VBox(Label1, Label2, Label3, Label4);
 
         VBox.setMargin(Label1, new Insets(1,1,1,30));
         VBox.setMargin(Label2, new Insets(1,1,1,30));
+        VBox.setMargin(Label3, new Insets(1,1,1,30));
+        VBox.setMargin(Label4, new Insets(1,1,1,30));
         grid.add(playersInfoLayout, 1,8);
     }
 
@@ -808,53 +973,55 @@ public class Board {
     }
 
     private void prepareFieldsOnBoard(){
-        fieldsArray.put(0, new BoardField("Nothing", 881, 795, 881, 825, 128, 102));
 
-        fieldsArray.put(1, new BoardField("Card", 755, 795, 755, 825, 72, 102, new CityCard("City Card", "field #1", 1, 60,2, 10, 30, 90, 160, 250, 50, "gray")));
-        fieldsArray.put(2, new BoardField("Event Card", 683, 795, 683 ,825, 72, 102, new EventCard("Event Card")));
-        fieldsArray.put(3, new BoardField("Card", 612, 795, 612, 825,72, 102, new CityCard("City Card", "field #3", 1, 60, 4, 20, 60, 180, 320, 450, 50, "gray")));
-        fieldsArray.put(4, new BoardField("Tax Card", 541,795,541,825,72,102, new TaxCard("Tax Card")));
-        fieldsArray.put(5, new BoardField("Card", 469, 795, 469, 825,72,102, new CircleCard("Circle Card", "field #5", 200)));
-        fieldsArray.put(6, new BoardField("Card", 398, 795, 398,825,72,102 ,new CityCard("City Card", "field #6", 2, 100,6,30,90,270,400,550,50, "teal")));
-        fieldsArray.put(7, new BoardField("Event Card", 327,795,327,825,72, 102, new EventCard("Event Card")));
-        fieldsArray.put(8, new BoardField("Card", 255,795,255,825,72,102 ,new CityCard("City Card", "field #8", 2, 100, 6,30, 90, 270, 400, 550, 50, "teal")));
-        fieldsArray.put(9, new BoardField("Card", 184, 795, 184 ,825,72,102 ,new CityCard("City Card", "field #9", 2, 120, 8, 40, 100, 300, 450, 600, 50, "teal")));
+        fieldsArray.put(0, new BoardField("Nothing", 881, 795, 881, 825,841,795,841,825,128, 102));
 
-        fieldsArray.put(10, new BoardField("Nothing", 113,795,113,825,128,102));
+        fieldsArray.put(1, new BoardField("Card", 755, 795, 755, 825, 715,795,715,825, 72, 102, new CityCard("City Card", "field #1", 1, 60,2, 10, 30, 90, 160, 250, 50, "gray")));
+        fieldsArray.put(2, new BoardField("Event Card", 683, 795, 683 ,825,643,795,643,825, 72, 102, new EventCard("Event Card")));
+        fieldsArray.put(3, new BoardField("Card", 612, 795, 612, 825,572,795,572,825,72, 102, new CityCard("City Card", "field #3", 1, 60, 4, 20, 60, 180, 320, 450, 50, "gray")));
+        fieldsArray.put(4, new BoardField("Tax Card", 541,795,541,825,501,795,501,825,72,102, new TaxCard("Tax Card")));
+        fieldsArray.put(5, new BoardField("Card", 469, 795, 469, 825,429,795,429,825,72,102, new CircleCard("Circle Card", "field #5", 200)));
+        fieldsArray.put(6, new BoardField("Card", 398, 795, 398,825,358,795,358,825,72,102 ,new CityCard("City Card", "field #6", 2, 100,6,30,90,270,400,550,50, "teal")));
+        fieldsArray.put(7, new BoardField("Event Card", 327,795,327,825,387,795,387,825,72, 102, new EventCard("Event Card")));
+        fieldsArray.put(8, new BoardField("Card", 255,795,255,825,215,795,215,825,72,102 ,new CityCard("City Card", "field #8", 2, 100, 6,30, 90, 270, 400, 550, 50, "teal")));
+        fieldsArray.put(9, new BoardField("Card", 184, 795, 184 ,825,144,795,144,825,72,102 ,new CityCard("City Card", "field #9", 2, 120, 8, 40, 100, 300, 450, 600, 50, "teal")));
 
-        fieldsArray.put(11, new BoardField("Card", 77,729,47,729, 128,72 ,new CityCard("City Card", "field #11", 3,140,10,50,150,450,625,750,100, "purple")));
-        fieldsArray.put(12, new BoardField("Card", 77,657,47,657,128,72,new TriangleCard("Triangle Card", "field #12", 150)));
-        fieldsArray.put(13, new BoardField("Card", 77,585,47,585,128,72, new CityCard("City Card", "field #13", 3, 140, 10,50,150,450,625,750,100, "purple")));
-        fieldsArray.put(14, new BoardField("Card",77,513,47,513,128,72 ,new CityCard("City Card", "field #14", 3,160,12,60,180,500,700,900,100, "purple")));
-        fieldsArray.put(15, new BoardField("Card",77,441,47,441,128,72, new CircleCard("Circle Card", "field #15", 200)));
-        fieldsArray.put(16, new BoardField("Card", 77,369,47,369,128,72 ,new CityCard("City Card", "field #16", 4, 180,14,70,200,550,750,950,100, "orange")));
-        fieldsArray.put(17, new BoardField("Event Card", 77,297,47,297,128,72, new EventCard("Event Card")));
-        fieldsArray.put(18, new BoardField("Card", 77,225,47,225,128,72 ,new CityCard("City Card", "field #18", 4,  180,14,70,200,550,750,950,100, "orange")));
-        fieldsArray.put(19, new BoardField("Card", 77,153,47,153,128,72 ,new CityCard("City Card", "field #19", 4, 200,16,80,220,600,800,1000,100, "orange")));
+        fieldsArray.put(10, new BoardField("Nothing", 113,795,113,825,73,795,73,825,128,102));
 
-        fieldsArray.put(20, new BoardField("Nothing", 77,81,47,81,128,102));
+        fieldsArray.put(11, new BoardField("Card", 77,729,47,729,77,689,47,689, 128,72 ,new CityCard("City Card", "field #11", 3,140,10,50,150,450,625,750,100, "purple")));
+        fieldsArray.put(12, new BoardField("Card", 77,657,47,657,77,647,47,647,128,72,new TriangleCard("Triangle Card", "field #12", 150)));
+        fieldsArray.put(13, new BoardField("Card", 77,585,47,585,77,545,47,545,128,72, new CityCard("City Card", "field #13", 3, 140, 10,50,150,450,625,750,100, "purple")));
+        fieldsArray.put(14, new BoardField("Card",77,513,47,513,77,473,47,473,128,72 ,new CityCard("City Card", "field #14", 3,160,12,60,180,500,700,900,100, "purple")));
+        fieldsArray.put(15, new BoardField("Card",77,441,47,441,77,401,47,401,128,72, new CircleCard("Circle Card", "field #15", 200)));
+        fieldsArray.put(16, new BoardField("Card", 77,369,47,369,77,329,47,329,128,72 ,new CityCard("City Card", "field #16", 4, 180,14,70,200,550,750,950,100, "orange")));
+        fieldsArray.put(17, new BoardField("Event Card", 77,297,47,297,77,257,47,257,128,72, new EventCard("Event Card")));
+        fieldsArray.put(18, new BoardField("Card", 77,225,47,225,77,185,47,185,128,72 ,new CityCard("City Card", "field #18", 4,  180,14,70,200,550,750,950,100, "orange")));
+        fieldsArray.put(19, new BoardField("Card", 77,153,47,153,77,113,47,113,128,72 ,new CityCard("City Card", "field #19", 4, 200,16,80,220,600,800,1000,100, "orange")));
 
-        fieldsArray.put(21, new BoardField("Card", 143,51,143,21,72,102, new CityCard("City Card,", "field #21", 5,220,18,90,250,700,875,1050,150, "red")));
-        fieldsArray.put(22, new BoardField("Event Card", 215,51,215,21,72,102, new EventCard("Event Card")));
-        fieldsArray.put(23, new BoardField("Card", 287,51,287,21,72,102 ,new CityCard("City Card", "field #23", 5, 220,18,90,250,700,875,1050,150, "red")));
-        fieldsArray.put(24, new BoardField("Card", 359,51,359,21, 72,102,new CityCard("City Card", "field #24", 5,240,20,100,300,750,925,1100,150, "red")));
-        fieldsArray.put(25, new BoardField("Card", 431,51,431,21,72,102, new CircleCard("Circle Card", "field #25", 200)));
-        fieldsArray.put(26, new BoardField("Card", 503,51,503,21, 72,102,new CityCard("City Card", "field #26", 6,260,22,110,330,800,975,1150,150, "yellow")));
-        fieldsArray.put(27, new BoardField("Card", 575,51,575,21,72,102, new CityCard("City Card", "field #27", 6,260,22,110,330,800,975,1150, 150, "yellow")));
-        fieldsArray.put(28, new BoardField("Card", 647,51,647,21,72,102, new TriangleCard("Triangle Card", "field #28", 150)));
-        fieldsArray.put(29, new BoardField("Card", 719,51,719,21, 72,102,new CityCard("City Card", "field #29", 6,280,24,120,360,850,1025,1200,150, "yellow")));
+        fieldsArray.put(20, new BoardField("Nothing", 77,81,47,81,77,41,47,41,128,102));
 
-        fieldsArray.put(30, new BoardField("Prison", 791,51,791,21,128,102));
+        fieldsArray.put(21, new BoardField("Card", 143,51,143,21,183,51,183,21,72,102, new CityCard("City Card,", "field #21", 5,220,18,90,250,700,875,1050,150, "red")));
+        fieldsArray.put(22, new BoardField("Event Card", 215,51,215,21,175,51,175,21,72,102, new EventCard("Event Card")));
+        fieldsArray.put(23, new BoardField("Card", 287,51,287,21,327,51,327,21,72,102 ,new CityCard("City Card", "field #23", 5, 220,18,90,250,700,875,1050,150, "red")));
+        fieldsArray.put(24, new BoardField("Card", 359,51,359,21,399,51,399,21, 72,102,new CityCard("City Card", "field #24", 5,240,20,100,300,750,925,1100,150, "red")));
+        fieldsArray.put(25, new BoardField("Card", 431,51,431,21,471,51,471,21,72,102, new CircleCard("Circle Card", "field #25", 200)));
+        fieldsArray.put(26, new BoardField("Card", 503,51,503,21,543,51,543,21, 72,102,new CityCard("City Card", "field #26", 6,260,22,110,330,800,975,1150,150, "yellow")));
+        fieldsArray.put(27, new BoardField("Card", 575,51,575,21,615,51,615,21,72,102, new CityCard("City Card", "field #27", 6,260,22,110,330,800,975,1150, 150, "yellow")));
+        fieldsArray.put(28, new BoardField("Card", 647,51,647,21,687,51,687,21,72,102, new TriangleCard("Triangle Card", "field #28", 150)));
+        fieldsArray.put(29, new BoardField("Card", 719,51,719,21,759,51,759,21, 72,102,new CityCard("City Card", "field #29", 6,280,24,120,360,850,1025,1200,150, "yellow")));
 
-        fieldsArray.put(31, new BoardField("Card", 821,117,851,117,128,72, new CityCard("City Card", "field #31", 7,300,26,130,390,900,1100,1275,200, "green")));
-        fieldsArray.put(32, new BoardField("Card", 821,189,851,189,128,72 , new CityCard("City Card", "field #32", 7, 300,26,130,390,900,1100,1275,200, "green")));
-        fieldsArray.put(33, new BoardField("Event Card", 821,261,851,261,128,72, new EventCard("Event Card")));
-        fieldsArray.put(34, new BoardField("Card", 821,333,851,333, 128,72, new CityCard("City Card", "field #34", 7,320,28,150,450,1000,1200,1400,200, "green" )));
-        fieldsArray.put(35, new BoardField("Card", 821,405,851,405,128,72, new CircleCard("Circle Card", "field #35", 200)));
-        fieldsArray.put(36, new BoardField("Event Card", 821,477,851,477,128,72, new EventCard("Event Card")));
-        fieldsArray.put(37, new BoardField("Card", 821,549,851,549, 128,72, new CityCard("City Card", "field #37", 8,350,35,175,500,1100,1300,1500,200, "blue")));
-        fieldsArray.put(38, new BoardField("Tax Card", 821,621,851,621,128,72, new TaxCard("Tax Card")));
-        fieldsArray.put(39, new BoardField("Card", 821,693,851,693, 128,72, new CityCard("City Card", "field #39", 8,400,50,200,600,1400,1700,2000,200, "blue")));
+        fieldsArray.put(30, new BoardField("Prison", 791,51,791,21,791,51,791,21,128,102));
+
+        fieldsArray.put(31, new BoardField("Card", 821,117,851,117,821,157,851,157,128,72, new CityCard("City Card", "field #31", 7,300,26,130,390,900,1100,1275,200, "green")));
+        fieldsArray.put(32, new BoardField("Card", 821,189,851,189,821,229,851,229,128,72 , new CityCard("City Card", "field #32", 7, 300,26,130,390,900,1100,1275,200, "green")));
+        fieldsArray.put(33, new BoardField("Event Card", 821,261,851,261,821,221,851,221,128,72, new EventCard("Event Card")));
+        fieldsArray.put(34, new BoardField("Card", 821,333,851,333,821,373,851,373, 128,72, new CityCard("City Card", "field #34", 7,320,28,150,450,1000,1200,1400,200, "green" )));
+        fieldsArray.put(35, new BoardField("Card", 821,405,851,405,821,445,851,445,128,72, new CircleCard("Circle Card", "field #35", 200)));
+        fieldsArray.put(36, new BoardField("Event Card", 821,477,851,477,821,517,851,517,128,72, new EventCard("Event Card")));
+        fieldsArray.put(37, new BoardField("Card", 821,549,851,549,821,589,851,589, 128,72, new CityCard("City Card", "field #37", 8,350,35,175,500,1100,1300,1500,200, "blue")));
+        fieldsArray.put(38, new BoardField("Tax Card", 821,621,851,621,821,661,851,661,128,72, new TaxCard("Tax Card")));
+        fieldsArray.put(39, new BoardField("Card", 821,693,851,693,821,723,851,723, 128,72, new CityCard("City Card", "field #39", 8,400,50,200,600,1400,1700,2000,200, "blue")));
+
     }
 
     public HashMap<Integer, BoardField> getFieldsArray() {
@@ -911,6 +1078,14 @@ public class Board {
 
     public void setPlayerBlueLabel(int cash) {
         playerBlueLabel.setText("Blue: " + cash + "$");
+    }
+
+    public void setPlayerGreenLabel(int cash) {
+        playerGreenLabel.setText("Green: " + cash + "$");
+    }
+
+    public void setPlayerYellowLabel(int cash) {
+        playerYellowLabel.setText("Yellow: " + cash + "$");
     }
 
     public StackPane getBuyCardContentLayout() {

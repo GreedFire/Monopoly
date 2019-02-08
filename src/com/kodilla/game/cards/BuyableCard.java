@@ -48,6 +48,10 @@ public class BuyableCard extends Card {
             belongsIndicator.setFill(Color.RED);
         else if("blue".equals(belongsTo))
             belongsIndicator.setFill(Color.BLUE);
+        else if("green".equals(belongsTo))
+            belongsIndicator.setFill(Color.GREEN);
+        else if("yellow".equals(belongsTo))
+            belongsIndicator.setFill(Color.YELLOW);
     }
 
     public boolean isOnPledge() {

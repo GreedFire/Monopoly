@@ -34,6 +34,8 @@ public class AI extends Player {
                             board.setPlayerRedLabel(getCash());
                         else if (getPlayerColor().equals("blue"))
                             board.setPlayerBlueLabel(getCash());
+                        else if (getPlayerColor().equals("green"))
+                            board.setPlayerGreenLabel(getCash());
                     } else {
                         board.putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
                     }
