@@ -30,9 +30,6 @@ class GameControl {
     private int numberOfPlayers;
     private int playerPicker = 0;
 
-    GameControl() {
-
-    }
 
     void createPlayers(){
 
