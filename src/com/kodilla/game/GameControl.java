@@ -11,7 +11,6 @@ import com.kodilla.game.player.AI;
 import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -23,7 +22,6 @@ class GameControl {
     private Player bluePlayer;
     private Player greenPlayer;
     private Player yellowPlayer;
-
     private int firstDiceResult;
     private int secondDiceResult;
     private ArrayList<Player> playersList = new ArrayList<>();
@@ -32,7 +30,6 @@ class GameControl {
 
 
     void createPlayers(){
-
         redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.setPlayerRedLabel(redPlayer.getCash());
         playersList.add(redPlayer);
@@ -71,9 +68,7 @@ class GameControl {
              yellowPlayer.setCash(0);
          }
 
-
         numberOfPlayers = playersList.size();
-
     }
 
     void gameFlow() {
@@ -138,45 +133,21 @@ class GameControl {
     }
 
     private void playerActions(Player player) {
+        //CHEAT >>>>
+         //player.giveMeAllFields(board, bluePlayer);
+        // CHEAT ^^^^
+
         checkAndSetPlayerTurnIndicator(player);
+        player.checkAndDoActions(board);
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
         payFee(player);
-        player.checkAndDoActions(board);
-        //CHEAT >>>>
-        player.giveMeAllFields(board, redPlayer);
-        // CHEAT ^^^^
-        checkIfPlayerIsInGoesToPrisonPosition(player);
-
         checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);
-
+        checkIfPlayerIsInGoesToPrisonPosition(player);
         updatePlayerCashInLabels();
     }
-
-    private int sumPlayerProperty(Player player) {
-
-        int sumPlayerCash = player.getCash();
-
-        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (entry.getValue().getCard() instanceof BuyableCard) {
-                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
-
-                if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.isOnPledge()) {
-                    sumPlayerCash += buyableCard.getFieldCost();
-
-                    if (buyableCard instanceof CityCard) {
-                        CityCard cityCard = (CityCard) buyableCard;
-                        sumPlayerCash += cityCard.getNumberOfBuildings() * cityCard.getBuildCost();
-                    }
-                }
-            }
-        }
-        return sumPlayerCash;
-    }
-
-
 
     private void checkAndSetPlayerTurnIndicator(Player player){
         board.setPlayerRedCashRectangleStrokeColorBLACK();
@@ -226,17 +197,6 @@ class GameControl {
         board.setPlayerBlueLabel(bluePlayer.getCash());
         board.setPlayerGreenLabel(greenPlayer.getCash());
         board.setPlayerYellowLabel(yellowPlayer.getCash());
-    }
-
-    private void checkIfPlayerIsOnTaxCard(Player player){
-
-        if(player.getPlayerPositionNumber() == 4 || player.getPlayerPositionNumber() == 38) {
-            TaxCard tempCard = (TaxCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
-            int cashToPay = tempCard.pickAndPayTax();
-            player.substractCash(cashToPay);
-            board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
-        }
-
     }
 
     private void checkEventCard(Player player){
@@ -338,6 +298,8 @@ class GameControl {
                 }
 
                 if(sumOfFee <= sumPlayerProperty(player)) {
+                    if(player instanceof AI)
+                        ((AI) player).pledgeOrSell(board, sumOfFee);
                     player.substractCash(sumOfFee);
                 }
                 else {
@@ -374,6 +336,45 @@ class GameControl {
                 updatePlayerCashInLabels();
             }
         }
+    }
+
+    private void checkIfPlayerIsOnTaxCard(Player player){
+
+        if(player.getPlayerPositionNumber() == 4 || player.getPlayerPositionNumber() == 38) {
+            TaxCard tempCard = (TaxCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
+            int cashToPay = tempCard.pickAndPayTax();
+            if(sumPlayerProperty(player) < cashToPay)
+                deleteDefeatedPlayer(player);
+            else{
+                if(player instanceof AI)
+                    ((AI) player).pledgeOrSell(board, cashToPay);
+                player.substractCash(cashToPay);
+                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
+            }
+
+        }
+
+    }
+
+    private int sumPlayerProperty(Player player) {
+
+        int sumPlayerCash = player.getCash();
+
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (entry.getValue().getCard() instanceof BuyableCard) {
+                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+
+                if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.isOnPledge()) {
+                    sumPlayerCash += buyableCard.getFieldCost();
+
+                    if (buyableCard instanceof CityCard) {
+                        CityCard cityCard = (CityCard) buyableCard;
+                        sumPlayerCash += cityCard.getNumberOfBuildings() * cityCard.getBuildCost();
+                    }
+                }
+            }
+        }
+        return sumPlayerCash;
     }
 
     private void deleteDefeatedPlayer(Player player){
@@ -442,23 +443,23 @@ class GameControl {
     }
 
 
-    Player getRed() {
+    public Player getRed() {
         return redPlayer;
     }
 
-    Player getBlue() {
+    public Player getBlue() {
         return bluePlayer;
     }
 
-    Player getGreen() {
+    public Player getGreen() {
         return greenPlayer;
     }
 
-    Player getYellow() {
+    public Player getYellow() {
         return yellowPlayer;
     }
 
-    Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 }

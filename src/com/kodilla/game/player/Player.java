@@ -3,16 +3,18 @@ package com.kodilla.game.player;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.buyableCards.CityCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class Player {
     private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
-    private int cash = 15000;
+    private int cash = 1500;
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
@@ -54,38 +56,17 @@ public abstract class Player {
         }
     }
 
-    public void setCash(int cash) {
-        this.cash = cash;
+    protected void buyBulding(CityCard cityCard, Board board){
+            boolean canBuild = checkIfPlayerCanBuildOnField(board, cityCard);
+            if(canBuild && cityCard.getNumberOfBuildings() < 5 && getCash() >= cityCard.getBuildCost() && !cityCard.isOnPledge()) {
+                substractCash(cityCard.getBuildCost());
+                cityCard.setbuildingsPlusOne();
+                setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
+                cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
+                board.putInfoToProcess("+ #" + getPlayerColor() + " bought a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+                updateCashLabels(board);
+            }
     }
-
-    public boolean isDefeated() {
-        return defeated;
-    }
-
-    public void setDefeated(boolean defeated) {
-        this.defeated = defeated;
-    }
-
-    public void checkAndSetPrison(){
-        inPrisonTurnCounter--;
-        if(inPrisonTurnCounter == 0){
-            inPrison = false;
-            inPrisonTurnCounter = 3;
-        }
-    }
-
-    public boolean isInPrison() {
-        return inPrison;
-    }
-
-    public void setInPrison(boolean inPrison) {
-        this.inPrison = inPrison;
-    }
-
-    public int getInPrisonTurnCounter() {
-        return inPrisonTurnCounter;
-    }
-
 
     public abstract void checkAndDoActions(Board board);
 
@@ -166,6 +147,110 @@ public abstract class Player {
         }
     }
 
+    protected void doPledge(Board board, BuyableCard buyableCard) {
+        buyableCard.setPledgeAndBuildingsIndicator(board.getPledgeImage());
+        buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
+        addCash(buyableCard.getFieldCost());
+        board.putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+        buyableCard.setOnPledge(true);
+
+        updateCashLabels(board);
+    }
+
+    protected void updateCashLabels(Board board) {
+        switch (getPlayerColor()) {
+            case "red":
+                board.setPlayerRedLabel(getCash());
+                break;
+            case "blue":
+                board.setPlayerBlueLabel(getCash());
+                break;
+            case "green":
+                board.setPlayerGreenLabel(getCash());
+                break;
+            case "yellow":
+                board.setPlayerYellowLabel(getCash());
+                break;
+        }
+    }
+
+    protected void purchaseFromPledge(Board board, BuyableCard buyableCard) {
+        if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && (getCash() >= buyableCard.getFieldCost()) ) {
+            buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+            substractCash(buyableCard.getFieldCost());
+            board.putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+            buyableCard.setOnPledge(false);
+
+            updateCashLabels(board);
+        }
+
+    }
+
+    protected boolean checkIfPlayerCanBuildOnField(Board board, CityCard givenCard){
+
+        boolean result = false;
+        ArrayList<CityCard> listOfCityCards = new ArrayList<>();
+        CityCard cityCard;
+
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()){
+            if(entry.getValue().getCard() instanceof CityCard) {
+                cityCard = (CityCard) entry.getValue().getCard();
+                if(cityCard.getNumberOfCountry() == givenCard.getNumberOfCountry() && cityCard.getBelongsTo().equals(getPlayerColor()))
+                    listOfCityCards.add(cityCard);
+            }
+
+        }
+
+        int numberOfSameCards = listOfCityCards.size();
+
+        if(givenCard.getNumberOfCountry() == 1 && numberOfSameCards == 2)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 2 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 3 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 4 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 5 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 6 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 7 && numberOfSameCards == 3)
+            result = true;
+        else if(givenCard.getNumberOfCountry() == 8 && numberOfSameCards == 2)
+            result = true;
+
+        return result;
+    }
+
+    protected void setImageOfBuildings(Board board, CityCard givenCard, int numberOfBuildings){
+        switch(numberOfBuildings){
+            case 0: givenCard.setPledgeAndBuildingsIndicator(board.getZeroBuildingsImage()); break;
+            case 1: givenCard.setPledgeAndBuildingsIndicator(board.getOneBuildingImage()); break;
+            case 2: givenCard.setPledgeAndBuildingsIndicator(board.getTwoBuildingsImage()); break;
+            case 3: givenCard.setPledgeAndBuildingsIndicator(board.getThreeBuildingsImage()); break;
+            case 4: givenCard.setPledgeAndBuildingsIndicator(board.getFourBuildingsImage()); break;
+            case 5: givenCard.setPledgeAndBuildingsIndicator(board.getFiveBuildingsImage()); break;
+        }
+    }
+
+    protected void sellBuilding(CityCard cityCard, Board board){
+        addCash(cityCard.getBuildCost());
+        cityCard.setbuildingsMinusOne();
+        setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
+        cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
+        board.putInfoToProcess("+ #" + getPlayerColor() + " sold a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+        updateCashLabels(board);
+    }
+
+    public void checkAndSetPrison(){
+        inPrisonTurnCounter--;
+        if(inPrisonTurnCounter == 0){
+            inPrison = false;
+            inPrisonTurnCounter = 3;
+        }
+    }
+
     public abstract void purchaseCard(Board board);
 
     private int getPlayerPositionX() {
@@ -208,11 +293,32 @@ public abstract class Player {
         this.playerPositionNumber = fieldPositionNumber;
     }
 
-    public boolean isPlayerTurn() {
-        return isPlayerTurn;
-    }
-
     public void setPlayerTurn(boolean playerTurn) {
         isPlayerTurn = playerTurn;
     }
+
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
+
+    public boolean isDefeated() {
+        return defeated;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+    public boolean isInPrison() {
+        return inPrison;
+    }
+
+    public void setInPrison(boolean inPrison) {
+        this.inPrison = inPrison;
+    }
+
+    public int getInPrisonTurnCounter() {
+        return inPrisonTurnCounter;
+    }
+
 }

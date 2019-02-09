@@ -18,7 +18,7 @@ public class EventCard extends Card {
         int newPlayerPosition = 0;
 
         Random randGen = new Random();
-        int picker = randGen.nextInt(4);
+        int picker = randGen.nextInt(6);
 
 
         switch(picker){
@@ -48,34 +48,9 @@ public class EventCard extends Card {
                 board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 5:
-                money = 25;
-                player.substractCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays money worth " + money + "$");
-                break;
-            case 6:
-                money = 50;
-                player.substractCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays money worth " + money + "$");
-                break;
-            case 7:
-                money = 100;
-                player.substractCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays money worth " + money + "$");
-                break;
-            case 8:
-                money = 150;
-                player.substractCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays money worth " + money + "$");
-                break;
-            case 9:
-                money = 200;
-                player.substractCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays money worth " + money + "$");
-                break;
-            case 10:
                 newPlayerPosition = randGen.nextInt(40);
                 player.setPlayerPositionNumber(newPlayerPosition);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " moved to field #" + newPlayerPosition);
+                player.movePlayer(board);
                 break;
 
         }

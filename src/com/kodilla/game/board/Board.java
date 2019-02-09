@@ -47,6 +47,8 @@ public class Board {
 
     private ImageView firstDiceShow = new ImageView(dice1);
     private ImageView secondDiceShow = new ImageView(dice2);
+    private ImageView bannerView = new ImageView();
+    private ImageView authorView = new ImageView();
 
     private Text playerRedLabel = new Text("Red: 0$");
     private Text playerBlueLabel  = new Text("Blue: 0$");
@@ -76,8 +78,30 @@ public class Board {
     private Button yellowPlayerButton = new Button("noone");
     private Button startButton = new Button("START");
 
-    public Button getRedPlayerButton() {
-        return redPlayerButton;
+
+
+    public Board(){
+
+        prepareMainMenu();
+
+        prepareFieldsOnBoard();
+
+        prepareRowsAndColumnsOfGrid();
+
+        prepareGridForCardsInfoVisibility(); //ShowFieldInfo is for now in Main class
+
+        prepareDiceAndDiceButtons();
+
+        preparePlayersLabels();
+
+        prepareProcessText();
+
+        prepareTableContent();
+
+        prepareBuyCardLayout();
+
+        prepareBelongsToIndicators();
+
     }
 
     public Button getBluePlayerButton() {
@@ -112,29 +136,6 @@ public class Board {
             playerPickerTextTwo = 0;
     }
 
-    public Board(){
-
-        prepareMainMenu();
-
-        prepareFieldsOnBoard();
-
-        prepareRowsAndColumnsOfGrid();
-
-        prepareGridForCardsInfoVisibility(); //ShowFieldInfo is for now in Main class
-
-        prepareDiceAndDiceButtons();
-
-        preparePlayersLabels();
-
-        prepareProcessText();
-
-        prepareTableContent();
-
-        prepareBuyCardLayout();
-
-        prepareBelongsToIndicators();
-
-    }
     private void prepareMainMenu(){
         // Making background
         Rectangle menuBackground = new Rectangle(0,0,893,842);
@@ -142,17 +143,30 @@ public class Board {
         menuBackground.setStroke(Color.BLACK);
         menuBackground.setStrokeWidth(5);
 
+        // Monopoly BANNER
+        Image banner = new Image("file:resources/banner.png");
+        bannerView.setImage(banner);
+        bannerView.setDisable(true);
+
+        // Author
+        Image authorImage = new Image("file:resources/author.png");
+        authorView.setImage(authorImage);
+        authorView.setDisable(true);
+
         // Making PLAY button
-        Rectangle playButton = new Rectangle(50,25, Color.WHITE);
+        Rectangle playButton = new Rectangle(200,100, Color.WHITE);
         playButton.setStroke(Color.BLACK);
+        playButton.setOnMouseEntered(e -> playButton.setFill(Color.YELLOW));
+        playButton.setOnMouseExited(e -> playButton.setFill(Color.WHITE));
         Text playButtonText = new Text("PLAY");
+        playButtonText.setFont(new Font(20));
         playButtonText.setDisable(true);
         StackPane playButtonLayout = new StackPane(playButton, playButtonText);
 
         // Vertical list of buttons
-        VBox menuLayout = new VBox(playButtonLayout);
-
-
+        VBox menuLayout = new VBox(bannerView, playButtonLayout, authorView);
+        VBox.setMargin(bannerView, new Insets(0,0,100,150));
+        VBox.setMargin(authorView, new Insets(250,0,0,600));
 
         //--------------------------------------------------------------------------------
 
@@ -166,9 +180,13 @@ public class Board {
         otherPlayersButtonStringList.add("noone");
 
         redPlayerButton.setTextFill(Color.RED);
+        redPlayerButton.setPrefSize(100,50);
+        redPlayerButton.setFont(new Font(15));
         redPlayerButton.setDisable(true);
 
         bluePlayerButton.setTextFill(Color.BLUE);
+        bluePlayerButton.setPrefSize(100,50);
+        bluePlayerButton.setFont(new Font(15));
         bluePlayerButton.setOnMouseClicked(e -> {
             bluePlayerButton.setText(secondPlayerButtonStringList.get(playerPickerTextOne));
             setPlayerPickerTextOne();
@@ -176,6 +194,8 @@ public class Board {
 
 
         greenPlayerButton.setTextFill(Color.GREEN);
+        greenPlayerButton.setPrefSize(100,50);
+        greenPlayerButton.setFont(new Font(15));
         greenPlayerButton.setOnMouseClicked(e -> {
             greenPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
             setPlayerPickerTextTwo();
@@ -183,6 +203,8 @@ public class Board {
 
 
         yellowPlayerButton.setTextFill(Color.YELLOW);
+        yellowPlayerButton.setPrefSize(100,50);
+        yellowPlayerButton.setFont(new Font(15));
         yellowPlayerButton.setOnMouseClicked(e -> {
             yellowPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
             setPlayerPickerTextTwo();
@@ -196,18 +218,22 @@ public class Board {
         HBox.setMargin(greenPlayerButton, new Insets(0,10,0,0));
         HBox.setMargin(yellowPlayerButton, new Insets(0,0,0,0));
 
+        startButton.setPrefSize(200,100);
+        startButton.setFont(new Font(30));
         VBox vbox = new VBox(playersPickerLayout, startButton);
         vbox.setVisible(false);
-        VBox.setMargin(startButton, new Insets(10,0,0,70));
+        VBox.setMargin(startButton, new Insets(10,0,0,350));
+        VBox.setMargin(playersPickerLayout, new Insets(0,0,0,250));
 
 
         menuGrid.getChildren().addAll(menuBackground, menuLayout, vbox);
 
-        GridPane.setMargin(menuLayout, new Insets(300,0,0,0));
-        GridPane.setMargin(vbox, new Insets(300,0,0,350));
+        GridPane.setMargin(menuLayout, new Insets(100,0,0,0));
+        GridPane.setMargin(vbox, new Insets(300,0,0,0));
 
         playButtonLayout.setOnMouseClicked(e -> {
             playButtonLayout.setVisible(false);
+
             vbox.setVisible(true);
         });
 
@@ -216,6 +242,8 @@ public class Board {
     public void setThingsOnStartButtonClicked(){
         menuGrid.setVisible(false);
         menuGrid.setDisable(true);
+        bannerView.setVisible(false);
+        authorView.setVisible(false);
     }
 
     public void setPlayerRedCashRectangleStrokeColorRED() {

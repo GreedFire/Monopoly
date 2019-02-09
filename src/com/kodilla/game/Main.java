@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
@@ -24,10 +22,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         /*
-        *  Todo: lose conditions - when on Tax or Event Card
         *  Todo: trade
         *  Todo: animations and sounds
-        *  Todo: AI actions
+        *  Todo: fix dupliates of code and fix board class
         */
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
@@ -55,13 +52,9 @@ public class Main extends Application {
             root.getChildren().add(gameControl.getGreen().getPawnAfterImage());
             root.getChildren().add(gameControl.getYellow().getPawn());
             root.getChildren().add(gameControl.getYellow().getPawnAfterImage());
+
+
         });
-
-
-
-
-
-
 
         //-------------------------------------------------------------------------------------
 

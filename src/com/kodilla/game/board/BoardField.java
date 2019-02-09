@@ -7,8 +7,8 @@ import javafx.scene.shape.Rectangle;
 public class BoardField {
 
     private String typeOfField = "Nothing";
-    private Card card = null;
 
+    private Card card;
     private int redPlayerStopX;
     private int redPlayerStopY;
     private int bluePlayerStopX;
@@ -80,7 +80,6 @@ public class BoardField {
     public int getYellowPlayerStopY() {
         return yellowPlayerStopY;
     }
-
 
     public Card getCard() {
         return card;

@@ -1,8 +1,12 @@
 package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
+import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.Card;
+import com.kodilla.game.cards.buyableCards.CityCard;
+
+import java.util.Map;
 
 public class AI extends Player {
 
@@ -10,8 +14,53 @@ public class AI extends Player {
         super(playerPositionX, playerPositionY, playerColor);
     }
 
-    public void checkAndDoActions(Board board){
+    public void pledgeOrSell(Board board, int cashToPay) {
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (entry.getValue().getCard() instanceof BuyableCard) {
+                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+                CityCard cityCard;
 
+                // PLEDGE
+                if (buyableCard instanceof CityCard) {
+                    cityCard = (CityCard) buyableCard;
+                    if (!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && cityCard.getNumberOfBuildings() == 0 && cashToPay > getCash())
+                        doPledge(board, buyableCard);
+                }
+                 else if (!buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && cashToPay > getCash())
+                doPledge(board, buyableCard);
+
+                 // SELL BUILDINGS
+                if(buyableCard instanceof CityCard) {
+                    cityCard = (CityCard) buyableCard;
+
+                        if(cityCard.getNumberOfBuildings() > 0 && cityCard.getBelongsTo().equals(getPlayerColor()) && cashToPay > getCash())
+                            sellBuilding(cityCard, board);
+
+                }
+            }
+        }
+    }
+
+
+
+    public void checkAndDoActions(Board board){
+        for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+            if (entry.getValue().getCard() instanceof BuyableCard) {
+                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+                CityCard cityCard;
+
+                //Buy buildings
+                if(buyableCard instanceof CityCard) {
+                    cityCard = (CityCard) buyableCard;
+                    buyBulding(cityCard, board);
+                }
+
+                //Buy from pledge
+                if(buyableCard.isOnPledge() && buyableCard.getFieldCost() < getCash()) {
+                    purchaseFromPledge(board, buyableCard);
+                }
+            }
+        }
     }
 
     public void purchaseCard(Board board) {
@@ -30,12 +79,7 @@ public class AI extends Player {
                         purchasableCard.setBelongsIndicatorColor();
                         purchasableCard.getBelongsIndicator().setVisible(true);
                         board.putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
-                        if (getPlayerColor().equals("red"))
-                            board.setPlayerRedLabel(getCash());
-                        else if (getPlayerColor().equals("blue"))
-                            board.setPlayerBlueLabel(getCash());
-                        else if (getPlayerColor().equals("green"))
-                            board.setPlayerGreenLabel(getCash());
+                        updateCashLabels(board);
                     } else {
                         board.putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
                     }
