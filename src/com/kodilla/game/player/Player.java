@@ -18,7 +18,6 @@ public abstract class Player {
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
-  //  private boolean isPlayerTurn = false;
     private boolean inPrison = false;
     private int inPrisonTurnCounter = 3;
     private boolean defeated = false;
@@ -148,7 +147,7 @@ public abstract class Player {
     }
 
     protected void doPledge(Board board, BuyableCard buyableCard) {
-        buyableCard.setPledgeAndBuildingsIndicator(board.getPledgeImage());
+        buyableCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getPledgeImage());
         buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
         addCash(buyableCard.getFieldCost());
         board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
@@ -225,12 +224,12 @@ public abstract class Player {
 
     protected void setImageOfBuildings(Board board, CityCard givenCard, int numberOfBuildings){
         switch(numberOfBuildings){
-            case 0: givenCard.setPledgeAndBuildingsIndicator(board.getZeroBuildingsImage()); break;
-            case 1: givenCard.setPledgeAndBuildingsIndicator(board.getOneBuildingImage()); break;
-            case 2: givenCard.setPledgeAndBuildingsIndicator(board.getTwoBuildingsImage()); break;
-            case 3: givenCard.setPledgeAndBuildingsIndicator(board.getThreeBuildingsImage()); break;
-            case 4: givenCard.setPledgeAndBuildingsIndicator(board.getFourBuildingsImage()); break;
-            case 5: givenCard.setPledgeAndBuildingsIndicator(board.getFiveBuildingsImage()); break;
+            case 0: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getZeroBuildingsImage()); break;
+            case 1: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getOneBuildingImage()); break;
+            case 2: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getTwoBuildingsImage()); break;
+            case 3: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getThreeBuildingsImage()); break;
+            case 4: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getFourBuildingsImage()); break;
+            case 5: givenCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getFiveBuildingsImage()); break;
         }
     }
 
@@ -292,10 +291,6 @@ public abstract class Player {
     public void setPlayerPositionNumber(int fieldPositionNumber) {
         this.playerPositionNumber = fieldPositionNumber;
     }
-/*
-    public void setPlayerTurn(boolean playerTurn) {
-        isPlayerTurn = playerTurn;
-    } */
 
     public void setCash(int cash) {
         this.cash = cash;

@@ -24,7 +24,7 @@ public class Human extends Player {
 
                 if (purchasableCard.getBelongsTo().equals("nobody")) {
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(true);
-                    board.getEndTurnBtn().setDisable(true);
+                    board.getDices().getEndTurnBtn().setDisable(true);
                 }
 
                 if (getCash() < purchasableCard.getFieldCost())
@@ -40,14 +40,14 @@ public class Human extends Player {
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
                     purchasableCard.getBelongsIndicator().setVisible(true);
                     purchasableCard.setBelongsIndicatorColor();
-                    board.getEndTurnBtn().setDisable(false);
+                    board.getDices().getEndTurnBtn().setDisable(false);
                     updateCashLabels(board);
 
                 });
                 board.getBuyCardLayout().getBuyCardNoButton().setOnMouseClicked(e -> {
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
                     board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
-                    board.getEndTurnBtn().setDisable(false);
+                    board.getDices().getEndTurnBtn().setDisable(false);
                 });
 
             }

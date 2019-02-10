@@ -28,7 +28,6 @@ class GameControl {
     private int numberOfPlayers;
     private int playerPicker = 0;
 
-
     void createPlayers(){
         redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
         board.getCashLabels().setPlayerRedLabel(redPlayer.getCash());
@@ -85,8 +84,7 @@ class GameControl {
 
 
             if (!player.isInPrison()) {
-              //  player.setPlayerTurn(true);
-                board.getDiceRollBtn().setVisible(true);
+                board.getDices().getDiceRollBtn().setVisible(true);
 
                 redPlayer.getPawnAfterImage().setVisible(false);
                 bluePlayer.getPawnAfterImage().setVisible(false);
@@ -95,22 +93,22 @@ class GameControl {
 
 
                 if (player instanceof Human) {
-                    board.getDiceRollBtn().setOnMouseClicked(e -> {
+                    board.getDices().getDiceRollBtn().setOnMouseClicked(e -> {
 
-                        board.getDiceRollBtn().setVisible(false);
+                        board.getDices().getDiceRollBtn().setVisible(false);
                         player.getPawnAfterImage().setVisible(true);
 
 
                         playerActions(player);
 
 
-                        if (!board.getDiceRollBtn().isVisible())
-                            board.getEndTurnBtn().setVisible(true);
+                        if (!board.getDices().getDiceRollBtn().isVisible())
+                            board.getDices().getEndTurnBtn().setVisible(true);
 
                     });
 
-                    board.getEndTurnBtn().setOnMouseClicked(x -> {
-                        board.getEndTurnBtn().setVisible(false);
+                    board.getDices().getEndTurnBtn().setOnMouseClicked(x -> {
+                        board.getDices().getEndTurnBtn().setVisible(false);
                         playersTurns(choosePlayerDependingOnTurn());
                     });
                 } else if (player instanceof AI) {
@@ -159,18 +157,9 @@ class GameControl {
     }
 
     private Player choosePlayerDependingOnTurn(){
-     //   playersList.get(0).setPlayerTurn(false);
-    //    playersList.get(1).setPlayerTurn(false);
-     //   if(playersList.size() > 2)
-     //   playersList.get(2).setPlayerTurn(false);
-     //   if(playersList.size() > 3)
-     //   playersList.get(3).setPlayerTurn(false);
-
         playerPicker++;
         if(playerPicker == numberOfPlayers)
             playerPicker = 0;
-
-      //  playersList.get(playerPicker).setPlayerTurn(true);
 
         return playersList.get(playerPicker);
 
@@ -383,8 +372,8 @@ class GameControl {
         }
 
         if(countDefeatedPlayers == playersList.size()-1) {
-            board.getDiceRollBtn().setDisable(true);
-            board.getEndTurnBtn().setDisable(true);
+            board.getDices().getDiceRollBtn().setDisable(true);
+            board.getDices().getEndTurnBtn().setDisable(true);
             for(int i = 0; i<10; i++)
                 board.getTable().putInfoToProcess("+ #" + winner.getPlayerColor() + " IS A WINNER!!!");
         }
@@ -396,21 +385,21 @@ class GameControl {
         int diceResult2 = diceRoll();
 
         switch (diceResult1){
-            case 1: board.getFirstDiceShow().setImage(board.getDice1()); break;
-            case 2: board.getFirstDiceShow().setImage(board.getDice2()); break;
-            case 3: board.getFirstDiceShow().setImage(board.getDice3()); break;
-            case 4: board.getFirstDiceShow().setImage(board.getDice4()); break;
-            case 5: board.getFirstDiceShow().setImage(board.getDice5()); break;
-            case 6: board.getFirstDiceShow().setImage(board.getDice6()); break;
+            case 1: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice1()); break;
+            case 2: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice2()); break;
+            case 3: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice3()); break;
+            case 4: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice4()); break;
+            case 5: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice5()); break;
+            case 6: board.getDices().getFirstDiceShow().setImage(board.getDices().getDice6()); break;
         }
 
         switch (diceResult2){
-            case 1: board.getSecondDiceShow().setImage(board.getDice1()); break;
-            case 2: board.getSecondDiceShow().setImage(board.getDice2()); break;
-            case 3: board.getSecondDiceShow().setImage(board.getDice3()); break;
-            case 4: board.getSecondDiceShow().setImage(board.getDice4()); break;
-            case 5: board.getSecondDiceShow().setImage(board.getDice5()); break;
-            case 6: board.getSecondDiceShow().setImage(board.getDice6()); break;
+            case 1: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice1()); break;
+            case 2: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice2()); break;
+            case 3: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice3()); break;
+            case 4: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice4()); break;
+            case 5: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice5()); break;
+            case 6: board.getDices().getSecondDiceShow().setImage(board.getDices().getDice6()); break;
         }
 
         firstDiceResult = diceResult1;
