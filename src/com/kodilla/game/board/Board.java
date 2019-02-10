@@ -1,5 +1,9 @@
 package com.kodilla.game.board;
 
+import com.kodilla.game.board.boardContent.BuyCardLayout;
+import com.kodilla.game.board.boardContent.CashLabels;
+import com.kodilla.game.board.boardContent.MainMenu;
+import com.kodilla.game.board.boardContent.Table;
 import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.buyableCards.CircleCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
@@ -16,17 +20,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
     private HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
     private GridPane grid = new GridPane();
-    private GridPane menuGrid = new GridPane();
+    private MainMenu mainMenu = new MainMenu();
+    private Table table = new Table();
+    private CashLabels cashLabels = new CashLabels();
+    private BuyCardLayout buyCardLayout = new BuyCardLayout();
+
     private Button diceRollBtn = new Button("Roll");
     private Button endTurnBtn = new Button("Turn end");
 
@@ -36,7 +41,6 @@ public class Board {
     private Image dice4 = new Image("file:resources/dice4.png");
     private Image dice5 = new Image("file:resources/dice5.png");
     private Image dice6 = new Image("file:resources/dice6.png");
-
     private Image pledgeImage = new Image("file:resources/pledge.png");
     private Image zeroBuildingsImage = new Image("file:resources/0buildings.png");
     private Image oneBuildingImage = new Image("file:resources/1buildings.png");
@@ -44,446 +48,46 @@ public class Board {
     private Image threeBuildingsImage = new Image("file:resources/3buildings.png");
     private Image fourBuildingsImage = new Image("file:resources/4buildings.png");
     private Image fiveBuildingsImage = new Image("file:resources/5buildings.png");
-
     private ImageView firstDiceShow = new ImageView(dice1);
     private ImageView secondDiceShow = new ImageView(dice2);
-    private ImageView bannerView = new ImageView();
-    private ImageView authorView = new ImageView();
-
-    private Text playerRedLabel = new Text("Red: 0$");
-    private Text playerBlueLabel  = new Text("Blue: 0$");
-    private Text playerGreenLabel  = new Text("Green: 0$");
-    private Text playerYellowLabel  = new Text("Yellow: 0$");
-    private Rectangle playerRedCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerBlueCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerGreenCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerYellowCashRectangle = new Rectangle(100,25, Color.WHITE);
-
-    private Text[] gameplayInfo = new Text[10];
-
-    private Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
-
-    private StackPane buyCardContentLayout;
-    private Button buyCardYesButton = new Button("yes");
-    private Button buyCardNoButton = new Button("no");
-
-    private int playerPickerTextOne = 0;
-    private int playerPickerTextTwo = 0;
-    private Button redPlayerButton = new Button("Human");
-    private Button bluePlayerButton = new Button("AI");
-    private Button greenPlayerButton = new Button("noone");
-    private Button yellowPlayerButton = new Button("noone");
-    private Button startButton = new Button("START");
 
 
 
     public Board(){
 
-        prepareMainMenu();
+        mainMenu.prepareMainMenu();
 
         prepareFieldsOnBoard();
 
         prepareRowsAndColumnsOfGrid();
 
-        prepareGridForCardsInfoVisibility(); //ShowFieldInfo is for now in Main class
+        prepareGridForCardsInfoVisibility();
 
         prepareDiceAndDiceButtons();
 
-        preparePlayersLabels();
+        cashLabels.preparePlayersLabels(grid);
 
-        prepareProcessText();
+        table.prepareProcessText();
 
-        prepareTableContent();
+        table.prepareTableContent(grid);
 
-        prepareBuyCardLayout();
+        buyCardLayout.prepareBuyCardLayout(grid);
 
         prepareBelongsToIndicators();
 
+        showFieldInfo();
     }
 
-    public Button getBluePlayerButton() {
-        return bluePlayerButton;
+    public MainMenu getMainMenu() {
+        return mainMenu;
     }
 
-    public Button getGreenPlayerButton() {
-        return greenPlayerButton;
+    public Table getTable() {
+        return table;
     }
 
-    public Button getYellowPlayerButton() {
-        return yellowPlayerButton;
-    }
-
-    public Button getStartButton() {
-        return startButton;
-    }
-
-    public GridPane getMenuGrid() {
-        return menuGrid;
-    }
-
-    private void setPlayerPickerTextOne() {
-        playerPickerTextOne++;
-        if(playerPickerTextOne == 2)
-            playerPickerTextOne = 0;
-    }
-
-    private void setPlayerPickerTextTwo() {
-        playerPickerTextTwo++;
-        if(playerPickerTextTwo == 3)
-            playerPickerTextTwo = 0;
-    }
-
-    private void prepareMainMenu(){
-        // Making background
-        Rectangle menuBackground = new Rectangle(0,0,893,842);
-        menuBackground.setFill(Color.WHITE);
-        menuBackground.setStroke(Color.BLACK);
-        menuBackground.setStrokeWidth(5);
-
-        // Monopoly BANNER
-        Image banner = new Image("file:resources/banner.png");
-        bannerView.setImage(banner);
-        bannerView.setDisable(true);
-
-        // Author
-        Image authorImage = new Image("file:resources/author.png");
-        authorView.setImage(authorImage);
-        authorView.setDisable(true);
-
-        // Making PLAY button
-        Rectangle playButton = new Rectangle(200,100, Color.WHITE);
-        playButton.setStroke(Color.BLACK);
-        playButton.setOnMouseEntered(e -> playButton.setFill(Color.YELLOW));
-        playButton.setOnMouseExited(e -> playButton.setFill(Color.WHITE));
-        Text playButtonText = new Text("PLAY");
-        playButtonText.setFont(new Font(20));
-        playButtonText.setDisable(true);
-        StackPane playButtonLayout = new StackPane(playButton, playButtonText);
-
-        // Vertical list of buttons
-        VBox menuLayout = new VBox(bannerView, playButtonLayout, authorView);
-        VBox.setMargin(bannerView, new Insets(0,0,100,150));
-        VBox.setMargin(authorView, new Insets(250,0,0,600));
-
-        //--------------------------------------------------------------------------------
-
-        ArrayList<String> secondPlayerButtonStringList = new ArrayList<>();
-        secondPlayerButtonStringList.add("Human");
-        secondPlayerButtonStringList.add("AI");
-
-        ArrayList<String> otherPlayersButtonStringList = new ArrayList<>();
-        otherPlayersButtonStringList.add("Human");
-        otherPlayersButtonStringList.add("AI");
-        otherPlayersButtonStringList.add("noone");
-
-        redPlayerButton.setTextFill(Color.RED);
-        redPlayerButton.setPrefSize(100,50);
-        redPlayerButton.setFont(new Font(15));
-        redPlayerButton.setDisable(true);
-
-        bluePlayerButton.setTextFill(Color.BLUE);
-        bluePlayerButton.setPrefSize(100,50);
-        bluePlayerButton.setFont(new Font(15));
-        bluePlayerButton.setOnMouseClicked(e -> {
-            bluePlayerButton.setText(secondPlayerButtonStringList.get(playerPickerTextOne));
-            setPlayerPickerTextOne();
-        });
-
-
-        greenPlayerButton.setTextFill(Color.GREEN);
-        greenPlayerButton.setPrefSize(100,50);
-        greenPlayerButton.setFont(new Font(15));
-        greenPlayerButton.setOnMouseClicked(e -> {
-            greenPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
-            setPlayerPickerTextTwo();
-        });
-
-
-        yellowPlayerButton.setTextFill(Color.YELLOW);
-        yellowPlayerButton.setPrefSize(100,50);
-        yellowPlayerButton.setFont(new Font(15));
-        yellowPlayerButton.setOnMouseClicked(e -> {
-            yellowPlayerButton.setText(otherPlayersButtonStringList.get(playerPickerTextTwo));
-            setPlayerPickerTextTwo();
-        });
-
-
-
-        HBox playersPickerLayout = new HBox(redPlayerButton, bluePlayerButton, greenPlayerButton, yellowPlayerButton);
-        HBox.setMargin(redPlayerButton, new Insets(0,10,0,0));
-        HBox.setMargin(bluePlayerButton, new Insets(0,10,0,0));
-        HBox.setMargin(greenPlayerButton, new Insets(0,10,0,0));
-        HBox.setMargin(yellowPlayerButton, new Insets(0,0,0,0));
-
-        startButton.setPrefSize(200,100);
-        startButton.setFont(new Font(30));
-        VBox vbox = new VBox(playersPickerLayout, startButton);
-        vbox.setVisible(false);
-        VBox.setMargin(startButton, new Insets(10,0,0,350));
-        VBox.setMargin(playersPickerLayout, new Insets(0,0,0,250));
-
-
-        menuGrid.getChildren().addAll(menuBackground, menuLayout, vbox);
-
-        GridPane.setMargin(menuLayout, new Insets(100,0,0,0));
-        GridPane.setMargin(vbox, new Insets(300,0,0,0));
-
-        playButtonLayout.setOnMouseClicked(e -> {
-            playButtonLayout.setVisible(false);
-
-            vbox.setVisible(true);
-        });
-
-    }
-
-    public void setThingsOnStartButtonClicked(){
-        menuGrid.setVisible(false);
-        menuGrid.setDisable(true);
-        bannerView.setVisible(false);
-        authorView.setVisible(false);
-    }
-
-    public void setPlayerRedCashRectangleStrokeColorRED() {
-        this.playerRedCashRectangle.setStroke(Color.RED);
-    }
-
-    public void setPlayerBlueCashRectangleStrokeColorRED() {
-        this.playerBlueCashRectangle.setStroke(Color.RED);
-    }
-
-    public void setPlayerGreenCashRectangleStrokeColorRED() {
-        this.playerGreenCashRectangle.setStroke(Color.RED);
-    }
-
-    public void setPlayerYellowCashRectangleStrokeColorRED() {
-        this.playerYellowCashRectangle.setStroke(Color.RED);
-    }
-
-    public void setPlayerRedCashRectangleStrokeColorBLACK() {
-        this.playerRedCashRectangle.setStroke(Color.BLACK);
-    }
-
-    public void setPlayerBlueCashRectangleStrokeColorBLACK() {
-        this.playerBlueCashRectangle.setStroke(Color.BLACK);
-    }
-
-    public void setPlayerGreenCashRectangleStrokeColorBLACK() {
-        this.playerGreenCashRectangle.setStroke(Color.BLACK);
-    }
-
-    public void setPlayerYellowCashRectangleStrokeColorBLACK() {
-        this.playerYellowCashRectangle.setStroke(Color.BLACK);
-    }
-
-
-    private void prepareBuyCardLayout(){
-
-
-        Rectangle buyCardRectangle = new Rectangle(200,80, Color.WHITE);
-        buyCardRectangle.setStroke(Color.BLACK);
-
-        Text buyCardFieldName = new Text("Do you want to buy? ");
-
-        HBox buyCardOptionsLayout = new HBox(buyCardYesButton, buyCardNoButton);
-        VBox buyCardLayout = new VBox(buyCardFieldName, buyCardOptionsLayout);
-        buyCardContentLayout = new StackPane(buyCardRectangle, buyCardLayout);
-
-        StackPane.setMargin(buyCardLayout, new Insets(20,1,1,25));
-        HBox.setMargin(buyCardYesButton, new Insets(1,1,1,30));
-        HBox.setMargin(buyCardNoButton, new Insets(1,1,1,10));
-        grid.add(buyCardContentLayout, 4,8);
-
-        buyCardContentLayout.setVisible(false);
-    }
-
-    private void prepareTableContent(){
-        //==============================================================================================================
-            // CREATING MENU BUTTONS + TABLE SHAPE:
-        //==============================================================================================================
-        // Creating buttons shape
-        Rectangle menuButton = new Rectangle(165,50, Color.WHEAT);
-            menuButton.setStroke(Color.BLACK);
-        Rectangle menuButton2 = new Rectangle(165,50, Color.WHITE);
-            menuButton2.setStroke(Color.BLACK);
-        Rectangle menuButton3 = new Rectangle(165,50, Color.WHITE);
-            menuButton3.setStroke(Color.BLACK);
-
-        // Creating buttons text
-        Text firstOptionText = new Text("Process");
-        Text secondOptionText = new Text("Trade");
-        Text thirdOptionText = new Text("Actions");
-
-        //// Creating table shape
-        Rectangle rectangleTable = new Rectangle(497, 304, Color.WHITE);
-            rectangleTable.setStroke(Color.BLACK);
-
-        // Putting buttons and texts as one object
-        StackPane firstOptionLayout = new StackPane(menuButton, firstOptionText);
-        StackPane secondOptionLayout = new StackPane(menuButton2, secondOptionText);
-        StackPane thirdOptionLayout = new StackPane(menuButton3, thirdOptionText);
-
-        // Setting ^StackPane "buttons" horizontally
-        HBox tableMenuLayout = new HBox(firstOptionLayout, secondOptionLayout, thirdOptionLayout);
-        //==============================================================================================================
-            // CREATING ACTION BUTTONS:
-        //==============================================================================================================
-        // Creating rectangles shapes
-        actionButton1.setStroke(Color.BLACK);
-        actionButton2.setStroke(Color.BLACK);
-        actionButton3.setStroke(Color.BLACK);
-        actionButton4.setStroke(Color.BLACK);
-
-        // Creating text for action buttons
-        Text actionText1 = new Text("give away on pledge");
-            actionText1.setDisable(true);
-        Text actionText2 = new Text("purchase from pledge");
-            actionText2.setDisable(true);
-        Text actionText3 = new Text("buy a building");
-            actionText3.setDisable(true);
-        Text actionText4 = new Text("sell a building");
-            actionText4.setDisable(true);
-
-        // Putting buttons and text as one object
-        StackPane actionButtonLayout1 = new StackPane(actionButton1, actionText1);
-        StackPane actionButtonLayout2 = new StackPane(actionButton2, actionText2);
-        StackPane actionButtonLayout3 = new StackPane(actionButton3, actionText3);
-        StackPane actionButtonLayout4 = new StackPane(actionButton4, actionText4);
-
-        // Setting size of that objects ^
-        actionButtonLayout1.setMaxSize(200,50);
-        actionButtonLayout2.setMaxSize(200,50);
-        actionButtonLayout3.setMaxSize(200,50);
-        actionButtonLayout4.setMaxSize(200,50);
-
-        // Trade buttons at work
-        actionButton1.setOnMouseClicked(e -> {
-            actionButton1.setFill(Color.YELLOW);
-            actionButton2.setFill(Color.WHITE);
-            actionButton3.setFill(Color.WHITE);
-            actionButton4.setFill(Color.WHITE);
-        });
-
-        actionButton2.setOnMouseClicked(e -> {
-            actionButton1.setFill(Color.WHITE);
-            actionButton2.setFill(Color.YELLOW);
-            actionButton3.setFill(Color.WHITE);
-            actionButton4.setFill(Color.WHITE);
-        });
-
-        actionButton3.setOnMouseClicked(e -> {
-            actionButton1.setFill(Color.WHITE);
-            actionButton2.setFill(Color.WHITE);
-            actionButton3.setFill(Color.YELLOW);
-            actionButton4.setFill(Color.WHITE);
-        });
-
-        actionButton4.setOnMouseClicked(e -> {
-            actionButton1.setFill(Color.WHITE);
-            actionButton2.setFill(Color.WHITE);
-            actionButton3.setFill(Color.WHITE);
-            actionButton4.setFill(Color.YELLOW);
-        });
-
-        //==============================================================================================================
-            // CREATING BOOKMARKS:
-        //==============================================================================================================
-
-        VBox processContentLayout = new VBox(gameplayInfo[0],gameplayInfo[1], gameplayInfo[2], gameplayInfo[3], gameplayInfo[4], gameplayInfo[5], gameplayInfo[6],
-                gameplayInfo[7], gameplayInfo[8], gameplayInfo[9]); //PROCESS CONTENT
-        GridPane tradeContentLayout = new GridPane(); //TRADE CONTENT
-        VBox actionsContentLayout = new VBox(actionButtonLayout1, actionButtonLayout2, actionButtonLayout3, actionButtonLayout4); //ACTIONS CONTENT
-
-        // Changing margins of action buttons
-        VBox.setMargin(actionButtonLayout1, new Insets(30,0,1,148));
-        VBox.setMargin(actionButtonLayout2, new Insets(10,0,1,148));
-        VBox.setMargin(actionButtonLayout3, new Insets(10,0,1,148));
-        VBox.setMargin(actionButtonLayout4, new Insets(10,0,1,148));
-
-        // Putting content from bookmarks into one StackPane to set all content in the same place - just correct visibility
-        StackPane tableLayout = new StackPane(rectangleTable, processContentLayout, actionsContentLayout, tradeContentLayout);
-
-        // Modyfing appereance of text
-        StackPane.setMargin(processContentLayout, new Insets(1,1,1,10)); // left192
-
-        //==============================================================================================================
-        // // Menu buttons at work:
-        //==============================================================================================================
-        firstOptionLayout.setOnMouseClicked(e -> {
-            menuButton.setFill(Color.WHEAT);
-            menuButton2.setFill(Color.WHITE);
-            menuButton3.setFill(Color.WHITE);
-            actionButton1.setFill(Color.WHITE);
-            actionButton2.setFill(Color.WHITE);
-            actionButton3.setFill(Color.WHITE);
-            actionButton4.setFill(Color.WHITE);
-
-            actionsContentLayout.setVisible(false);
-            tradeContentLayout.setVisible(false);
-            processContentLayout.setVisible(true);
-        });
-
-        secondOptionLayout.setOnMouseClicked(e -> {
-            menuButton.setFill(Color.WHITE);
-            menuButton2.setFill(Color.WHEAT);
-            menuButton3.setFill(Color.WHITE);
-            actionButton1.setFill(Color.WHITE);
-            actionButton2.setFill(Color.WHITE);
-            actionButton3.setFill(Color.WHITE);
-            actionButton4.setFill(Color.WHITE);
-
-            processContentLayout.setVisible(false);
-            actionsContentLayout.setVisible(false);
-            tradeContentLayout.setVisible(true);
-        });
-
-        thirdOptionLayout.setOnMouseClicked(e -> {
-            menuButton.setFill(Color.WHITE);
-            menuButton2.setFill(Color.WHITE);
-            menuButton3.setFill(Color.WHEAT);
-
-            processContentLayout.setVisible(false);
-            tradeContentLayout.setVisible(false);
-            actionsContentLayout.setVisible(true);
-
-            actionButtonLayout1.setVisible(true);
-            actionButtonLayout2.setVisible(true);
-            actionButtonLayout3.setVisible(true);
-            actionButtonLayout4.setVisible(true);
-        });
-
-        // Setting visibility to false when starting game
-        actionButtonLayout1.setVisible(false);
-        actionButtonLayout2.setVisible(false);
-        actionButtonLayout3.setVisible(false);
-        actionButtonLayout4.setVisible(false);
-
-        // Table and menu buttons are independently added
-        VBox tableAndMenu = new VBox(tableMenuLayout, tableLayout);
-
-        // Adding entire table to grid to show on Board
-        grid.add(tableAndMenu,2,2,6,7);
-    }
-
-    private void moveProcessTexts() {
-
-        for (int i = 0, j = 1; i < 10 && j < 10; i++, j++) {
-            gameplayInfo[i].setText(gameplayInfo[j].getText());
-        }
-    }
-
-    public void putInfoToProcess(String text){
-        moveProcessTexts();
-        gameplayInfo[9].setText(text);
-    }
-
-    private void prepareProcessText(){
-        for(int i = 0; i<10; i++){
-            gameplayInfo[i] = new Text("+***********************");
-            gameplayInfo[i].setFont(new Font(20));
-        }
+    public CashLabels getCashLabels() {
+        return cashLabels;
     }
 
     public void showFieldInfo(){
@@ -552,12 +156,13 @@ public class Board {
 
                         circle.setVisible(false);
                         circle.setRadius(0);
+                        twoBuildingsFee.setVisible(true);
+                        threeBuildingsFee.setVisible(true);
                         fourBuildingsFee.setVisible(true);
                         fiveBuildingsFee.setVisible(true);
                         costOfBuilding.setVisible(true);
                         colorOfCard.setVisible(true);
-                        twoBuildingsFee.setVisible(true);
-                        threeBuildingsFee.setVisible(true);
+
 
                         // Picking color for card
                         String colorOfCardPicker = tempCard.getCardColor();
@@ -636,51 +241,6 @@ public class Board {
         }
     }
 
-    private void preparePlayersLabels(){
-
-        playerRedCashRectangle.setStroke(Color.BLACK);
-        playerBlueCashRectangle.setStroke(Color.BLACK);
-        playerGreenCashRectangle.setStroke(Color.BLACK);
-        playerYellowCashRectangle.setStroke(Color.BLACK);
-
-        Rectangle redPlayerColor = new Rectangle(10,10, Color.RED);
-        redPlayerColor.setStroke(Color.BLACK);
-        Rectangle bluePlayerColor = new Rectangle(10,10, Color.BLUE);
-        bluePlayerColor.setStroke(Color.BLACK);
-        Rectangle greenPlayerColor = new Rectangle(10,10, Color.GREEN);
-        greenPlayerColor.setStroke(Color.BLACK);
-        Rectangle yellowPlayerColor = new Rectangle(10,10, Color.YELLOW);
-        yellowPlayerColor.setStroke(Color.BLACK);
-
-        HBox hBox1 = new HBox(redPlayerColor, playerRedLabel);
-        HBox hBox2 = new HBox(bluePlayerColor, playerBlueLabel);
-        HBox hBox3 = new HBox(greenPlayerColor, playerGreenLabel);
-        HBox hBox4 = new HBox(yellowPlayerColor, playerYellowLabel);
-
-        hBox1.setAlignment(Pos.CENTER);
-        hBox2.setAlignment(Pos.CENTER);
-        hBox3.setAlignment(Pos.CENTER);
-        hBox4.setAlignment(Pos.CENTER);
-
-        HBox.setMargin(redPlayerColor, new Insets(1,5,1,1));
-        HBox.setMargin(bluePlayerColor, new Insets(1,5,1,1));
-        HBox.setMargin(greenPlayerColor, new Insets(1,5,1,1));
-        HBox.setMargin(yellowPlayerColor, new Insets(1,5,1,1));
-
-        StackPane Label1 = new StackPane(playerRedCashRectangle, hBox1);
-        StackPane Label2 = new StackPane(playerBlueCashRectangle, hBox2);
-        StackPane Label3 = new StackPane(playerGreenCashRectangle, hBox3);
-        StackPane Label4 = new StackPane(playerYellowCashRectangle, hBox4);
-
-        VBox playersInfoLayout = new VBox(Label1, Label2, Label3, Label4);
-
-        VBox.setMargin(Label1, new Insets(1,1,1,30));
-        VBox.setMargin(Label2, new Insets(1,1,1,30));
-        VBox.setMargin(Label3, new Insets(1,1,1,30));
-        VBox.setMargin(Label4, new Insets(1,1,1,30));
-        grid.add(playersInfoLayout, 1,8);
-    }
-
     private void prepareDiceAndDiceButtons(){
         endTurnBtn.setVisible(false);
         StackPane turnsButtonsLayout = new StackPane(endTurnBtn, diceRollBtn);
@@ -747,257 +307,175 @@ public class Board {
         BuyableCard temporaryBuyableCard = (BuyableCard) fieldsArray.get(1).getCard();
         HBox hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 9,10);
-        GridPane.setMargin(hbox, new Insets(10,1,70,7));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(3).getCard();
         hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 7,10);
-        GridPane.setMargin(hbox, new Insets(10,1,70,7));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(5).getCard();
         hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 5,10);
-        GridPane.setMargin(hbox, new Insets(10,1,70,7));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(6).getCard();
         hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 4,10);
-        GridPane.setMargin(hbox, new Insets(10,1,70,7));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(8).getCard();
         hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 2,10);
-        GridPane.setMargin(hbox, new Insets(10,1,70,7));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
 
         temporaryBuyableCard = (BuyableCard) fieldsArray.get(9).getCard();
         hbox = new HBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
         grid.add(hbox, 1,10);
+        setBelongsIndicatorsProperly4(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(11).getCard();
+        VBox vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,9);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(12).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,8);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(13).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,7);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(14).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,6);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(15).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,5);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(16).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,4);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(18).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,2);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(19).getCard();
+        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
+        grid.add(vbox, 0,1);
+        setBelongsIndicatorsProperly3(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(21).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 1,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(23).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 3,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(24).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 4,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(25).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 5,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(26).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 6,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(27).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 7,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(28).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 8,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(29).getCard();
+        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(hbox, 9,0);
+        setBelongsIndicatorsProperly2(temporaryBuyableCard, hbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(31).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,1);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(32).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,2);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(34).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,4);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(35).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,5);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(37).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,7);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+        temporaryBuyableCard = (BuyableCard) fieldsArray.get(39).getCard();
+        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
+        grid.add(vbox, 10,9);
+        setBelongsIndicatorsProperly(temporaryBuyableCard, vbox);
+
+    }
+
+    private void setBelongsIndicatorsProperly4(BuyableCard temporaryBuyableCard, HBox hbox) {
         GridPane.setMargin(hbox, new Insets(10,1,70,7));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,0,0,30));
         hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+    }
 
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(11).getCard();
-        VBox vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,9);
+    private void setBelongsIndicatorsProperly3(BuyableCard temporaryBuyableCard, VBox vbox) {
         GridPane.setMargin(vbox, new Insets(10,0,0,106));
         VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
         vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+    }
 
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(12).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,8);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(13).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,7);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(14).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,6);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(15).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,5);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(16).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,4);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(18).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,2);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(19).getCard();
-        vbox = new VBox(temporaryBuyableCard.getBelongsIndicator(), temporaryBuyableCard.getPledgeAndBuildingsIndicator());
-        grid.add(vbox, 0,1);
-        GridPane.setMargin(vbox, new Insets(10,0,0,106));
-        VBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(21).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 1,0);
+    private void setBelongsIndicatorsProperly2(BuyableCard temporaryBuyableCard, HBox hbox) {
         GridPane.setMargin(hbox, new Insets(80,0,0,5));
         HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
         hbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
+    }
 
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(23).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 3,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(24).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 4,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(25).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 5,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(26).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 6,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(27).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 7,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(28).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 8,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(29).getCard();
-        hbox = new HBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(hbox, 9,0);
-        GridPane.setMargin(hbox, new Insets(80,0,0,5));
-        HBox.setMargin(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), new Insets(0,30,0,0));
-        hbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(31).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,1);
+    private void setBelongsIndicatorsProperly(BuyableCard temporaryBuyableCard, VBox vbox) {
         GridPane.setMargin(vbox, new Insets(5,0,0,10));
         VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
         vbox.setDisable(true);
         temporaryBuyableCard.getBelongsIndicator().setVisible(false);
         temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(32).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,2);
-        GridPane.setMargin(vbox, new Insets(5,0,0,10));
-        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(34).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,4);
-        GridPane.setMargin(vbox, new Insets(5,0,0,10));
-        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(35).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,5);
-        GridPane.setMargin(vbox, new Insets(5,0,0,10));
-        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(37).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,7);
-        GridPane.setMargin(vbox, new Insets(5,0,0,10));
-        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
-        temporaryBuyableCard = (BuyableCard) fieldsArray.get(39).getCard();
-        vbox = new VBox(temporaryBuyableCard.getPledgeAndBuildingsIndicator(), temporaryBuyableCard.getBelongsIndicator());
-        grid.add(vbox, 10,9);
-        GridPane.setMargin(vbox, new Insets(5,0,0,10));
-        VBox.setMargin(temporaryBuyableCard.getBelongsIndicator(), new Insets(30,0,0,0));
-        vbox.setDisable(true);
-        temporaryBuyableCard.getBelongsIndicator().setVisible(false);
-        temporaryBuyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-
     }
 
     private void prepareFieldsOnBoard(){
@@ -1100,50 +578,6 @@ public class Board {
         return endTurnBtn;
     }
 
-    public void setPlayerRedLabel(int cash) {
-        playerRedLabel.setText("Red: " + cash + "$");
-    }
-
-    public void setPlayerBlueLabel(int cash) {
-        playerBlueLabel.setText("Blue: " + cash + "$");
-    }
-
-    public void setPlayerGreenLabel(int cash) {
-        playerGreenLabel.setText("Green: " + cash + "$");
-    }
-
-    public void setPlayerYellowLabel(int cash) {
-        playerYellowLabel.setText("Yellow: " + cash + "$");
-    }
-
-    public StackPane getBuyCardContentLayout() {
-        return buyCardContentLayout;
-    }
-
-    public Button getBuyCardYesButton() {
-        return buyCardYesButton;
-    }
-
-    public Button getBuyCardNoButton() {
-        return buyCardNoButton;
-    }
-
-    public Rectangle getActionButton1() {
-        return actionButton1;
-    }
-
-    public Rectangle getActionButton2() {
-        return actionButton2;
-    }
-
-    public Rectangle getActionButton3() {
-        return actionButton3;
-    }
-
-    public Rectangle getActionButton4() {
-        return actionButton4;
-    }
-
     public Image getPledgeImage() {
         return pledgeImage;
     }
@@ -1170,5 +604,9 @@ public class Board {
 
     public Image getFiveBuildingsImage() {
         return fiveBuildingsImage;
+    }
+
+    public BuyCardLayout getBuyCardLayout() {
+        return buyCardLayout;
     }
 }

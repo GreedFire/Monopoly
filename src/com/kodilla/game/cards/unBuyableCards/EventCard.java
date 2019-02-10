@@ -25,27 +25,27 @@ public class EventCard extends Card {
             case 0:
                 money = 25;
                 player.addCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 1:
                 money = 50;
                 player.addCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 2:
                 money = 100;
                 player.addCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 3:
                 money = 150;
                 player.addCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 4:
                 money = 200;
                 player.addCash(money);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " gets money worth " + money + "$");
                 break;
             case 5:
                 newPlayerPosition = randGen.nextInt(40);

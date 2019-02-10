@@ -11,7 +11,6 @@ public class Main extends Application {
 
     private Image imageback = new Image("file:resources/board.png");
 
-
     public static void main(String[] args) {
 
         launch(args);
@@ -33,14 +32,12 @@ public class Main extends Application {
         Group root = new Group();
 
         GridPane grid = gameControl.getBoard().getGrid();
-        GridPane menu = gameControl.getBoard().getMenuGrid();
+        GridPane menu = gameControl.getBoard().getMainMenu().getMenuGrid();
         grid.setGridLinesVisible(false);
 
-        gameControl.showInfo();
+        gameControl.getBoard().getMainMenu().getStartButton().setOnMouseClicked(e -> {
 
-        gameControl.getBoard().getStartButton().setOnMouseClicked(e -> {
-
-            gameControl.getBoard().setThingsOnStartButtonClicked();
+            gameControl.getBoard().getMainMenu().setThingsOnStartButtonClicked();
             gameControl.createPlayers();
             gameControl.gameFlow();
 

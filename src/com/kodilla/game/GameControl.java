@@ -31,22 +31,22 @@ class GameControl {
 
     void createPlayers(){
         redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
-        board.setPlayerRedLabel(redPlayer.getCash());
+        board.getCashLabels().setPlayerRedLabel(redPlayer.getCash());
         playersList.add(redPlayer);
 
-        if(!board.getBluePlayerButton().getText().equals("AI"))
+        if(!board.getMainMenu().getBluePlayerButton().getText().equals("AI"))
             bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
         else
             bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
-        board.setPlayerBlueLabel(bluePlayer.getCash());
+        board.getCashLabels().setPlayerBlueLabel(bluePlayer.getCash());
         playersList.add(bluePlayer);
 
-         if(!board.getGreenPlayerButton().getText().equals("AI"))
+         if(!board.getMainMenu().getGreenPlayerButton().getText().equals("AI"))
              greenPlayer = new Human(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
-         else if(!board.getGreenPlayerButton().getText().equals("Human"))
+         else if(!board.getMainMenu().getGreenPlayerButton().getText().equals("Human"))
              greenPlayer = new AI(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
-         if(!board.getGreenPlayerButton().getText().equals("noone")) {
-             board.setPlayerGreenLabel(greenPlayer.getCash());
+         if(!board.getMainMenu().getGreenPlayerButton().getText().equals("noone")) {
+             board.getCashLabels().setPlayerGreenLabel(greenPlayer.getCash());
              playersList.add(greenPlayer);
          }
          else {
@@ -55,12 +55,12 @@ class GameControl {
          }
 
 
-         if(!board.getYellowPlayerButton().getText().equals("AI"))
+         if(!board.getMainMenu().getYellowPlayerButton().getText().equals("AI"))
              yellowPlayer = new Human(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
-         else if(!board.getYellowPlayerButton().getText().equals("Human"))
+         else if(!board.getMainMenu().getYellowPlayerButton().getText().equals("Human"))
              yellowPlayer = new AI(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
-         if(!board.getYellowPlayerButton().getText().equals("noone")) {
-             board.setPlayerYellowLabel(yellowPlayer.getCash());
+         if(!board.getMainMenu().getYellowPlayerButton().getText().equals("noone")) {
+             board.getCashLabels().setPlayerYellowLabel(yellowPlayer.getCash());
              playersList.add(yellowPlayer);
          }
          else {
@@ -75,10 +75,6 @@ class GameControl {
         playersTurns(playersList.get(playerPicker));
     }
 
-    void showInfo() {
-        board.showFieldInfo();
-    }
-
     private void playersTurns(Player player) {
 
         checkWinner();
@@ -89,7 +85,7 @@ class GameControl {
 
 
             if (!player.isInPrison()) {
-                player.setPlayerTurn(true);
+              //  player.setPlayerTurn(true);
                 board.getDiceRollBtn().setVisible(true);
 
                 redPlayer.getPawnAfterImage().setVisible(false);
@@ -125,7 +121,7 @@ class GameControl {
                     playersTurns(choosePlayerDependingOnTurn());
                 }
             } else {
-                board.putInfoToProcess("+ " + player.getPlayerColor() + " is in prison for " + player.getInPrisonTurnCounter() + " turns");
+                board.getTable().putInfoToProcess("+ " + player.getPlayerColor() + " is in prison for " + player.getInPrisonTurnCounter() + " turns");
                 player.checkAndSetPrison();
                 playersTurns(choosePlayerDependingOnTurn());
             }
@@ -134,7 +130,7 @@ class GameControl {
 
     private void playerActions(Player player) {
         //CHEAT >>>>
-         //player.giveMeAllFields(board, bluePlayer);
+         player.giveMeAllFields(board, bluePlayer);
         // CHEAT ^^^^
 
         checkAndSetPlayerTurnIndicator(player);
@@ -150,53 +146,41 @@ class GameControl {
     }
 
     private void checkAndSetPlayerTurnIndicator(Player player){
-        board.setPlayerRedCashRectangleStrokeColorBLACK();
-        board.setPlayerBlueCashRectangleStrokeColorBLACK();
-        board.setPlayerGreenCashRectangleStrokeColorBLACK();
-        board.setPlayerYellowCashRectangleStrokeColorBLACK();
-
-        if(player.getPlayerColor().equals("red"))
-            board.setPlayerRedCashRectangleStrokeColorRED();
-        else if(player.getPlayerColor().equals("blue"))
-            board.setPlayerBlueCashRectangleStrokeColorRED();
-        else if(player.getPlayerColor().equals("green"))
-            board.setPlayerGreenCashRectangleStrokeColorRED();
-        else if(player.getPlayerColor().equals("yellow"))
-            board.setPlayerYellowCashRectangleStrokeColorRED();
+        board.getCashLabels().setPlayersCashRectangleStroke(player.getPlayerColor());
     }
 
     private void checkIfPlayerIsInGoesToPrisonPosition(Player player){
         if(player.getPlayerPositionNumber() == 30 && !player.isInPrison()){
             player.setPlayerPositionNumber(10);
             player.movePlayer(board);
-            board.putInfoToProcess("+ " + player.getPlayerColor() + " goes to prison for  " + player.getInPrisonTurnCounter() + " turns");
+            board.getTable().putInfoToProcess("+ " + player.getPlayerColor() + " goes to prison for  " + player.getInPrisonTurnCounter() + " turns");
             player.setInPrison(true);
         }
     }
 
     private Player choosePlayerDependingOnTurn(){
-        playersList.get(0).setPlayerTurn(false);
-        playersList.get(1).setPlayerTurn(false);
-        if(playersList.size() > 2)
-        playersList.get(2).setPlayerTurn(false);
-        if(playersList.size() > 3)
-        playersList.get(3).setPlayerTurn(false);
+     //   playersList.get(0).setPlayerTurn(false);
+    //    playersList.get(1).setPlayerTurn(false);
+     //   if(playersList.size() > 2)
+     //   playersList.get(2).setPlayerTurn(false);
+     //   if(playersList.size() > 3)
+     //   playersList.get(3).setPlayerTurn(false);
 
         playerPicker++;
         if(playerPicker == numberOfPlayers)
             playerPicker = 0;
 
-        playersList.get(playerPicker).setPlayerTurn(true);
+      //  playersList.get(playerPicker).setPlayerTurn(true);
 
         return playersList.get(playerPicker);
 
     }
 
     private void updatePlayerCashInLabels(){
-        board.setPlayerRedLabel(redPlayer.getCash());
-        board.setPlayerBlueLabel(bluePlayer.getCash());
-        board.setPlayerGreenLabel(greenPlayer.getCash());
-        board.setPlayerYellowLabel(yellowPlayer.getCash());
+        board.getCashLabels().setPlayerRedLabel(redPlayer.getCash());
+        board.getCashLabels().setPlayerBlueLabel(bluePlayer.getCash());
+        board.getCashLabels().setPlayerGreenLabel(greenPlayer.getCash());
+        board.getCashLabels().setPlayerYellowLabel(yellowPlayer.getCash());
     }
 
     private void checkEventCard(Player player){
@@ -312,26 +296,26 @@ class GameControl {
                     switch (enemyPlayerColor) {
                         case "red":
                             redPlayer.addCash(sumOfFee);
-                            board.setPlayerRedLabel(redPlayer.getCash());
+                            board.getCashLabels().setPlayerRedLabel(redPlayer.getCash());
                             break;
                         case "blue":
                             bluePlayer.addCash(sumOfFee);
-                            board.setPlayerRedLabel(bluePlayer.getCash());
+                            board.getCashLabels().setPlayerRedLabel(bluePlayer.getCash());
                             break;
                         case "green":
                             greenPlayer.addCash(sumOfFee);
-                            board.setPlayerRedLabel(greenPlayer.getCash());
+                            board.getCashLabels().setPlayerRedLabel(greenPlayer.getCash());
                             break;
                         case "yellow":
                             greenPlayer.addCash(sumOfFee);
-                            board.setPlayerRedLabel(greenPlayer.getCash());
+                            board.getCashLabels().setPlayerRedLabel(greenPlayer.getCash());
                             break;
                     }
 
 
 
                 if (sumOfFee != 0)
-                    board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
+                    board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " pays the player #" + enemyPlayerColor + " " + sumOfFee + "$");
 
                 updatePlayerCashInLabels();
             }
@@ -349,7 +333,7 @@ class GameControl {
                 if(player instanceof AI)
                     ((AI) player).pledgeOrSell(board, cashToPay);
                 player.substractCash(cashToPay);
-                board.putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
+                board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
             }
 
         }
@@ -383,7 +367,7 @@ class GameControl {
         player.getPawn().setVisible(false);
         player.getPawnAfterImage().setVisible(false);
 
-        board.putInfoToProcess("+ #" + player.getPlayerColor() + " has been defeated");
+        board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " has been defeated");
 
         updatePlayerCashInLabels();
     }
@@ -402,7 +386,7 @@ class GameControl {
             board.getDiceRollBtn().setDisable(true);
             board.getEndTurnBtn().setDisable(true);
             for(int i = 0; i<10; i++)
-                board.putInfoToProcess("+ #" + winner.getPlayerColor() + " IS A WINNER!!!");
+                board.getTable().putInfoToProcess("+ #" + winner.getPlayerColor() + " IS A WINNER!!!");
         }
     }
 

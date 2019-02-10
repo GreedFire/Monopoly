@@ -18,7 +18,7 @@ public abstract class Player {
     private String playerColor;
     private Circle pawn;
     private Circle pawnAfterImage;
-    private boolean isPlayerTurn = false;
+  //  private boolean isPlayerTurn = false;
     private boolean inPrison = false;
     private int inPrisonTurnCounter = 3;
     private boolean defeated = false;
@@ -63,7 +63,7 @@ public abstract class Player {
                 cityCard.setbuildingsPlusOne();
                 setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
                 cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
-                board.putInfoToProcess("+ #" + getPlayerColor() + " bought a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+                board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
                 updateCashLabels(board);
             }
     }
@@ -93,7 +93,7 @@ public abstract class Player {
         pawn.setCenterX(getPlayerPositionX());
         pawn.setCenterY(getPlayerPositionY());
 
-        board.putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
+        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
 
     }
 
@@ -112,7 +112,7 @@ public abstract class Player {
         pawn.setCenterX(getPlayerPositionX());
         pawn.setCenterY(getPlayerPositionY());
 
-        board.putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
+        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " moved to field #" + getPlayerPositionNumber());
     }
 
     public void setPlayersPositions(int fieldPositionNumber, Board board){
@@ -151,7 +151,7 @@ public abstract class Player {
         buyableCard.setPledgeAndBuildingsIndicator(board.getPledgeImage());
         buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
         addCash(buyableCard.getFieldCost());
-        board.putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " pledged " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
         buyableCard.setOnPledge(true);
 
         updateCashLabels(board);
@@ -160,16 +160,16 @@ public abstract class Player {
     protected void updateCashLabels(Board board) {
         switch (getPlayerColor()) {
             case "red":
-                board.setPlayerRedLabel(getCash());
+                board.getCashLabels().setPlayerRedLabel(getCash());
                 break;
             case "blue":
-                board.setPlayerBlueLabel(getCash());
+                board.getCashLabels().setPlayerBlueLabel(getCash());
                 break;
             case "green":
-                board.setPlayerGreenLabel(getCash());
+                board.getCashLabels().setPlayerGreenLabel(getCash());
                 break;
             case "yellow":
-                board.setPlayerYellowLabel(getCash());
+                board.getCashLabels().setPlayerYellowLabel(getCash());
                 break;
         }
     }
@@ -178,7 +178,7 @@ public abstract class Player {
         if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && (getCash() >= buyableCard.getFieldCost()) ) {
             buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
             substractCash(buyableCard.getFieldCost());
-            board.putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+            board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
             buyableCard.setOnPledge(false);
 
             updateCashLabels(board);
@@ -239,7 +239,7 @@ public abstract class Player {
         cityCard.setbuildingsMinusOne();
         setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
         cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
-        board.putInfoToProcess("+ #" + getPlayerColor() + " sold a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
+        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " sold a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
         updateCashLabels(board);
     }
 
@@ -292,10 +292,10 @@ public abstract class Player {
     public void setPlayerPositionNumber(int fieldPositionNumber) {
         this.playerPositionNumber = fieldPositionNumber;
     }
-
+/*
     public void setPlayerTurn(boolean playerTurn) {
         isPlayerTurn = playerTurn;
-    }
+    } */
 
     public void setCash(int cash) {
         this.cash = cash;

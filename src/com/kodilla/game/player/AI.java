@@ -78,10 +78,10 @@ public class AI extends Player {
                         substractCash(purchasableCard.getFieldCost());
                         purchasableCard.setBelongsIndicatorColor();
                         purchasableCard.getBelongsIndicator().setVisible(true);
-                        board.putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
+                        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
                         updateCashLabels(board);
                     } else {
-                        board.putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
+                        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
                     }
                 }
 

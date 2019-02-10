@@ -23,30 +23,30 @@ public class Human extends Player {
                 BuyableCard purchasableCard = temporaryCityCard;
 
                 if (purchasableCard.getBelongsTo().equals("nobody")) {
-                    board.getBuyCardContentLayout().setVisible(true);
+                    board.getBuyCardLayout().getBuyCardContentLayout().setVisible(true);
                     board.getEndTurnBtn().setDisable(true);
                 }
 
                 if (getCash() < purchasableCard.getFieldCost())
-                    board.getBuyCardYesButton().setDisable(true);
+                    board.getBuyCardLayout().getBuyCardYesButton().setDisable(true);
                 else {
-                    board.getBuyCardYesButton().setDisable(false);
+                    board.getBuyCardLayout().getBuyCardYesButton().setDisable(false);
                 }
 
-                board.getBuyCardYesButton().setOnMouseClicked(e -> {
+                board.getBuyCardLayout().getBuyCardYesButton().setOnMouseClicked(e -> {
                     purchasableCard.setBelongsTo(getPlayerColor());
-                    board.putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
+                    board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
                     substractCash(purchasableCard.getFieldCost());
-                    board.getBuyCardContentLayout().setVisible(false);
+                    board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
                     purchasableCard.getBelongsIndicator().setVisible(true);
                     purchasableCard.setBelongsIndicatorColor();
                     board.getEndTurnBtn().setDisable(false);
                     updateCashLabels(board);
 
                 });
-                board.getBuyCardNoButton().setOnMouseClicked(e -> {
-                    board.getBuyCardContentLayout().setVisible(false);
-                    board.putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
+                board.getBuyCardLayout().getBuyCardNoButton().setOnMouseClicked(e -> {
+                    board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
+                    board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
                     board.getEndTurnBtn().setDisable(false);
                 });
 
@@ -64,7 +64,7 @@ public class Human extends Player {
                     CityCard cityCard;
 
                     // GIVE AWAY TO PLEDGE
-                    if (board.getActionButton1().getFill().equals(Color.YELLOW)) {
+                    if (board.getTable().getActionButton1().getFill().equals(Color.YELLOW)) {
                         if (buyableCard instanceof CityCard) {
                             cityCard = (CityCard) buyableCard;
 
@@ -75,18 +75,18 @@ public class Human extends Player {
                             doPledge(board, buyableCard);
                     // PURCHASE FROM PLEDGE
                     }
-                    else if (board.getActionButton2().getFill().equals(Color.YELLOW)) {
+                    else if (board.getTable().getActionButton2().getFill().equals(Color.YELLOW)) {
                         purchaseFromPledge(board, buyableCard);
                     }
                     // BUY A BUILDING
-                    else if(board.getActionButton3().getFill().equals(Color.YELLOW)){
+                    else if(board.getTable().getActionButton3().getFill().equals(Color.YELLOW)){
                         if(buyableCard instanceof CityCard){
                             cityCard = (CityCard) buyableCard;
                             buyBulding(cityCard, board);
                         }
                     }
                     //SELL A BUILDING
-                    else if(board.getActionButton4().getFill().equals(Color.YELLOW)){
+                    else if(board.getTable().getActionButton4().getFill().equals(Color.YELLOW)){
                         if(buyableCard instanceof CityCard){
                             cityCard = (CityCard) buyableCard;
 
