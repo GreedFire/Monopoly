@@ -1,5 +1,6 @@
 package com.kodilla.game.cards;
 
+import com.kodilla.game.player.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -44,13 +45,13 @@ public class BuyableCard extends Card {
     }
 
     public void setBelongsIndicatorColor(){
-        if("red".equals(belongsTo))
+        if(Player.getRED().equals(belongsTo))
             belongsIndicator.setFill(Color.RED);
-        else if("blue".equals(belongsTo))
+        else if(Player.getBLUE().equals(belongsTo))
             belongsIndicator.setFill(Color.BLUE);
-        else if("green".equals(belongsTo))
+        else if(Player.getGREEN().equals(belongsTo))
             belongsIndicator.setFill(Color.GREEN);
-        else if("yellow".equals(belongsTo))
+        else if(Player.getYELLOW().equals(belongsTo))
             belongsIndicator.setFill(Color.YELLOW);
     }
 

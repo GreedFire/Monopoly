@@ -1,5 +1,6 @@
 package com.kodilla.game.board.boardContent;
 
+import com.kodilla.game.player.Player;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -87,6 +88,7 @@ public class CashLabels {
         playerBlueCashRectangle.setStroke(Color.BLACK);
         playerGreenCashRectangle.setStroke(Color.BLACK);
         playerYellowCashRectangle.setStroke(Color.BLACK);
+        ;
 
         switch(playerColor){
             case "red": playerRedCashRectangle.setStroke(Color.RED); break;

@@ -22,9 +22,8 @@ public class Main extends Application {
 
         /*
         *  Todo: trade
-        *  Todo: animations and sounds
-        *  Todo: fix dupliates of code and fix board class
         */
+
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
 

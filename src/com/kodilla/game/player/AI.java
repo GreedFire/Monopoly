@@ -5,7 +5,6 @@ import com.kodilla.game.board.BoardField;
 import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CityCard;
-
 import java.util.Map;
 
 public class AI extends Player {
@@ -50,13 +49,13 @@ public class AI extends Player {
                 CityCard cityCard;
 
                 //Buy buildings
-                if(buyableCard instanceof CityCard) {
+                if(buyableCard instanceof CityCard && isYourTurn()) {
                     cityCard = (CityCard) buyableCard;
                     buyBulding(cityCard, board);
                 }
 
                 //Buy from pledge
-                if(buyableCard.isOnPledge() && buyableCard.getFieldCost() < getCash()) {
+                if(buyableCard.isOnPledge() && buyableCard.getFieldCost() < getCash() && isYourTurn()) {
                     purchaseFromPledge(board, buyableCard);
                 }
             }

@@ -11,6 +11,7 @@ import com.kodilla.game.player.AI;
 import com.kodilla.game.player.Human;
 import com.kodilla.game.board.Board;
 import com.kodilla.game.player.Player;
+import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -27,23 +28,28 @@ class GameControl {
     private ArrayList<Player> playersList = new ArrayList<>();
     private int numberOfPlayers;
     private int playerPicker = 0;
+    private String enemyColorForTrade;
+
+    public void setEnemyColorForTrade(String enemyColorForTrade) {
+        this.enemyColorForTrade = enemyColorForTrade;
+    }
 
     void createPlayers(){
-        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), "red");
+        redPlayer = new Human(board.getFieldsArray().get(0).getRedPlayerStopX(), board.getFieldsArray().get(0).getRedPlayerStopY(), Player.getRED());
         board.getCashLabels().setPlayerRedLabel(redPlayer.getCash());
         playersList.add(redPlayer);
 
         if(!board.getMainMenu().getBluePlayerButton().getText().equals("AI"))
-            bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+            bluePlayer = new Human(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), Player.getBLUE());
         else
-            bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), "blue");
+            bluePlayer = new AI(board.getFieldsArray().get(0).getBluePlayerStopX(), board.getFieldsArray().get(0).getBluePlayerStopY(), Player.getBLUE());
         board.getCashLabels().setPlayerBlueLabel(bluePlayer.getCash());
         playersList.add(bluePlayer);
 
          if(!board.getMainMenu().getGreenPlayerButton().getText().equals("AI"))
-             greenPlayer = new Human(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
+             greenPlayer = new Human(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), Player.getGREEN());
          else if(!board.getMainMenu().getGreenPlayerButton().getText().equals("Human"))
-             greenPlayer = new AI(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), "green");
+             greenPlayer = new AI(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), Player.getGREEN());
          if(!board.getMainMenu().getGreenPlayerButton().getText().equals("noone")) {
              board.getCashLabels().setPlayerGreenLabel(greenPlayer.getCash());
              playersList.add(greenPlayer);
@@ -55,9 +61,9 @@ class GameControl {
 
 
          if(!board.getMainMenu().getYellowPlayerButton().getText().equals("AI"))
-             yellowPlayer = new Human(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
+             yellowPlayer = new Human(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), Player.getYELLOW());
          else if(!board.getMainMenu().getYellowPlayerButton().getText().equals("Human"))
-             yellowPlayer = new AI(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), "yellow");
+             yellowPlayer = new AI(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), Player.getYELLOW());
          if(!board.getMainMenu().getYellowPlayerButton().getText().equals("noone")) {
              board.getCashLabels().setPlayerYellowLabel(yellowPlayer.getCash());
              playersList.add(yellowPlayer);
@@ -81,24 +87,18 @@ class GameControl {
         if(player.isDefeated()){
             playersTurns(choosePlayerDependingOnTurn());
         }else {
-
-
             if (!player.isInPrison()) {
-                board.getDices().getDiceRollBtn().setVisible(true);
-
                 redPlayer.getPawnAfterImage().setVisible(false);
                 bluePlayer.getPawnAfterImage().setVisible(false);
                 greenPlayer.getPawnAfterImage().setVisible(false);
                 yellowPlayer.getPawnAfterImage().setVisible(false);
 
-
                 if (player instanceof Human) {
+
+                    board.getDices().getDiceRollBtn().setVisible(true);
                     board.getDices().getDiceRollBtn().setOnMouseClicked(e -> {
-
-                        board.getDices().getDiceRollBtn().setVisible(false);
                         player.getPawnAfterImage().setVisible(true);
-
-
+                        board.getDices().getDiceRollBtn().setVisible(false);
                         playerActions(player);
 
 
@@ -112,11 +112,16 @@ class GameControl {
                         playersTurns(choosePlayerDependingOnTurn());
                     });
                 } else if (player instanceof AI) {
+
                     player.getPawnAfterImage().setVisible(true);
-
                     playerActions(player);
+                    board.getDices().getEndTurnBtn().setVisible(true);
 
-                    playersTurns(choosePlayerDependingOnTurn());
+                    board.getDices().getEndTurnBtn().setOnMouseClicked(x -> {
+                        board.getDices().getEndTurnBtn().setVisible(false);
+                        playersTurns(choosePlayerDependingOnTurn());
+                    });
+
                 }
             } else {
                 board.getTable().putInfoToProcess("+ " + player.getPlayerColor() + " is in prison for " + player.getInPrisonTurnCounter() + " turns");
@@ -128,20 +133,108 @@ class GameControl {
 
     private void playerActions(Player player) {
         //CHEAT >>>>
-         player.giveMeAllFields(board, bluePlayer);
-        // CHEAT ^^^^
+         //player.giveMeAllFields(board, bluePlayer);
+        //CHEAT >>>>
 
         checkAndSetPlayerTurnIndicator(player);
         player.checkAndDoActions(board);
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
-        payFee(player);
-        checkIfPlayerIsOnTaxCard(player);
         checkEventCard(player);
         checkIfPlayerIsInGoesToPrisonPosition(player);
+        payFee(player);
+        checkIfPlayerIsOnTaxCard(player);
+        trade(board, player);
         updatePlayerCashInLabels();
     }
+
+    private void trade(Board board, Player player) {
+        ArrayList<BuyableCard> playerCards = new ArrayList<>();
+        ArrayList<BuyableCard> enemyCards = new ArrayList<>();
+
+            for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
+                if (entry.getValue().getCard() instanceof BuyableCard) {
+                    entry.getValue().getRectangle().setOnMouseClicked(x -> {
+
+                        BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+
+                        if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && board.getTable().getMenuButton2().getFill().equals(Color.WHEAT) && player instanceof Human) {
+                            board.getTable().getPlayerTradeCard().setText(buyableCard.getFieldName());
+                            if (playerCards.size() == 0)
+                                playerCards.add(buyableCard);
+
+                        }
+                        if (!buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.getBelongsTo().equals("nobody") && board.getTable().getMenuButton2().getFill().equals(Color.WHEAT) && player instanceof Human) {
+                            setEnemyColorForTrade(buyableCard.getBelongsTo());
+                            board.getTable().getEnemyTradeCard().setText(buyableCard.getFieldName());
+                            if (enemyCards.size() == 0)
+                                enemyCards.add(buyableCard);
+                        }
+                    });
+                }
+            }
+
+            board.getTable().getTrade().setOnMouseClicked(e -> {
+                if(player instanceof Human) {
+                    if (playerCards.size() != 0) {
+                        for (BuyableCard card : playerCards) {
+                            card.setBelongsTo(enemyColorForTrade);
+                            card.setBelongsIndicatorColor();
+                        }
+                    }
+                    if (enemyCards.size() != 0) {
+                        for (BuyableCard card : enemyCards) {
+                            card.setBelongsTo(player.getPlayerColor());
+                            card.setBelongsIndicatorColor();
+                        }
+                    }
+
+                    player.addCash(board.getTable().getEnemyTradeCash());
+                    player.substractCash(board.getTable().getPlayerTradeCash());
+
+                    switch (enemyColorForTrade) {
+                        case "red":
+                            redPlayer.addCash(board.getTable().getPlayerTradeCash());
+                            redPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            break;
+                        case "blue":
+                            bluePlayer.addCash(board.getTable().getPlayerTradeCash());
+                            bluePlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            break;
+                        case "green":
+                            greenPlayer.addCash(board.getTable().getPlayerTradeCash());
+                            greenPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            break;
+                        case "yellow":
+                            yellowPlayer.addCash(board.getTable().getPlayerTradeCash());
+                            yellowPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            break;
+                    }
+
+
+                    updatePlayerCashInLabels();
+
+                    resetTrade(board, playerCards, enemyCards);
+                }
+            });
+
+
+            board.getTable().getReset().setOnMouseClicked(e -> resetTrade(board, playerCards, enemyCards));
+
+
+    }
+
+    private void resetTrade(Board board, ArrayList<BuyableCard> playerCards, ArrayList<BuyableCard> enemyCards) {
+        enemyColorForTrade = null;
+        board.getTable().getPlayerTradeCard().setText("");
+        board.getTable().getEnemyTradeCard().setText("");
+        board.getTable().resetCash();
+        board.getTable().updateTradeCashTexts();
+        playerCards.clear();
+        enemyCards.clear();
+    }
+
 
     private void checkAndSetPlayerTurnIndicator(Player player){
         board.getCashLabels().setPlayersCashRectangleStroke(player.getPlayerColor());
@@ -157,10 +250,16 @@ class GameControl {
     }
 
     private Player choosePlayerDependingOnTurn(){
+        redPlayer.setYourTurn(false);
+        bluePlayer.setYourTurn(false);
+        greenPlayer.setYourTurn(false);
+        yellowPlayer.setYourTurn(false);
+
         playerPicker++;
         if(playerPicker == numberOfPlayers)
             playerPicker = 0;
 
+        playersList.get(playerPicker).setYourTurn(true);
         return playersList.get(playerPicker);
 
     }

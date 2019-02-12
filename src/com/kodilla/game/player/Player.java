@@ -6,11 +6,16 @@ import com.kodilla.game.cards.BuyableCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
 import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class Player {
+
+    private static final String RED = "red";
+    private static final String BLUE = "blue";
+    private static final String GREEN = "green";
+    private static final String YELLOW = "yellow";
+
     private int playerPositionNumber = 0;
     private int playerPositionX;
     private int playerPositionY;
@@ -21,6 +26,8 @@ public abstract class Player {
     private boolean inPrison = false;
     private int inPrisonTurnCounter = 3;
     private boolean defeated = false;
+    private boolean yourTurn = false;
+
 
     Player(int playerPositionX, int playerPositionY, String playerColor) {
         this.playerPositionX = playerPositionX;
@@ -36,24 +43,26 @@ public abstract class Player {
         pawnAfterImage.setOpacity(0.35);
         pawnAfterImage.setDisable(true);
 
-        if("red".equals(playerColor)) {
+        if(RED.equals(playerColor)) {
             pawn.setFill(Color.RED);
             pawnAfterImage.setFill(Color.RED);
         }
 
-        else if("blue".equals(playerColor)) {
+        else if(BLUE.equals(playerColor)) {
             pawn.setFill(Color.BLUE);
             pawnAfterImage.setFill(Color.BLUE);
         }
-        else if("green".equals(playerColor)) {
+        else if(GREEN.equals(playerColor)) {
             pawn.setFill(Color.GREEN);
             pawnAfterImage.setFill(Color.GREEN);
         }
-        else if("yellow".equals(playerColor)) {
+        else if(YELLOW.equals(playerColor)) {
             pawn.setFill(Color.YELLOW);
             pawnAfterImage.setFill(Color.YELLOW);
         }
     }
+
+
 
     protected void buyBulding(CityCard cityCard, Board board){
             boolean canBuild = checkIfPlayerCanBuildOnField(board, cityCard);
@@ -68,6 +77,14 @@ public abstract class Player {
     }
 
     public abstract void checkAndDoActions(Board board);
+
+    public boolean isYourTurn() {
+        return yourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
+    }
 
     public void movePlayer(int dicesRoll, Board board){
         // Getting X and Y where player can stop his pawn afterimage from board
@@ -115,19 +132,19 @@ public abstract class Player {
     }
 
     public void setPlayersPositions(int fieldPositionNumber, Board board){
-        if("red".equals(playerColor)) {
+        if(RED.equals(playerColor)) {
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getRedPlayerStopY();
         }
-        else if("blue".equals(playerColor)){
+        else if(BLUE.equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getBluePlayerStopY();
         }
-        else if("green".equals(playerColor)){
+        else if(GREEN.equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getGreenPlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getGreenPlayerStopY();
         }
-        else if("yellow".equals(playerColor)){
+        else if(YELLOW.equals(playerColor)){
             playerPositionX = board.getFieldsArray().get(fieldPositionNumber).getYellowPlayerStopX();
             playerPositionY = board.getFieldsArray().get(fieldPositionNumber).getYellowPlayerStopY();
         }
@@ -156,18 +173,34 @@ public abstract class Player {
         updateCashLabels(board);
     }
 
+    public static String getRED() {
+        return RED;
+    }
+
+    public static String getBLUE() {
+        return BLUE;
+    }
+
+    public static String getGREEN() {
+        return GREEN;
+    }
+
+    public static String getYELLOW() {
+        return YELLOW;
+    }
+
     protected void updateCashLabels(Board board) {
         switch (getPlayerColor()) {
-            case "red":
+            case RED:
                 board.getCashLabels().setPlayerRedLabel(getCash());
                 break;
-            case "blue":
+            case BLUE:
                 board.getCashLabels().setPlayerBlueLabel(getCash());
                 break;
-            case "green":
+            case GREEN:
                 board.getCashLabels().setPlayerGreenLabel(getCash());
                 break;
-            case "yellow":
+            case YELLOW:
                 board.getCashLabels().setPlayerYellowLabel(getCash());
                 break;
         }
