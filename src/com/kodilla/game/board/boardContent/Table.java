@@ -28,6 +28,21 @@ public class Table {
     private Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
     private Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
     private Text[] gameplayInfo = new Text[10];
+    private Text tradeInfo = new Text();
+    private Button yes = new Button("yes");
+    private Button no = new Button("no");
+
+    public Button getYes() {
+        return yes;
+    }
+
+    public Button getNo() {
+        return no;
+    }
+
+    public Text getTradeInfo() {
+        return tradeInfo;
+    }
 
     public int getPlayerTradeCash() {
         return playerTradeCash;
@@ -209,8 +224,11 @@ public class Table {
         HBox enemyCashButtonsHBox = new HBox(enemyCashButton10, enemyCashButton50, enemyCashButton100, enemyTradeCashText);
 
 
-        Button yes = new Button("yes");
-        Button no = new Button("no");
+        yes.setVisible(false);
+        no.setVisible(false);
+        playerTradeCard.setFont(new Font(15));
+        enemyTradeCard.setFont(new Font(15));
+
 
         VBox playerTradeContent = new VBox(playerCashButtonsHBox, playerTradeCard);
         VBox enemyTradeContent = new VBox(enemyCashButtonsHBox, enemyTradeCard);
@@ -219,8 +237,11 @@ public class Table {
         HBox horizontalTable = new HBox(playerTradeContent, line, enemyTradeContent);
         HBox tradeAndReset = new HBox(trade, reset);
         HBox yesAndNo = new HBox(yes, no);
-        VBox allTradeContent = new VBox(horizontalTable, tradeAndReset, yesAndNo);
+        VBox allTradeContent = new VBox(horizontalTable, tradeAndReset, yesAndNo, tradeInfo);
 
+
+        HBox.setMargin(yes, new Insets(0,5,0,185));
+        VBox.setMargin(tradeInfo, new Insets(0,0,0,185));
         GridPane.setMargin(allTradeContent, new Insets(20,0,0,20));
         HBox.setMargin(line, new Insets(0,25,0,25));
         VBox.setMargin(tradeAndReset, new Insets(0,0,0,183));

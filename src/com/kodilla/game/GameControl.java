@@ -163,7 +163,6 @@ class GameControl {
                             board.getTable().getPlayerTradeCard().setText(buyableCard.getFieldName());
                             if (playerCards.size() == 0)
                                 playerCards.add(buyableCard);
-
                         }
                         if (!buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.getBelongsTo().equals("nobody") && board.getTable().getMenuButton2().getFill().equals(Color.WHEAT) && player instanceof Human) {
                             setEnemyColorForTrade(buyableCard.getBelongsTo());
@@ -177,52 +176,106 @@ class GameControl {
 
             board.getTable().getTrade().setOnMouseClicked(e -> {
                 if(player instanceof Human) {
-                    if (playerCards.size() != 0) {
-                        for (BuyableCard card : playerCards) {
-                            card.setBelongsTo(enemyColorForTrade);
-                            card.setBelongsIndicatorColor();
-                        }
-                    }
-                    if (enemyCards.size() != 0) {
-                        for (BuyableCard card : enemyCards) {
-                            card.setBelongsTo(player.getPlayerColor());
-                            card.setBelongsIndicatorColor();
-                        }
-                    }
-
-                    player.addCash(board.getTable().getEnemyTradeCash());
-                    player.substractCash(board.getTable().getPlayerTradeCash());
-
+                    Player enemy = null;
                     switch (enemyColorForTrade) {
                         case "red":
-                            redPlayer.addCash(board.getTable().getPlayerTradeCash());
-                            redPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            enemy = redPlayer;
                             break;
                         case "blue":
-                            bluePlayer.addCash(board.getTable().getPlayerTradeCash());
-                            bluePlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            enemy = bluePlayer;
                             break;
                         case "green":
-                            greenPlayer.addCash(board.getTable().getPlayerTradeCash());
-                            greenPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            enemy = greenPlayer;
                             break;
                         case "yellow":
-                            yellowPlayer.addCash(board.getTable().getPlayerTradeCash());
-                            yellowPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                            enemy = yellowPlayer;
                             break;
                     }
+                    // CANT BE LIKE THAT
+                    if (player.getCash() > board.getTable().getPlayerTradeCash() && enemy.getCash() > board.getTable().getEnemyTradeCash()) {
 
+                        int sumPlayerTradeCost = playerCards.get(0).getFieldCost() + board.getTable().getPlayerTradeCash();
+                        int sumEnemyTradeCost = enemyCards.get(0).getFieldCost() + board.getTable().getEnemyTradeCash();
 
-                    updatePlayerCashInLabels();
+                        // FOR AI
+                        if(enemy instanceof AI) {
+                            // ENEMY CONDITIONS TO AGREED
+                            if (sumPlayerTradeCost >= sumEnemyTradeCost) {
+                                //TRADED
+                                doTrade(board, player, playerCards, enemyCards);
+                            }
+                            else board.getTable().getTradeInfo().setText("Player didn't agreed");
+                        } else if(enemy instanceof Human){
 
-                    resetTrade(board, playerCards, enemyCards);
+                            Color enemyColor = null;
+                            switch(enemy.getPlayerColor()){
+                                case "red": enemyColor = Color.RED; break;
+                                case "blue": enemyColor = Color.BLUE; break;
+                                case "green": enemyColor = Color.GREEN; break;
+                                case "yellow": enemyColor = Color.YELLOW; break;
+                            }
+
+                            board.getTable().getYes().setTextFill(enemyColor);
+                            board.getTable().getNo().setTextFill(enemyColor);
+                            board.getTable().getYes().setVisible(true);
+                            board.getTable().getNo().setVisible(true);
+
+                            board.getTable().getNo().setOnMouseClicked(f -> board.getTable().getTradeInfo().setText("Player didn't agreed"));
+                            board.getTable().getYes().setOnMouseClicked(f -> doTrade(board, player, playerCards, enemyCards));
+                        }
+
+                    }
                 }
+                else board.getTable().getTradeInfo().setText("Something is wrong");
             });
 
 
             board.getTable().getReset().setOnMouseClicked(e -> resetTrade(board, playerCards, enemyCards));
 
 
+    }
+
+    private void doTrade(Board board, Player player, ArrayList<BuyableCard> playerCards, ArrayList<BuyableCard> enemyCards) {
+        if (playerCards.size() != 0) {
+            for (BuyableCard card : playerCards) {
+                card.setBelongsTo(enemyColorForTrade);
+                card.setBelongsIndicatorColor();
+            }
+        }
+        if (enemyCards.size() != 0) {
+            for (BuyableCard card : enemyCards) {
+                card.setBelongsTo(player.getPlayerColor());
+                card.setBelongsIndicatorColor();
+            }
+        }
+
+        player.addCash(board.getTable().getEnemyTradeCash());
+        player.substractCash(board.getTable().getPlayerTradeCash());
+
+        switch (enemyColorForTrade) {
+            case "red":
+                redPlayer.addCash(board.getTable().getPlayerTradeCash());
+                redPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                break;
+            case "blue":
+                bluePlayer.addCash(board.getTable().getPlayerTradeCash());
+                bluePlayer.substractCash(board.getTable().getEnemyTradeCash());
+                break;
+            case "green":
+                greenPlayer.addCash(board.getTable().getPlayerTradeCash());
+                greenPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                break;
+            case "yellow":
+                yellowPlayer.addCash(board.getTable().getPlayerTradeCash());
+                yellowPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                break;
+        }
+
+
+        updatePlayerCashInLabels();
+
+        resetTrade(board, playerCards, enemyCards);
+        board.getTable().getTradeInfo().setText("Player agreed");
     }
 
     private void resetTrade(Board board, ArrayList<BuyableCard> playerCards, ArrayList<BuyableCard> enemyCards) {
@@ -233,6 +286,11 @@ class GameControl {
         board.getTable().updateTradeCashTexts();
         playerCards.clear();
         enemyCards.clear();
+        board.getTable().getTradeInfo().setText("");
+        board.getTable().getYes().setVisible(false);
+        board.getTable().getNo().setVisible(false);
+        board.getTable().getYes().setTextFill(Color.BLACK);
+        board.getTable().getNo().setTextFill(Color.BLACK);
     }
 
 
@@ -377,7 +435,6 @@ class GameControl {
                 else {
                     sumOfFee = player.getCash();
                     deleteDefeatedPlayer(player);
-
                 }
 
 
