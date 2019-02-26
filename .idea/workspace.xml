@@ -3,8 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="32d5748d-3bfc-4240-b35a-577ea7fbb8d1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/GameControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/GameControl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/Player/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/board/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/board/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/board/boardContent/FieldInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/com/kodilla/game/board/boardContent/FieldInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/GameControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/GameControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Table.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/player/Human.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/player/Human.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kodilla/game/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kodilla/game/player/Player.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,11 +40,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/Main.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/GameControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="23" column="22" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+            <state relative-caret-position="173">
+              <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,91 +55,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Table.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="241" column="53" selection-start-line="241" selection-start-column="53" selection-end-line="241" selection-end-column="53" />
+            <state relative-caret-position="430">
+              <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1506#1507#0" expanded="true" />
                 <element signature="e#1426#1427#0" expanded="true" />
                 <element signature="e#1452#1453#0" expanded="true" />
                 <element signature="e#1481#1482#0" expanded="true" />
                 <element signature="e#1506#1507#0" expanded="true" />
-                <element signature="e#1344#1345#0" expanded="true" />
-                <element signature="e#1376#1377#0" expanded="true" />
-                <element signature="e#1308#1309#0" expanded="true" />
-                <element signature="e#1346#1347#0" expanded="true" />
-                <element signature="e#1384#1385#0" expanded="true" />
-                <element signature="e#1421#1422#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/GameControl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="292" column="56" selection-start-line="292" selection-start-column="56" selection-end-line="292" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#24930#24931#0" expanded="true" />
-                <element signature="e#24987#24988#0" expanded="true" />
-                <element signature="e#25863#25864#0" expanded="true" />
-                <element signature="e#25927#25928#0" expanded="true" />
-                <element signature="e#25993#25994#0" expanded="true" />
-                <element signature="e#26061#26062#0" expanded="true" />
-                <element signature="e#26120#26121#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/player/Player.java">
+        <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/player/Human.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4828">
-              <caret line="319" column="16" selection-start-line="319" selection-start-column="16" selection-end-line="319" selection-end-column="16" />
+            <state relative-caret-position="255">
+              <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2944#2945#0" expanded="true" />
-                <element signature="e#2975#2976#0" expanded="true" />
-                <element signature="e#3024#3025#0" expanded="true" />
-                <element signature="e#3064#3065#0" expanded="true" />
-                <element signature="e#6955#6956#0" expanded="true" />
-                <element signature="e#6981#6982#0" expanded="true" />
-                <element signature="e#7019#7020#0" expanded="true" />
-                <element signature="e#7046#7047#0" expanded="true" />
-                <element signature="e#7085#7086#0" expanded="true" />
-                <element signature="e#7113#7114#0" expanded="true" />
-                <element signature="e#7153#7154#0" expanded="true" />
-                <element signature="e#7182#7183#0" expanded="true" />
-                <element signature="e#11613#11614#0" expanded="true" />
-                <element signature="e#11651#11652#0" expanded="true" />
-                <element signature="e#11691#11692#0" expanded="true" />
-                <element signature="e#11729#11730#0" expanded="true" />
-                <element signature="e#11760#11761#0" expanded="true" />
-                <element signature="e#11787#11788#0" expanded="true" />
-                <element signature="e#11815#11816#0" expanded="true" />
-                <element signature="e#11842#11843#0" expanded="true" />
-                <element signature="e#11883#11884#0" expanded="true" />
-                <element signature="e#11920#11921#0" expanded="true" />
-                <element signature="e#11964#11965#0" expanded="true" />
-                <element signature="e#12007#12008#0" expanded="true" />
-                <element signature="e#12045#12046#0" expanded="true" />
-                <element signature="e#12079#12080#0" expanded="true" />
-                <element signature="e#12289#12290#0" expanded="true" />
-                <element signature="e#12352#12353#0" expanded="true" />
-                <element signature="e#12389#12390#0" expanded="true" />
-                <element signature="e#12421#12422#0" expanded="true" />
-                <element signature="e#12456#12457#0" expanded="true" />
-                <element signature="e#12487#12488#0" expanded="true" />
-                <element signature="e#12536#12537#0" expanded="true" />
-                <element signature="e#12576#12577#0" expanded="true" />
-                <element signature="e#12611#12612#0" expanded="true" />
-                <element signature="e#12642#12643#0" expanded="true" />
-                <element signature="e#12691#12692#0" expanded="true" />
-                <element signature="e#12731#12732#0" expanded="true" />
-                <element signature="e#12774#12775#0" expanded="true" />
-                <element signature="e#12816#12817#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -145,8 +92,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>endTurn</find>
-      <find>process</find>
       <find>menuButton</find>
       <find>firstOptionLayout.setOnMouseClicked</find>
       <find>purchase</find>
@@ -175,6 +120,8 @@
       <find>for</find>
       <find>move</find>
       <find>menuButton2</find>
+      <find>switch</find>
+      <find>menuButton3</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -199,18 +146,18 @@
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/BoardField.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/cards/unBuyableCards/EventCard.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/MainMenu.java" />
-        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Dices.java" />
-        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BelongsIndicators.java" />
-        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/Board.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/cards/BuyableCard.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/CashLabels.java" />
-        <option value="$PROJECT_DIR$/src/com/kodilla/game/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/kodilla/game/player/Human.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/player/AI.java" />
+        <option value="$PROJECT_DIR$/src/com/kodilla/game/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java" />
+        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java" />
+        <option value="$PROJECT_DIR$/src/com/kodilla/game/board/Board.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/player/Player.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Table.java" />
+        <option value="$PROJECT_DIR$/src/com/kodilla/game/player/Human.java" />
         <option value="$PROJECT_DIR$/src/com/kodilla/game/GameControl.java" />
       </list>
     </option>
@@ -225,7 +172,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -256,6 +202,21 @@
               <item name="Monopoly" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="board" type="462c0819:PsiDirectoryNode" />
+              <item name="boardContent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monopoly" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monopoly" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="cards" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monopoly" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monopoly" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
               <item name="player" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -267,12 +228,13 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550052184101" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551213405286" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Dawid-Majchrzak-kodilla-java-master" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -367,12 +329,23 @@
       <workItem from="1549881845101" duration="76000" />
       <workItem from="1549889395190" duration="7313000" />
       <workItem from="1549961359516" duration="11914000" />
-      <workItem from="1550047070091" duration="4004000" />
+      <workItem from="1550047070091" duration="4829000" />
+      <workItem from="1550072113748" duration="323000" />
+      <workItem from="1550135174247" duration="28000" />
+      <workItem from="1550223852492" duration="33000" />
+      <workItem from="1550303806810" duration="2565000" />
+      <workItem from="1550306694083" duration="150000" />
+      <workItem from="1551004338246" duration="223000" />
+      <workItem from="1551013588060" duration="54000" />
+      <workItem from="1551083697261" duration="85000" />
+      <workItem from="1551166962153" duration="120000" />
+      <workItem from="1551190701061" duration="1035000" />
+      <workItem from="1551209833535" duration="3471000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="233711000" />
+    <option name="totallyTimeSpent" value="242623000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -387,7 +360,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18496802" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20842217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -559,16 +532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1910">
-          <caret line="12" column="71" selection-start-line="12" selection-start-column="71" selection-end-line="12" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BelongsIndicators.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2253">
@@ -579,30 +542,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Dices.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="541">
           <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1462">
-          <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -646,16 +589,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/player/Human.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/cards/BuyableCard.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -666,10 +599,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/FieldInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/BuyCardLayout.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="23" column="22" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -678,87 +631,55 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/player/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4828">
-          <caret line="319" column="16" selection-start-line="319" selection-start-column="16" selection-end-line="319" selection-end-column="16" />
+        <state relative-caret-position="1462">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2944#2945#0" expanded="true" />
-            <element signature="e#2975#2976#0" expanded="true" />
-            <element signature="e#3024#3025#0" expanded="true" />
-            <element signature="e#3064#3065#0" expanded="true" />
-            <element signature="e#6955#6956#0" expanded="true" />
-            <element signature="e#6981#6982#0" expanded="true" />
-            <element signature="e#7019#7020#0" expanded="true" />
-            <element signature="e#7046#7047#0" expanded="true" />
-            <element signature="e#7085#7086#0" expanded="true" />
-            <element signature="e#7113#7114#0" expanded="true" />
-            <element signature="e#7153#7154#0" expanded="true" />
-            <element signature="e#7182#7183#0" expanded="true" />
-            <element signature="e#11613#11614#0" expanded="true" />
-            <element signature="e#11651#11652#0" expanded="true" />
-            <element signature="e#11691#11692#0" expanded="true" />
-            <element signature="e#11729#11730#0" expanded="true" />
-            <element signature="e#11760#11761#0" expanded="true" />
-            <element signature="e#11787#11788#0" expanded="true" />
-            <element signature="e#11815#11816#0" expanded="true" />
-            <element signature="e#11842#11843#0" expanded="true" />
-            <element signature="e#11883#11884#0" expanded="true" />
-            <element signature="e#11920#11921#0" expanded="true" />
-            <element signature="e#11964#11965#0" expanded="true" />
-            <element signature="e#12007#12008#0" expanded="true" />
-            <element signature="e#12045#12046#0" expanded="true" />
-            <element signature="e#12079#12080#0" expanded="true" />
-            <element signature="e#12289#12290#0" expanded="true" />
-            <element signature="e#12352#12353#0" expanded="true" />
-            <element signature="e#12389#12390#0" expanded="true" />
-            <element signature="e#12421#12422#0" expanded="true" />
-            <element signature="e#12456#12457#0" expanded="true" />
-            <element signature="e#12487#12488#0" expanded="true" />
-            <element signature="e#12536#12537#0" expanded="true" />
-            <element signature="e#12576#12577#0" expanded="true" />
-            <element signature="e#12611#12612#0" expanded="true" />
-            <element signature="e#12642#12643#0" expanded="true" />
-            <element signature="e#12691#12692#0" expanded="true" />
-            <element signature="e#12731#12732#0" expanded="true" />
-            <element signature="e#12774#12775#0" expanded="true" />
-            <element signature="e#12816#12817#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/player/Human.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/board/boardContent/Table.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="241" column="53" selection-start-line="241" selection-start-column="53" selection-end-line="241" selection-end-column="53" />
+        <state relative-caret-position="430">
+          <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1506#1507#0" expanded="true" />
             <element signature="e#1426#1427#0" expanded="true" />
             <element signature="e#1452#1453#0" expanded="true" />
             <element signature="e#1481#1482#0" expanded="true" />
             <element signature="e#1506#1507#0" expanded="true" />
-            <element signature="e#1344#1345#0" expanded="true" />
-            <element signature="e#1376#1377#0" expanded="true" />
-            <element signature="e#1308#1309#0" expanded="true" />
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1384#1385#0" expanded="true" />
-            <element signature="e#1421#1422#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/kodilla/game/GameControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="292" column="56" selection-start-line="292" selection-start-column="56" selection-end-line="292" selection-end-column="56" />
+        <state relative-caret-position="173">
+          <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#24930#24931#0" expanded="true" />
-            <element signature="e#24987#24988#0" expanded="true" />
-            <element signature="e#25863#25864#0" expanded="true" />
-            <element signature="e#25927#25928#0" expanded="true" />
-            <element signature="e#25993#25994#0" expanded="true" />
-            <element signature="e#26061#26062#0" expanded="true" />
-            <element signature="e#26120#26121#0" expanded="true" />
           </folding>
         </state>
       </provider>

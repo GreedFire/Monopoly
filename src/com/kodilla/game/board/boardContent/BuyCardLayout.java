@@ -25,7 +25,7 @@ public class BuyCardLayout {
         HBox buyCardOptionsLayout = new HBox(buyCardYesButton, buyCardNoButton);
         VBox buyCardLayout = new VBox(buyCardFieldName, buyCardOptionsLayout);
         buyCardContentLayout = new StackPane(buyCardRectangle, buyCardLayout);
-
+        
         StackPane.setMargin(buyCardLayout, new Insets(20,1,1,25));
         HBox.setMargin(buyCardYesButton, new Insets(1,1,1,30));
         HBox.setMargin(buyCardNoButton, new Insets(1,1,1,10));

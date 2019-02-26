@@ -22,7 +22,6 @@ public class Board {
     private Dices dices = new Dices();
 
     public Board(){
-
         mainMenu.prepareMainMenu();
 
         prepareFieldsOnBoard();

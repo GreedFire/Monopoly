@@ -11,10 +11,10 @@ import java.util.Map;
 
 public abstract class Player {
 
-    private static final String RED = "red";
-    private static final String BLUE = "blue";
-    private static final String GREEN = "green";
-    private static final String YELLOW = "yellow";
+    public static final String RED = "red";
+    public static final String BLUE = "blue";
+    public static final String GREEN = "green";
+    public static final String YELLOW = "yellow";
 
     private int playerPositionNumber = 0;
     private int playerPositionX;
@@ -27,7 +27,6 @@ public abstract class Player {
     private int inPrisonTurnCounter = 3;
     private boolean defeated = false;
     private boolean yourTurn = false;
-
 
     Player(int playerPositionX, int playerPositionY, String playerColor) {
         this.playerPositionX = playerPositionX;

@@ -20,9 +20,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        /*
-        *  Todo: trade
-        */
 
         GameControl gameControl = new GameControl();
         ImageView imageView = new ImageView(imageback);
@@ -48,8 +45,6 @@ public class Main extends Application {
             root.getChildren().add(gameControl.getGreen().getPawnAfterImage());
             root.getChildren().add(gameControl.getYellow().getPawn());
             root.getChildren().add(gameControl.getYellow().getPawnAfterImage());
-
-
         });
 
         //-------------------------------------------------------------------------------------

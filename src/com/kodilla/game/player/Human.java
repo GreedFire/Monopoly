@@ -56,6 +56,7 @@ public class Human extends Player {
 
     public void checkAndDoActions(Board board) {
 
+
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
             if (entry.getValue().getCard() instanceof BuyableCard) {
                 entry.getValue().getRectangle().setOnMouseClicked(x -> {
@@ -98,6 +99,8 @@ public class Human extends Player {
                     }
                 });
             }
+            //if(board.getTable().getMenuButton3().getFill().equals(Color.WHITE))
+              //  break;
         }
     }
 

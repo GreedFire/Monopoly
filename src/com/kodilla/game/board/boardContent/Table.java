@@ -23,6 +23,7 @@ public class Table {
     private Button reset = new Button("Reset");
     private Button trade = new Button("Trade");
     private Rectangle menuButton2 = new Rectangle(165,50, Color.WHITE);
+    private Rectangle menuButton3;
     private Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
     private Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
     private Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
@@ -31,6 +32,10 @@ public class Table {
     private Text tradeInfo = new Text();
     private Button yes = new Button("yes");
     private Button no = new Button("no");
+
+    public Rectangle getMenuButton3() {
+        return menuButton3;
+    }
 
     public Button getYes() {
         return yes;
@@ -115,7 +120,7 @@ public class Table {
         Rectangle menuButton = new Rectangle(165,50, Color.WHEAT);
         menuButton.setStroke(Color.BLACK);
         menuButton2.setStroke(Color.BLACK);
-        Rectangle menuButton3 = new Rectangle(165,50, Color.WHITE);
+        menuButton3 = new Rectangle(165,50, Color.WHITE);
         menuButton3.setStroke(Color.BLACK);
 
         // Creating buttons text

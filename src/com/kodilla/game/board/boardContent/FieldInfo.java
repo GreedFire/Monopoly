@@ -91,7 +91,6 @@ public class FieldInfo {
                     costOfBuilding.setVisible(true);
                     colorOfCard.setVisible(true);
 
-
                     // Picking color for card
                     String colorOfCardPicker = tempCard.getCardColor();
                     switch(colorOfCardPicker){

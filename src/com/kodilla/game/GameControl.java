@@ -133,11 +133,15 @@ class GameControl {
 
     private void playerActions(Player player) {
         //CHEAT >>>>
-         //player.giveMeAllFields(board, bluePlayer);
+         //player.giveMeAllFields(board, redPlayer);
         //CHEAT >>>>
 
         checkAndSetPlayerTurnIndicator(player);
-        player.checkAndDoActions(board);
+        if(player instanceof Human)
+            board.getTable().getMenuButton3().setOnMouseClicked(e -> player.checkAndDoActions(board));
+        else if(player instanceof AI)
+            player.checkAndDoActions(board);
+        board.getTable().getMenuButton2().setOnMouseClicked(e -> trade(board, player));
         useDice();
         player.movePlayer(sumDicesResult(), board);
         player.purchaseCard(board);
@@ -145,7 +149,6 @@ class GameControl {
         checkIfPlayerIsInGoesToPrisonPosition(player);
         payFee(player);
         checkIfPlayerIsOnTaxCard(player);
-        trade(board, player);
         updatePlayerCashInLabels();
     }
 
@@ -172,6 +175,8 @@ class GameControl {
                         }
                     });
                 }
+              //  if(board.getTable().getMenuButton2().getFill().equals(Color.WHITE))
+               //     break;
             }
 
             board.getTable().getTrade().setOnMouseClicked(e -> {
