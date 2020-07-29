@@ -2,7 +2,6 @@ package com.kodilla.game.board.boardContent;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -13,8 +12,8 @@ import javafx.scene.text.Text;
 
 public class BuyCardLayout {
     private StackPane buyCardContentLayout;
-    private Button buyCardYesButton = new Button("yes");
-    private Button buyCardNoButton = new Button("no");
+    private final Button buyCardYesButton = new Button("yes");
+    private final Button buyCardNoButton = new Button("no");
 
     public void prepareBuyCardLayout(GridPane grid){
         Rectangle buyCardRectangle = new Rectangle(200,80, Color.WHITE);

@@ -2,7 +2,7 @@ package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
 import com.kodilla.game.board.BoardField;
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -20,9 +20,9 @@ public abstract class Player {
     private int playerPositionX;
     private int playerPositionY;
     private int cash = 1500;
-    private String playerColor;
-    private Circle pawn;
-    private Circle pawnAfterImage;
+    private final String playerColor;
+    private final Circle pawn;
+    private final Circle pawnAfterImage;
     private boolean inPrison = false;
     private int inPrisonTurnCounter = 3;
     private boolean defeated = false;
@@ -63,11 +63,11 @@ public abstract class Player {
 
 
 
-    protected void buyBulding(CityCard cityCard, Board board){
+    protected void buyBuilding(CityCard cityCard, Board board){
             boolean canBuild = checkIfPlayerCanBuildOnField(board, cityCard);
             if(canBuild && cityCard.getNumberOfBuildings() < 5 && getCash() >= cityCard.getBuildCost() && !cityCard.isOnPledge()) {
-                substractCash(cityCard.getBuildCost());
-                cityCard.setbuildingsPlusOne();
+                subtractCash(cityCard.getBuildCost());
+                cityCard.setBuildingsPlusOne();
                 setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
                 cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
                 board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
@@ -151,8 +151,8 @@ public abstract class Player {
 
     public void giveMeAllFields(Board board, Player player) {
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (board.getFieldsArray().get(entry.getKey()).getCard() instanceof BuyableCard) {
-                BuyableCard givenCard = (BuyableCard) board.getFieldsArray().get(entry.getKey()).getCard();
+            if (board.getFieldsArray().get(entry.getKey()).getCard() instanceof BuyAbleCard) {
+                BuyAbleCard givenCard = (BuyAbleCard) board.getFieldsArray().get(entry.getKey()).getCard();
 
                 givenCard.setBelongsTo(player.playerColor);
                 givenCard.getBelongsIndicator().setVisible(true);
@@ -162,7 +162,7 @@ public abstract class Player {
         }
     }
 
-    protected void doPledge(Board board, BuyableCard buyableCard) {
+    protected void doPledge(Board board, BuyAbleCard buyableCard) {
         buyableCard.setPledgeAndBuildingsIndicator(board.getBelongsIndicators().getPledgeImage());
         buyableCard.getPledgeAndBuildingsIndicator().setVisible(true);
         addCash(buyableCard.getFieldCost());
@@ -205,11 +205,11 @@ public abstract class Player {
         }
     }
 
-    protected void purchaseFromPledge(Board board, BuyableCard buyableCard) {
+    protected void purchaseFromPledge(Board board, BuyAbleCard buyableCard) {
         if (buyableCard.isOnPledge() && buyableCard.getBelongsTo().equals(getPlayerColor()) && (getCash() >= buyableCard.getFieldCost()) ) {
             buyableCard.getPledgeAndBuildingsIndicator().setVisible(false);
-            substractCash(buyableCard.getFieldCost());
-            board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " pucharsed from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
+            subtractCash(buyableCard.getFieldCost());
+            board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " purchased from pledge " + buyableCard.getFieldName() + " for " + buyableCard.getFieldCost() + "$");
             buyableCard.setOnPledge(false);
 
             updateCashLabels(board);
@@ -267,7 +267,7 @@ public abstract class Player {
 
     protected void sellBuilding(CityCard cityCard, Board board){
         addCash(cityCard.getBuildCost());
-        cityCard.setbuildingsMinusOne();
+        cityCard.setBuildingsMinusOne();
         setImageOfBuildings(board, cityCard, cityCard.getNumberOfBuildings());
         cityCard.getPledgeAndBuildingsIndicator().setVisible(true);
         board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " sold a building on " + cityCard.getFieldName() + " for " + cityCard.getBuildCost() + "$");
@@ -312,7 +312,7 @@ public abstract class Player {
         return playerColor;
     }
 
-    public void substractCash(int number){
+    public void subtractCash(int number){
         cash -= number;
     }
 
@@ -337,7 +337,7 @@ public abstract class Player {
     }
 
     public boolean isInPrison() {
-        return inPrison;
+        return !inPrison;
     }
 
     public void setInPrison(boolean inPrison) {

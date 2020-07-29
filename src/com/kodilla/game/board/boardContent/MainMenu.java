@@ -17,16 +17,16 @@ import java.util.ArrayList;
 
 public class MainMenu {
 
-    private ImageView bannerView = new ImageView();
-    private ImageView authorView = new ImageView();
-    private Button redPlayerButton = new Button("Human");
-    private Button bluePlayerButton = new Button("AI");
-    private Button greenPlayerButton = new Button("noone");
-    private Button yellowPlayerButton = new Button("noone");
-    private Button startButton = new Button("START");
+    private final ImageView bannerView = new ImageView();
+    private final ImageView authorView = new ImageView();
+    private final Button redPlayerButton = new Button("Human");
+    private final Button bluePlayerButton = new Button("AI");
+    private final Button greenPlayerButton = new Button("Empty");
+    private final Button yellowPlayerButton = new Button("Empty");
+    private final Button startButton = new Button("START");
     private int playerPickerTextOne = 0;
     private int playerPickerTextTwo = 0;
-    private GridPane menuGrid = new GridPane();
+    private final GridPane menuGrid = new GridPane();
 
     private void setPlayerPickerTextOne() {
         playerPickerTextOne++;
@@ -88,7 +88,7 @@ public class MainMenu {
         ArrayList<String> otherPlayersButtonStringList = new ArrayList<>();
         otherPlayersButtonStringList.add("Human");
         otherPlayersButtonStringList.add("AI");
-        otherPlayersButtonStringList.add("noone");
+        otherPlayersButtonStringList.add("Empty");
 
         changePlayerButtonsLook(redPlayerButton, Color.RED);
         redPlayerButton.setDisable(true);

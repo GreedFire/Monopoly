@@ -6,17 +6,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class BuyableCard extends Card {
+public class BuyAbleCard extends Card {
 
     private final String fieldName;
     private final int fieldCost;
     private String belongsTo = "nobody";
-    private Rectangle belongsIndicator;
-    private ImageView pledgeAndBuildingsIndicator = new ImageView(new Image("file:resources/pledge.png"));
+    private final Rectangle belongsIndicator;
+    private final ImageView pledgeAndBuildingsIndicator = new ImageView(new Image("file:resources/pledge.png"));
 
     private boolean onPledge = false;
 
-    public BuyableCard(String typeOfCard, String fieldName, int fieldCost) {
+    public BuyAbleCard(String typeOfCard, String fieldName, int fieldCost) {
         super(typeOfCard);
         this.fieldName = fieldName;
         this.fieldCost = fieldCost;

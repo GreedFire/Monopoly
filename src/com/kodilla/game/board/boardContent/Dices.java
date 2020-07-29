@@ -8,16 +8,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Dices {
-    private Button diceRollBtn = new Button("Roll");
-    private Button endTurnBtn = new Button("Turn end");
-    private Image dice1 = new Image("file:resources/dice1.png");
-    private Image dice2 = new Image("file:resources/dice2.png");
-    private Image dice3 = new Image("file:resources/dice3.png");
-    private Image dice4 = new Image("file:resources/dice4.png");
-    private Image dice5 = new Image("file:resources/dice5.png");
-    private Image dice6 = new Image("file:resources/dice6.png");
-    private ImageView firstDiceShow = new ImageView(dice1);
-    private ImageView secondDiceShow = new ImageView(dice2);
+    private final Button diceRollBtn = new Button("Roll");
+    private final Button endTurnBtn = new Button("Turn end");
+    private final Image dice1 = new Image("file:resources/dice1.png");
+    private final Image dice2 = new Image("file:resources/dice2.png");
+    private final Image dice3 = new Image("file:resources/dice3.png");
+    private final Image dice4 = new Image("file:resources/dice4.png");
+    private final Image dice5 = new Image("file:resources/dice5.png");
+    private final Image dice6 = new Image("file:resources/dice6.png");
+    private final ImageView firstDiceShow = new ImageView(dice1);
+    private final ImageView secondDiceShow = new ImageView(dice2);
 
     public void prepareDiceAndDiceButtons(GridPane grid){
         endTurnBtn.setVisible(false);

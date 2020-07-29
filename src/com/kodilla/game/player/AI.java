@@ -2,7 +2,7 @@ package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
 import com.kodilla.game.board.BoardField;
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import java.util.Map;
@@ -15,8 +15,8 @@ public class AI extends Player {
 
     public void pledgeOrSell(Board board, int cashToPay) {
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (entry.getValue().getCard() instanceof BuyableCard) {
-                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+            if (entry.getValue().getCard() instanceof BuyAbleCard) {
+                BuyAbleCard buyableCard = (BuyAbleCard) entry.getValue().getCard();
                 CityCard cityCard;
 
                 // PLEDGE
@@ -44,14 +44,14 @@ public class AI extends Player {
 
     public void checkAndDoActions(Board board){
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (entry.getValue().getCard() instanceof BuyableCard) {
-                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+            if (entry.getValue().getCard() instanceof BuyAbleCard) {
+                BuyAbleCard buyableCard = (BuyAbleCard) entry.getValue().getCard();
                 CityCard cityCard;
 
                 //Buy buildings
                 if(buyableCard instanceof CityCard && isYourTurn()) {
                     cityCard = (CityCard) buyableCard;
-                    buyBulding(cityCard, board);
+                    buyBuilding(cityCard, board);
                 }
 
                 //Buy from pledge
@@ -63,24 +63,24 @@ public class AI extends Player {
     }
 
     public void purchaseCard(Board board) {
-        if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyableCard) {
+        if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyAbleCard) {
             Card givenCard = board.getFieldsArray().get(getPlayerPositionNumber()).getCard();
-            BuyableCard temporaryCityCard;
-            if (givenCard instanceof BuyableCard) {
-                temporaryCityCard = (BuyableCard) givenCard;
-                BuyableCard purchasableCard = temporaryCityCard;
+            BuyAbleCard temporaryCityCard;
+            if (givenCard instanceof BuyAbleCard) {
+                temporaryCityCard = (BuyAbleCard) givenCard;
+                BuyAbleCard purchasableCard = temporaryCityCard;
 
 
                 if (purchasableCard.getBelongsTo().equals("nobody")) {
                     if (getCash() >= purchasableCard.getFieldCost()) {
                         purchasableCard.setBelongsTo(getPlayerColor());
-                        substractCash(purchasableCard.getFieldCost());
+                        subtractCash(purchasableCard.getFieldCost());
                         purchasableCard.setBelongsIndicatorColor();
                         purchasableCard.getBelongsIndicator().setVisible(true);
                         board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
                         updateCashLabels(board);
                     } else {
-                        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
+                        board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " didn't buy the field");
                     }
                 }
 

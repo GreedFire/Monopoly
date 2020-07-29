@@ -1,7 +1,7 @@
 package com.kodilla.game;
 
 import com.kodilla.game.board.BoardField;
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 import com.kodilla.game.cards.buyableCards.CircleCard;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import com.kodilla.game.cards.buyableCards.TriangleCard;
@@ -14,6 +14,7 @@ import com.kodilla.game.player.Player;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 class GameControl {
@@ -25,7 +26,7 @@ class GameControl {
     private Player yellowPlayer;
     private int firstDiceResult;
     private int secondDiceResult;
-    private ArrayList<Player> playersList = new ArrayList<>();
+    private final ArrayList<Player> playersList = new ArrayList<>();
     private int numberOfPlayers;
     private int playerPicker = 0;
     private String enemyColorForTrade;
@@ -50,7 +51,7 @@ class GameControl {
              greenPlayer = new Human(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), Player.getGREEN());
          else if(!board.getMainMenu().getGreenPlayerButton().getText().equals("Human"))
              greenPlayer = new AI(board.getFieldsArray().get(0).getGreenPlayerStopX(), board.getFieldsArray().get(0).getGreenPlayerStopY(), Player.getGREEN());
-         if(!board.getMainMenu().getGreenPlayerButton().getText().equals("noone")) {
+         if(!board.getMainMenu().getGreenPlayerButton().getText().equals("Empty")) {
              board.getCashLabels().setPlayerGreenLabel(greenPlayer.getCash());
              playersList.add(greenPlayer);
          }
@@ -64,7 +65,7 @@ class GameControl {
              yellowPlayer = new Human(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), Player.getYELLOW());
          else if(!board.getMainMenu().getYellowPlayerButton().getText().equals("Human"))
              yellowPlayer = new AI(board.getFieldsArray().get(0).getYellowPlayerStopX(), board.getFieldsArray().get(0).getYellowPlayerStopY(), Player.getYELLOW());
-         if(!board.getMainMenu().getYellowPlayerButton().getText().equals("noone")) {
+         if(!board.getMainMenu().getYellowPlayerButton().getText().equals("Empty")) {
              board.getCashLabels().setPlayerYellowLabel(yellowPlayer.getCash());
              playersList.add(yellowPlayer);
          }
@@ -87,7 +88,7 @@ class GameControl {
         if(player.isDefeated()){
             playersTurns(choosePlayerDependingOnTurn());
         }else {
-            if (!player.isInPrison()) {
+            if (player.isInPrison()) {
                 redPlayer.getPawnAfterImage().setVisible(false);
                 bluePlayer.getPawnAfterImage().setVisible(false);
                 greenPlayer.getPawnAfterImage().setVisible(false);
@@ -153,14 +154,14 @@ class GameControl {
     }
 
     private void trade(Board board, Player player) {
-        ArrayList<BuyableCard> playerCards = new ArrayList<>();
-        ArrayList<BuyableCard> enemyCards = new ArrayList<>();
+        ArrayList<BuyAbleCard> playerCards = new ArrayList<>();
+        ArrayList<BuyAbleCard> enemyCards = new ArrayList<>();
 
             for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-                if (entry.getValue().getCard() instanceof BuyableCard) {
+                if (entry.getValue().getCard() instanceof BuyAbleCard) {
                     entry.getValue().getRectangle().setOnMouseClicked(x -> {
 
-                        BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+                        BuyAbleCard buyableCard = (BuyAbleCard) entry.getValue().getCard();
 
                         if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && board.getTable().getMenuButton2().getFill().equals(Color.WHEAT) && player instanceof Human) {
                             board.getTable().getPlayerTradeCard().setText(buyableCard.getFieldName());
@@ -197,7 +198,7 @@ class GameControl {
                             break;
                     }
                     // CANT BE LIKE THAT
-                    if (player.getCash() > board.getTable().getPlayerTradeCash() && enemy.getCash() > board.getTable().getEnemyTradeCash()) {
+                    if (player.getCash() > board.getTable().getPlayerTradeCash() && Objects.requireNonNull(enemy).getCash() > board.getTable().getEnemyTradeCash()) {
 
                         int sumPlayerTradeCost = playerCards.get(0).getFieldCost() + board.getTable().getPlayerTradeCash();
                         int sumEnemyTradeCost = enemyCards.get(0).getFieldCost() + board.getTable().getEnemyTradeCash();
@@ -240,39 +241,39 @@ class GameControl {
 
     }
 
-    private void doTrade(Board board, Player player, ArrayList<BuyableCard> playerCards, ArrayList<BuyableCard> enemyCards) {
+    private void doTrade(Board board, Player player, ArrayList<BuyAbleCard> playerCards, ArrayList<BuyAbleCard> enemyCards) {
         if (playerCards.size() != 0) {
-            for (BuyableCard card : playerCards) {
+            for (BuyAbleCard card : playerCards) {
                 card.setBelongsTo(enemyColorForTrade);
                 card.setBelongsIndicatorColor();
             }
         }
         if (enemyCards.size() != 0) {
-            for (BuyableCard card : enemyCards) {
+            for (BuyAbleCard card : enemyCards) {
                 card.setBelongsTo(player.getPlayerColor());
                 card.setBelongsIndicatorColor();
             }
         }
 
         player.addCash(board.getTable().getEnemyTradeCash());
-        player.substractCash(board.getTable().getPlayerTradeCash());
+        player.subtractCash(board.getTable().getPlayerTradeCash());
 
         switch (enemyColorForTrade) {
             case "red":
                 redPlayer.addCash(board.getTable().getPlayerTradeCash());
-                redPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                redPlayer.subtractCash(board.getTable().getEnemyTradeCash());
                 break;
             case "blue":
                 bluePlayer.addCash(board.getTable().getPlayerTradeCash());
-                bluePlayer.substractCash(board.getTable().getEnemyTradeCash());
+                bluePlayer.subtractCash(board.getTable().getEnemyTradeCash());
                 break;
             case "green":
                 greenPlayer.addCash(board.getTable().getPlayerTradeCash());
-                greenPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                greenPlayer.subtractCash(board.getTable().getEnemyTradeCash());
                 break;
             case "yellow":
                 yellowPlayer.addCash(board.getTable().getPlayerTradeCash());
-                yellowPlayer.substractCash(board.getTable().getEnemyTradeCash());
+                yellowPlayer.subtractCash(board.getTable().getEnemyTradeCash());
                 break;
         }
 
@@ -283,7 +284,7 @@ class GameControl {
         board.getTable().getTradeInfo().setText("Player agreed");
     }
 
-    private void resetTrade(Board board, ArrayList<BuyableCard> playerCards, ArrayList<BuyableCard> enemyCards) {
+    private void resetTrade(Board board, ArrayList<BuyAbleCard> playerCards, ArrayList<BuyAbleCard> enemyCards) {
         enemyColorForTrade = null;
         board.getTable().getPlayerTradeCard().setText("");
         board.getTable().getEnemyTradeCard().setText("");
@@ -304,7 +305,7 @@ class GameControl {
     }
 
     private void checkIfPlayerIsInGoesToPrisonPosition(Player player){
-        if(player.getPlayerPositionNumber() == 30 && !player.isInPrison()){
+        if(player.getPlayerPositionNumber() == 30 && player.isInPrison()){
             player.setPlayerPositionNumber(10);
             player.movePlayer(board);
             board.getTable().putInfoToProcess("+ " + player.getPlayerColor() + " goes to prison for  " + player.getInPrisonTurnCounter() + " turns");
@@ -351,7 +352,7 @@ class GameControl {
 
         if(board.getFieldsArray().get(player.getPlayerPositionNumber()).getTypeOfField().equals("Card")) {
 
-            BuyableCard temporaryCard = (BuyableCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
+            BuyAbleCard temporaryCard = (BuyAbleCard) board.getFieldsArray().get(player.getPlayerPositionNumber()).getCard();
             String enemyPlayerColor = temporaryCard.getBelongsTo();
             int sumOfFee = 0;
 
@@ -435,7 +436,7 @@ class GameControl {
                 if(sumOfFee <= sumPlayerProperty(player)) {
                     if(player instanceof AI)
                         ((AI) player).pledgeOrSell(board, sumOfFee);
-                    player.substractCash(sumOfFee);
+                    player.subtractCash(sumOfFee);
                 }
                 else {
                     sumOfFee = player.getCash();
@@ -457,8 +458,8 @@ class GameControl {
                             board.getCashLabels().setPlayerRedLabel(greenPlayer.getCash());
                             break;
                         case "yellow":
-                            greenPlayer.addCash(sumOfFee);
-                            board.getCashLabels().setPlayerRedLabel(greenPlayer.getCash());
+                            yellowPlayer.addCash(sumOfFee);
+                            board.getCashLabels().setPlayerRedLabel(yellowPlayer.getCash());
                             break;
                     }
 
@@ -482,7 +483,7 @@ class GameControl {
             else{
                 if(player instanceof AI)
                     ((AI) player).pledgeOrSell(board, cashToPay);
-                player.substractCash(cashToPay);
+                player.subtractCash(cashToPay);
                 board.getTable().putInfoToProcess("+ #" + player.getPlayerColor() + " pays tax of " + cashToPay + "$");
             }
 
@@ -495,8 +496,8 @@ class GameControl {
         int sumPlayerCash = player.getCash();
 
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (entry.getValue().getCard() instanceof BuyableCard) {
-                BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+            if (entry.getValue().getCard() instanceof BuyAbleCard) {
+                BuyAbleCard buyableCard = (BuyAbleCard) entry.getValue().getCard();
 
                 if (buyableCard.getBelongsTo().equals(player.getPlayerColor()) && !buyableCard.isOnPledge()) {
                     sumPlayerCash += buyableCard.getFieldCost();
@@ -536,7 +537,7 @@ class GameControl {
             board.getDices().getDiceRollBtn().setDisable(true);
             board.getDices().getEndTurnBtn().setDisable(true);
             for(int i = 0; i<10; i++)
-                board.getTable().putInfoToProcess("+ #" + winner.getPlayerColor() + " IS A WINNER!!!");
+                board.getTable().putInfoToProcess("+ #" + (winner != null ? winner.getPlayerColor() : null) + " IS A WINNER!!!");
         }
     }
 

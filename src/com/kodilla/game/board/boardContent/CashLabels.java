@@ -1,6 +1,5 @@
 package com.kodilla.game.board.boardContent;
 
-import com.kodilla.game.player.Player;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -13,14 +12,14 @@ import javafx.scene.text.Text;
 
 public class CashLabels {
 
-    private Text playerRedLabel = new Text("Red: 0$");
-    private Text playerBlueLabel  = new Text("Blue: 0$");
-    private Text playerGreenLabel  = new Text("Green: 0$");
-    private Text playerYellowLabel  = new Text("Yellow: 0$");
-    private Rectangle playerRedCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerBlueCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerGreenCashRectangle = new Rectangle(100,25, Color.WHITE);
-    private Rectangle playerYellowCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private final Text playerRedLabel = new Text("Red: 0$");
+    private final Text playerBlueLabel  = new Text("Blue: 0$");
+    private final Text playerGreenLabel  = new Text("Green: 0$");
+    private final Text playerYellowLabel  = new Text("Yellow: 0$");
+    private final Rectangle playerRedCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private final Rectangle playerBlueCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private final Rectangle playerGreenCashRectangle = new Rectangle(100,25, Color.WHITE);
+    private final Rectangle playerYellowCashRectangle = new Rectangle(100,25, Color.WHITE);
 
     public void preparePlayersLabels(GridPane grid){
 
@@ -88,7 +87,6 @@ public class CashLabels {
         playerBlueCashRectangle.setStroke(Color.BLACK);
         playerGreenCashRectangle.setStroke(Color.BLACK);
         playerYellowCashRectangle.setStroke(Color.BLACK);
-        ;
 
         switch(playerColor){
             case "red": playerRedCashRectangle.setStroke(Color.RED); break;

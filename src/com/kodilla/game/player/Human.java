@@ -2,7 +2,7 @@ package com.kodilla.game.player;
 
 import com.kodilla.game.board.Board;
 import com.kodilla.game.board.BoardField;
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 import com.kodilla.game.cards.Card;
 import com.kodilla.game.cards.buyableCards.CityCard;
 import javafx.scene.paint.Color;
@@ -15,28 +15,24 @@ public class Human extends Player {
     }
 
     public void purchaseCard(Board board) {
-        if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyableCard) {
+        if (board.getFieldsArray().get(getPlayerPositionNumber()).getCard() instanceof BuyAbleCard) {
             Card givenCard = board.getFieldsArray().get(getPlayerPositionNumber()).getCard();
-            BuyableCard temporaryCityCard;
-            if (givenCard instanceof BuyableCard) {
-                temporaryCityCard = (BuyableCard) givenCard;
-                BuyableCard purchasableCard = temporaryCityCard;
+            BuyAbleCard temporaryCityCard;
+            if (givenCard instanceof BuyAbleCard) {
+                temporaryCityCard = (BuyAbleCard) givenCard;
+                BuyAbleCard purchasableCard = temporaryCityCard;
 
                 if (purchasableCard.getBelongsTo().equals("nobody")) {
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(true);
                     board.getDices().getEndTurnBtn().setDisable(true);
                 }
 
-                if (getCash() < purchasableCard.getFieldCost())
-                    board.getBuyCardLayout().getBuyCardYesButton().setDisable(true);
-                else {
-                    board.getBuyCardLayout().getBuyCardYesButton().setDisable(false);
-                }
+                board.getBuyCardLayout().getBuyCardYesButton().setDisable(getCash() < purchasableCard.getFieldCost());
 
                 board.getBuyCardLayout().getBuyCardYesButton().setOnMouseClicked(e -> {
                     purchasableCard.setBelongsTo(getPlayerColor());
                     board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " bought the " + purchasableCard.getFieldName());
-                    substractCash(purchasableCard.getFieldCost());
+                    subtractCash(purchasableCard.getFieldCost());
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
                     purchasableCard.getBelongsIndicator().setVisible(true);
                     purchasableCard.setBelongsIndicatorColor();
@@ -46,7 +42,7 @@ public class Human extends Player {
                 });
                 board.getBuyCardLayout().getBuyCardNoButton().setOnMouseClicked(e -> {
                     board.getBuyCardLayout().getBuyCardContentLayout().setVisible(false);
-                    board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " din't buy the field");
+                    board.getTable().putInfoToProcess("+ #" + getPlayerColor() + " didn't buy the field");
                     board.getDices().getEndTurnBtn().setDisable(false);
                 });
 
@@ -58,10 +54,10 @@ public class Human extends Player {
 
 
         for (Map.Entry<Integer, BoardField> entry : board.getFieldsArray().entrySet()) {
-            if (entry.getValue().getCard() instanceof BuyableCard) {
+            if (entry.getValue().getCard() instanceof BuyAbleCard) {
                 entry.getValue().getRectangle().setOnMouseClicked(x -> {
 
-                    BuyableCard buyableCard = (BuyableCard) entry.getValue().getCard();
+                    BuyAbleCard buyableCard = (BuyAbleCard) entry.getValue().getCard();
                     CityCard cityCard;
 
                     // GIVE AWAY TO PLEDGE
@@ -83,7 +79,7 @@ public class Human extends Player {
                     else if(board.getTable().getActionButton3().getFill().equals(Color.YELLOW) && isYourTurn()){
                         if(buyableCard instanceof CityCard){
                             cityCard = (CityCard) buyableCard;
-                            buyBulding(cityCard, board);
+                            buyBuilding(cityCard, board);
                         }
                     }
                     //SELL A BUILDING

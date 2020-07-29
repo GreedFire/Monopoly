@@ -1,10 +1,10 @@
 package com.kodilla.game.cards.buyableCards;
 
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 
-public class CityCard extends BuyableCard {
+public class CityCard extends BuyAbleCard {
     private final int numberOfCountry;
-    private String cardColor;
+    private final String cardColor;
     private final int buildCost;
     private final int zeroBuildingsFee;
     private final int oneBuildingsFee;
@@ -80,11 +80,11 @@ public class CityCard extends BuyableCard {
         return numberOfCountry;
     }
 
-    public void setbuildingsPlusOne() {
+    public void setBuildingsPlusOne() {
         this.numberOfBuildings += 1;
     }
 
-    public void setbuildingsMinusOne() {
+    public void setBuildingsMinusOne() {
         this.numberOfBuildings -= 1;
     }
 }

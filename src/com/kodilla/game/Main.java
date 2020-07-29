@@ -9,7 +9,7 @@ import javafx.scene.*;
 
 public class Main extends Application {
 
-    private Image imageback = new Image("file:resources/board.png");
+    private final Image imageBack = new Image("file:resources/board.png");
 
     public static void main(String[] args) {
 
@@ -18,11 +18,11 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
 
         GameControl gameControl = new GameControl();
-        ImageView imageView = new ImageView(imageback);
+        ImageView imageView = new ImageView(imageBack);
 
         //-------------------------------------------------------------------------------------
         Group root = new Group();

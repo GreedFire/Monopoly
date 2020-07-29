@@ -10,16 +10,16 @@ import javafx.scene.layout.*;
 import java.util.HashMap;
 
 public class Board {
-    private HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
-    private GridPane grid = new GridPane();
+    private final HashMap<Integer, BoardField> fieldsArray = new HashMap<>();
+    private final GridPane grid = new GridPane();
 
-    private MainMenu mainMenu = new MainMenu();
-    private Table table = new Table();
-    private FieldInfo fieldInfo = new FieldInfo();
-    private CashLabels cashLabels = new CashLabels();
-    private BuyCardLayout buyCardLayout = new BuyCardLayout();
-    private BelongsIndicators belongsIndicators = new BelongsIndicators();
-    private Dices dices = new Dices();
+    private final MainMenu mainMenu = new MainMenu();
+    private final Table table = new Table();
+    private final FieldInfo fieldInfo = new FieldInfo();
+    private final CashLabels cashLabels = new CashLabels();
+    private final BuyCardLayout buyCardLayout = new BuyCardLayout();
+    private final BelongsIndicators belongsIndicators = new BelongsIndicators();
+    private final Dices dices = new Dices();
 
     public Board(){
         mainMenu.prepareMainMenu();

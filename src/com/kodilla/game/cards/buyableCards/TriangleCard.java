@@ -1,22 +1,19 @@
 package com.kodilla.game.cards.buyableCards;
 
-import com.kodilla.game.cards.BuyableCard;
+import com.kodilla.game.cards.BuyAbleCard;
 
-public class TriangleCard extends BuyableCard {
-
-    private int oneTriangleFee = 5;
-    private int twoTrianglesFee = 10;
+public class TriangleCard extends BuyAbleCard {
 
     public TriangleCard(String typeOfCard, String fieldName, int fieldCost) {
         super(typeOfCard, fieldName, fieldCost);
     }
 
     public int getOneTriangleFee() {
-        return oneTriangleFee;
+        return 5;
     }
 
     public int getTwoTrianglesFee() {
-        return twoTrianglesFee;
+        return 10;
     }
 
     public String getBelongsTo() {

@@ -16,22 +16,22 @@ public class Table {
 
     private int playerTradeCash = 0;
     private int enemyTradeCash = 0;
-    private Text playerTradeCashText = new Text("Cash: " + playerTradeCash);
-    private Text enemyTradeCashText = new Text("Cash: " + enemyTradeCash);
-    private Text playerTradeCard = new Text();
-    private Text enemyTradeCard = new Text();
-    private Button reset = new Button("Reset");
-    private Button trade = new Button("Trade");
-    private Rectangle menuButton2 = new Rectangle(165,50, Color.WHITE);
+    private final Text playerTradeCashText = new Text("Cash: " + playerTradeCash);
+    private final Text enemyTradeCashText = new Text("Cash: " + enemyTradeCash);
+    private final Text playerTradeCard = new Text();
+    private final Text enemyTradeCard = new Text();
+    private final Button reset = new Button("Reset");
+    private final Button trade = new Button("Trade");
+    private final Rectangle menuButton2 = new Rectangle(165,50, Color.WHITE);
     private Rectangle menuButton3;
-    private Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
-    private Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
-    private Text[] gameplayInfo = new Text[10];
-    private Text tradeInfo = new Text();
-    private Button yes = new Button("yes");
-    private Button no = new Button("no");
+    private final Rectangle actionButton1 = new Rectangle(200,50, Color.WHITE);
+    private final Rectangle actionButton2 = new Rectangle(200,50, Color.WHITE);
+    private final Rectangle actionButton3 = new Rectangle(200,50, Color.WHITE);
+    private final Rectangle actionButton4 = new Rectangle(200,50, Color.WHITE);
+    private final Text[] gameplayInfo = new Text[10];
+    private final Text tradeInfo = new Text();
+    private final Button yes = new Button("yes");
+    private final Button no = new Button("no");
 
     public Rectangle getMenuButton3() {
         return menuButton3;
@@ -301,7 +301,7 @@ public class Table {
         // Putting content from bookmarks into one StackPane to set all content in the same place - just correct visibility
         StackPane tableLayout = new StackPane(rectangleTable, processContentLayout, actionsContentLayout, tradeContentLayout);
 
-        // Modyfing appereance of text
+        // Modifying appearance of text
         StackPane.setMargin(processContentLayout, new Insets(1,1,1,10)); // left192
 
         //==============================================================================================================

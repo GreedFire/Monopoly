@@ -6,19 +6,19 @@ import javafx.scene.shape.Rectangle;
 
 public class BoardField {
 
-    private String typeOfField = "Nothing";
+    private final String typeOfField;
 
     private Card card;
-    private int redPlayerStopX;
-    private int redPlayerStopY;
-    private int bluePlayerStopX;
-    private int bluePlayerStopY;
-    private int greenPlayerStopX;
-    private int greenPlayerStopY;
-    private int yellowPlayerStopX;
-    private int yellowPlayerStopY;
+    private final int redPlayerStopX;
+    private final int redPlayerStopY;
+    private final int bluePlayerStopX;
+    private final int bluePlayerStopY;
+    private final int greenPlayerStopX;
+    private final int greenPlayerStopY;
+    private final int yellowPlayerStopX;
+    private final int yellowPlayerStopY;
 
-    private Rectangle rectangle;
+    private final Rectangle rectangle;
 
     BoardField(String typeOfField, int redPlayerStopX, int redPlayerStopY, int bluePlayerStopX, int bluePlayerStopY, int greenPlayerStopX, int greenPlayerStopY,int yellowPlayerStopX,int yellowPlayerStopY, int recX, int recY, Card card) {
         this.typeOfField = typeOfField;
