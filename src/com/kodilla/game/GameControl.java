@@ -18,7 +18,7 @@ import java.util.Random;
 
 class GameControl {
 
-    private Board board = new Board();
+    private final Board board = new Board();
     private Player redPlayer;
     private Player bluePlayer;
     private Player greenPlayer;
